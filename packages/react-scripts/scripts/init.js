@@ -95,6 +95,7 @@ module.exports = function(
 
   // Setup the script rules
   appPackage.scripts = {
+    analyze: 'source-map-explorer build/static/js/main.*',
     start: 'react-scripts start',
     build: 'react-scripts build',
     test: 'react-scripts test',
@@ -102,6 +103,7 @@ module.exports = function(
   appPackage.devDependencies = {};
   appPackage.devDependencies['husky'] = '^1.1.2';
   appPackage.devDependencies['prettier'] = '^1.14.3';
+  appPackage.devDependencies['source-map-explorer'] = '1.6.0';
   appPackage.husky = {
     hooks: {
       "pre-commit": "lint-staged"
