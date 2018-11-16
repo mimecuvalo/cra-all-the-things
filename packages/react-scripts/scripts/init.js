@@ -100,7 +100,13 @@ module.exports = function(
     build: 'react-scripts build',
     test: 'react-scripts test',
     eject: 'react-scripts eject',
+    flow: 'flow',
+    postinstall: 'flow-typed install',
+  };
+
   appPackage.devDependencies = {};
+  appPackage.devDependencies['flow-bin'] = '0.86.0';
+  appPackage.devDependencies['flow-typed'] = '^2.5.1';
   appPackage.devDependencies['husky'] = '^1.1.2';
   appPackage.devDependencies['prettier'] = '^1.14.3';
   appPackage.devDependencies['source-map-explorer'] = '1.6.0';
