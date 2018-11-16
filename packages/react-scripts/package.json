@@ -1,14 +1,15 @@
 {
-  "name": "react-scripts",
-  "version": "2.1.1",
-  "description": "Configuration and scripts for Create React App.",
-  "repository": "facebook/create-react-app",
+  "name": "all-the-things",
+  "version": "1.0.0",
+  "description": "all the bells 🔔 and whistles 😙 for create-react-app",
+  "repository": "mimecuvalo/all-the-things",
   "license": "MIT",
   "engines": {
     "node": ">=6"
   },
+  "author": "Mime Čuvalo <mimecuvalo@gmail.com>",
   "bugs": {
-    "url": "https://github.com/facebook/create-react-app/issues"
+    "url": "https://github.com/mimecuvalo/all-the-things/issues"
   },
   "files": [
     "bin",
