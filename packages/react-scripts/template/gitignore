@@ -18,6 +18,16 @@
 .env.test.local
 .env.production.local
 
+# packaging logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# vim
+*.sw[a-p]
+
+# mac
+.DS_STORE
+
+# windows thumbnail cache files
+Thumbs.db
