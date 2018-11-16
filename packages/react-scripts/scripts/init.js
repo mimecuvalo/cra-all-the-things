@@ -99,6 +99,19 @@ module.exports = function(
     build: 'react-scripts build',
     test: 'react-scripts test',
     eject: 'react-scripts eject',
+  appPackage.devDependencies = {};
+  appPackage.devDependencies['husky'] = '^1.1.2';
+  appPackage.devDependencies['prettier'] = '^1.14.3';
+  appPackage.husky = {
+    hooks: {
+      "pre-commit": "lint-staged"
+    }
+  };
+  appPackage["lint-staged"] = {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   };
 
   // Setup the eslint config
