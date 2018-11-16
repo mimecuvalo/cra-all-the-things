@@ -112,14 +112,14 @@ module.exports = function(
   appPackage.devDependencies['source-map-explorer'] = '1.6.0';
   appPackage.husky = {
     hooks: {
-      "pre-commit": "lint-staged"
-    }
+      'pre-commit': 'lint-staged',
+    },
   };
-  appPackage["lint-staged"] = {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --single-quote --write",
-      "git add"
-    ]
+  appPackage['lint-staged'] = {
+    'src/**/*.{js,jsx,ts,tsx,json,css,scss,md}': [
+      'prettier --single-quote --write',
+      'git add',
+    ],
   };
 
   // Setup the eslint config
