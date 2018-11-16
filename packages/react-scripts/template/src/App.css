@@ -18,6 +18,15 @@
   color: white;
 }
 
+.App-header a {
+  color: #61dafb;
+}
+
+.App-header ul {
+  list-style: none;
+  padding: 0;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

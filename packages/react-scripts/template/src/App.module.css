@@ -1,3 +1,5 @@
-.anchorTag {
-  color: #61dafb;
+.menu {
+  position: fixed;
+  top: 10px;
+  left: 10px;
 }
