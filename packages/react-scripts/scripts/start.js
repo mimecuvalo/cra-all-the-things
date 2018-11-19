@@ -47,6 +47,7 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const paths = require('../config/paths');
 const configFactory = require('../config/webpack.config');
 const createDevServerConfig = require('../config/webpackDevServer.config');
+const spawn = require('react-dev-utils/crossSpawn');
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
@@ -117,6 +118,12 @@ checkBrowsers(paths.appPath, isInteractive)
       console.log(chalk.cyan('Starting the development server...\n'));
       openBrowser(urls.localUrlForBrowser);
     });
+
+    console.log(chalk.cyan('Starting the styleguide server...\n'));
+    const styleguideProc = spawn('npm', ['run', 'storybook'], { silent: true });
+    if (styleguideProc.status !== 0) {
+      console.error(`\`npm run storybook\` failed`);
+    }
 
     ['SIGINT', 'SIGTERM'].forEach(function(sig) {
       process.on(sig, function() {

@@ -95,13 +95,15 @@ module.exports = function(
 
   // Setup the script rules
   appPackage.scripts = {
-    analyze: 'source-map-explorer build/static/js/main.*',
     start: 'react-scripts start',
     build: 'react-scripts build',
     test: 'react-scripts test',
     eject: 'react-scripts eject',
+    analyze: 'source-map-explorer build/static/js/main.*',
     flow: 'flow',
     postinstall: 'flow-typed install',
+    'build-storybook': 'build-storybook -s public',
+    storybook: 'start-storybook -p 9001 -c .storybook --ci --quiet',
   };
 
   appPackage.devDependencies = {};
@@ -110,6 +112,10 @@ module.exports = function(
   appPackage.devDependencies['husky'] = '^1.1.2';
   appPackage.devDependencies['prettier'] = '^1.14.3';
   appPackage.devDependencies['source-map-explorer'] = '1.6.0';
+  appPackage.devDependencies['@storybook/addon-actions'] = '4.0.7';
+  appPackage.devDependencies['@storybook/addon-links'] = '4.0.7';
+  appPackage.devDependencies['@storybook/addons'] = '4.0.7';
+  appPackage.devDependencies['@storybook/react'] = '4.0.7';
   appPackage.husky = {
     hooks: {
       'pre-commit': 'lint-staged',
