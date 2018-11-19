@@ -373,7 +373,9 @@ function run(
   const packageToInstall = getInstallPackage(version, originalDirectory);
   const allDependencies = ['react', 'react-dom', packageToInstall];
   if (useTypescript) {
+    // TODO: get user's node version instead of installing latest
     allDependencies.push(
+      '@types/node',
       '@types/react',
       '@types/react-dom',
       '@types/jest',
@@ -746,7 +748,6 @@ function isSafeToCreateProjectIn(root, name) {
     '.idea',
     'README.md',
     'LICENSE',
-    'web.iml',
     '.hg',
     '.hgignore',
     '.hgcheck',
@@ -762,6 +763,8 @@ function isSafeToCreateProjectIn(root, name) {
   const conflicts = fs
     .readdirSync(root)
     .filter(file => !validFiles.includes(file))
+    // IntelliJ IDEA creates module files before CRA is launched
+    .filter(file => !/\.iml$/.test(file))
     // Don't treat log files from previous installation as conflicts
     .filter(
       file => !errorLogFilePatterns.some(pattern => file.indexOf(pattern) === 0)
