@@ -9,8 +9,9 @@
 'use strict';
 
 // Do this as the first thing so that any code reading it knows the right env.
-process.env.BABEL_ENV = 'development';
-process.env.NODE_ENV = 'development';
+// all-the-things modification: these are now set by serve-dev.js and serve-prod.js, respectively.
+//process.env.BABEL_ENV = 'development';
+//process.env.NODE_ENV = 'development';
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
@@ -43,11 +44,10 @@ const {
   prepareProxy,
   prepareUrls,
 } = require('react-dev-utils/WebpackDevServerUtils');
-const openBrowser = require('react-dev-utils/openBrowser');
 const paths = require('../config/paths');
 const configFactory = require('../config/webpack.config');
 const createDevServerConfig = require('../config/webpackDevServer.config');
-const spawn = require('react-dev-utils/crossSpawn');
+const startAppServer = require('./server');
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
@@ -92,12 +92,35 @@ checkBrowsers(paths.appPath, isInteractive)
       // We have not found a port.
       return;
     }
-    const config = configFactory('development');
+    // TODO(mime): can I consolidate this / eliminate this instead of the whole proxying trick while keeping HMR?
+    const config = configFactory(process.env.NODE_ENV, false /* SSR */);
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
     const urls = prepareUrls(protocol, HOST, port);
     // Create a webpack compiler that is configured with custom messages.
-    const compiler = createCompiler(webpack, config, appName, urls, useYarn);
+    // all-the-things: we remove the custom messages here in lieu of the server ones (which are dupes basically).
+    const compiler = webpack(config);
+
+    if (isInteractive) {
+      clearConsole();
+    }
+    console.log(
+      chalk.cyan(
+        process.env.NODE_ENV == 'production'
+          ? 'Starting the production server...'
+          : 'Starting both the WebpackDevServer and App server...\n'
+      )
+    );
+
+    // Start our app server which does server-side rendering. We pass it our client's webpack compiler so that
+    // we can render the assets during rendering.
+    startAppServer(compiler, port, appName, useYarn);
+
+    if (process.env.NODE_ENV == 'production') {
+      compiler.run(() => {});
+      return;
+    }
+
     // Load proxy config
     const proxySetting = require(paths.appPackageJson).proxy;
     const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
@@ -112,18 +135,7 @@ checkBrowsers(paths.appPath, isInteractive)
       if (err) {
         return console.log(err);
       }
-      if (isInteractive) {
-        clearConsole();
-      }
-      console.log(chalk.cyan('Starting the development server...\n'));
-      openBrowser(urls.localUrlForBrowser);
     });
-
-    console.log(chalk.cyan('Starting the styleguide server...\n'));
-    const styleguideProc = spawn('npm', ['run', 'storybook'], { silent: true });
-    if (styleguideProc.status !== 0) {
-      console.error(`\`npm run storybook\` failed`);
-    }
 
     ['SIGINT', 'SIGTERM'].forEach(function(sig) {
       process.on(sig, function() {

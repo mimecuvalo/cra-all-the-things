@@ -95,7 +95,9 @@ module.exports = function(
 
   // Setup the script rules
   appPackage.scripts = {
-    start: 'react-scripts start',
+    start: 'npm-run-all --parallel serve:dev styleguide',
+    'serve:dev': 'react-scripts serve-dev',
+    'serve:prod': 'react-scripts serve-prod',
     build: 'react-scripts build',
     test: 'react-scripts test',
     eject: 'react-scripts eject',
@@ -103,19 +105,14 @@ module.exports = function(
     flow: 'flow',
     postinstall: 'flow-typed install',
     'build-storybook': 'build-storybook -s public',
-    storybook: 'start-storybook -p 9001 -c .storybook --ci --quiet',
+    styleguide: 'start-storybook -p 9001 -c .storybook --ci --quiet',
   };
 
-  appPackage.devDependencies = {};
-  appPackage.devDependencies['flow-bin'] = '0.86.0';
-  appPackage.devDependencies['flow-typed'] = '^2.5.1';
-  appPackage.devDependencies['husky'] = '^1.1.2';
-  appPackage.devDependencies['prettier'] = '^1.14.3';
-  appPackage.devDependencies['source-map-explorer'] = '1.6.0';
-  appPackage.devDependencies['@storybook/addon-actions'] = '4.0.7';
-  appPackage.devDependencies['@storybook/addon-links'] = '4.0.7';
-  appPackage.devDependencies['@storybook/addons'] = '4.0.7';
-  appPackage.devDependencies['@storybook/react'] = '4.0.7';
+  let originalPackageJson = require.resolve(
+    path.join(__dirname, '..', 'package.json')
+  );
+  appPackage.devDependencies = originalPackageJson.devDependencies;
+
   appPackage.husky = {
     hooks: {
       'pre-commit': 'lint-staged',
