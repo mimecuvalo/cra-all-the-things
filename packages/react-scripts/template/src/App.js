@@ -1,6 +1,7 @@
 import './App.css';
 import { Link, Route, Switch } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import NotFound from './404';
 import React, { Component, Suspense, lazy } from 'react';
 import styles from './App.module.css';
 
@@ -18,6 +19,7 @@ if (IS_SERVER) {
         <Route exact path="/" component={Home} />
         <Route path="/about" component={About} />
         <Route path="/topics" component={Topics} />
+        <Route component={NotFound} />
       </Switch>
     </Suspense>
   );
