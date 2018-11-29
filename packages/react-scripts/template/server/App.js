@@ -4,11 +4,11 @@ import React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
 import { StaticRouter } from 'react-router';
 
-export default function render(req, res, assetPathsByType) {
+export default function render({ req, res, assetPathsByType, appName, publicUrl }) {
   const context = {};
   res.write('<!doctype html>');
   const stream = renderToNodeStream(
-    <HTMLBase assetPathsByType={assetPathsByType}>
+    <HTMLBase title={appName} assetPathsByType={assetPathsByType} publicUrl={publicUrl}>
       <StaticRouter location={req.url} context={context}>
         <App />
       </StaticRouter>

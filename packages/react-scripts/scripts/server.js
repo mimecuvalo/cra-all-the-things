@@ -1,14 +1,12 @@
 'use strict';
 
 const configFactory = require('../config/webpack.config');
-const {
-  createCompiler,
-  prepareUrls,
-} = require('react-dev-utils/WebpackDevServerUtils');
+const { createCompiler, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
 const express = require('express');
 const MemoryFS = require('memory-fs');
 const openBrowser = require('react-dev-utils/openBrowser');
 const path = require('path');
+const paths = require('../config/paths');
 const proxy = require('http-proxy-middleware');
 const requireFromString = require('require-from-string');
 const webpack = require('webpack');
@@ -19,6 +17,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
 
   const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   if (process.env.NODE_ENV === 'development') {
+    console.log('Setting up proxy from SSR server → WebpackDevServer for HMR support...');
     // In development, create a proxy bridge to the regular client build to get hot updates (HMR).
     const HOST = process.env.HOST || '0.0.0.0';
     app.use(
@@ -39,13 +38,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   const SERVER_HOST = process.env.HOST || '0.0.0.0';
   const SERVER_PORT = process.env.REACT_APP_SSR_PORT || 3001;
   const urls = prepareUrls(protocol, SERVER_HOST, SERVER_PORT);
-  const serverCompiler = createCompiler(
-    webpack,
-    serverConfig,
-    `${appName}-server`,
-    urls,
-    useYarn
-  );
+  const serverCompiler = createCompiler(webpack, serverConfig, `${appName}-server`, urls, useYarn);
 
   // Set the file system for the server compiler to be in-memory, we don't need the files actually outputted.
   const fs = new MemoryFS();
@@ -54,13 +47,18 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   // We watch for changes on the server and change the serverApp when it is recompiled.
   let serverApp;
   serverCompiler.watch(serverConfig.watchOptions, (err, stats) => {
-    const contents = fs.readFileSync(
-      path.resolve(process.cwd(), 'dist', serverConfig.output.filename),
-      'utf8'
-    );
-    serverApp = requireFromString(contents, serverConfig.output.filename)
-      .default;
+    const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
+    serverApp = requireFromString(contents, serverConfig.output.filename).default;
   });
+
+  var unless = function(middleware, ...paths) {
+    return function(req, res, next) {
+      const pathCheck = paths.some(path => path === req.path);
+      pathCheck ? next() : middleware(req, res, next);
+    };
+  };
+  // Hook up paths to the public (except / and index.html)
+  app.use(unless(express.static(paths.appPublic), '/', '/index.html'));
 
   // Setup webpackDevMiddleware so that the next middleware gets `webpackStats` in its `locals`.
   // This is so we can get the assets list (CSS + JS) and insert them in our SSR appropriately.
@@ -69,13 +67,14 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
     webpackDevMiddleware(clientCompiler, {
       logLevel: 'warn',
       serverSideRender: true,
+      publicPath: serverConfig.output.publicPath,
     })
   );
   // Our main request handler that kicks off the SSR, using the serverApp which is compiled from serverCompiler.
   // `res` has the assets (via webpack's `stats` object) from the clientCompiler.
   app.get('/*', (req, res) => {
     const assetPathsByType = processAssetsFromWebpackStats(res);
-    serverApp(req, res, assetPathsByType);
+    serverApp({ req, res, assetPathsByType, appName, publicUrl: res.locals.webpackStats.toJson().publicPath });
   });
 
   let firstCompileDone = false;
