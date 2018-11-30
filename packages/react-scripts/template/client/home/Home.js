@@ -2,7 +2,7 @@ import Button from '@material-ui/core/Button';
 import logo from './logo.svg';
 import React from 'react';
 
-function Home() {
+export default function Home() {
   return (
     <div>
       <img src={logo} className="App-logo" alt="logo" />
@@ -15,5 +15,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;

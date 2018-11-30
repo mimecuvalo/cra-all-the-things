@@ -1,10 +1,10 @@
 import { Route, Link } from 'react-router-dom';
 import React from 'react';
 
-function Topics({ match }) {
+export default function YourFeature({ match }) {
   return (
     <div>
-      <h2>Topics</h2>
+      <h2>Your Feature</h2>
       <ul>
         <li>
           <Link to={`${match.url}/rendering`}>Rendering with React</Link>
@@ -30,5 +30,3 @@ function Topic({ match }) {
     </div>
   );
 }
-
-export default Topics;

@@ -1,4 +1,4 @@
-import App from '../src/App';
+import App from '../../client/app/App';
 import HTMLBase from './HTMLBase';
 import React from 'react';
 import { renderToNodeStream } from 'react-dom/server';

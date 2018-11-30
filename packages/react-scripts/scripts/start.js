@@ -42,7 +42,7 @@ const { choosePort, createCompiler, prepareProxy, prepareUrls } = require('react
 const paths = require('../config/paths');
 const configFactory = require('../config/webpack.config');
 const createDevServerConfig = require('../config/webpackDevServer.config');
-const startAppServer = require('./server');
+const startAppServer = require('./serve');
 
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
