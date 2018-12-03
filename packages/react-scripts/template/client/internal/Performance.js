@@ -90,7 +90,7 @@ export default class Performance extends Component {
           aria-haspopup="true"
           variant="outlined"
           onClick={this.handleClick}
-          className={this.state.duration > 5 ? styles.slowPerformanceButton : styles.performanceButton}
+          className={this.state.duration > 5000 ? styles.slowPerformanceButton : styles.performanceButton}
         >
           {this.state.duration ? this.state.duration.toFixed(1) + 's' : '…'}
         </Button>
