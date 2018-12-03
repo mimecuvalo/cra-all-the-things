@@ -1,0 +1,12 @@
+.helpContainer {
+  display: inline-block;
+}
+
+.helpIcon {
+  color: #fff;
+}
+
+.debugLink {
+  color: inherit;
+  text-decoration: none;
+}
