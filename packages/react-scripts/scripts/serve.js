@@ -1,5 +1,6 @@
 'use strict';
 
+const compression = require('compression');
 const configFactory = require('../config/webpack.config');
 const { createCompiler, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
 const express = require('express');
@@ -14,6 +15,7 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 
 function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   const app = express();
+  app.use(compression());
 
   const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   if (process.env.NODE_ENV === 'development') {
