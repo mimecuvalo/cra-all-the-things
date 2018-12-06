@@ -92,7 +92,7 @@ export default class Performance extends Component {
           onClick={this.handleClick}
           className={this.state.duration > 5000 ? styles.slowPerformanceButton : styles.performanceButton}
         >
-          {this.state.duration ? this.state.duration.toFixed(1) + 's' : '…'}
+          {this.state.duration ? this.state.duration.toFixed(1) + 'ms' : '…'}
         </Button>
         <Popover
           id="perf-info-popover"
