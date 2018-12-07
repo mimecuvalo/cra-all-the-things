@@ -19,7 +19,7 @@ const spawn = require('react-dev-utils/crossSpawn');
 const args = process.argv.slice(2);
 
 const scriptIndex = args.findIndex(
-  x => x === 'build' || x === 'eject' || x === 'start' || x === 'test'
+  x => x === 'build' || x === 'eject' || x === 'serve-dev' || x === 'serve-prod' || x === 'test'
 );
 const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
 const nodeArgs = scriptIndex > 0 ? args.slice(0, scriptIndex) : [];
@@ -30,11 +30,14 @@ switch (script) {
   case 'serve-prod':
   case 'serve-dev':
   case 'test': {
+    // NOTE(all-the-things): Turn on debugging.
+    if (script == 'serve-dev') {
+      nodeArgs.push('--inspect');
+    }
+
     const result = spawn.sync(
       'node',
-      nodeArgs
-        .concat(require.resolve('../scripts/' + script))
-        .concat(args.slice(scriptIndex + 1)),
+      nodeArgs.concat(require.resolve('../scripts/' + script)).concat(args.slice(scriptIndex + 1)),
       { stdio: 'inherit' }
     );
     if (result.signal) {
