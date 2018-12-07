@@ -1,12 +1,22 @@
 import HTMLHead from './HTMLHead';
 import React from 'react';
 
-export default function HTMLBase({ assetPathsByType, title, publicUrl, children }) {
+export default function HTMLBase({ assetPathsByType, apolloStateFn, title, publicUrl, children }) {
   return (
     <html lang="en">
       <HTMLHead assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} />
       <body>
         <div id="root">{children}</div>
+
+        {/*
+          TODO(mime): This would be blocked by a CSP policy that doesn't allow inline scripts.
+          Try to get a nonce here instead.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.__APOLLO_STATE__ = ${JSON.stringify(apolloStateFn()).replace(/</g, '\\u003c')};`,
+          }}
+        />
 
         {assetPathsByType['js'].map(path => (
           <script key={path} src={path} />

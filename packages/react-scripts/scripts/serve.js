@@ -13,6 +13,9 @@ const requireFromString = require('require-from-string');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
+const addAPIToApp = require(path.resolve(paths.appServerSrc, 'api', 'server'));
+const addGraphQLToApp = require(path.resolve(paths.appServerSrc, 'graphql', 'server'));
+
 function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   const app = express();
   app.use(compression());
@@ -61,6 +64,9 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   };
   // Hook up paths to the public (except / and index.html)
   app.use(unless(express.static(paths.appPublic), '/', '/index.html'));
+
+  addAPIToApp(app);
+  addGraphQLToApp(app);
 
   // Setup webpackDevMiddleware so that the next middleware gets `webpackStats` in its `locals`.
   // This is so we can get the assets list (CSS + JS) and insert them in our SSR appropriately.
