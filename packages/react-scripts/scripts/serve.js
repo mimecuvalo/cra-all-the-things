@@ -12,9 +12,11 @@ const proxy = require('http-proxy-middleware');
 const requireFromString = require('require-from-string');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
+const winston = require('winston');
+const WinstonDailyRotateFile = require('winston-daily-rotate-file');
 
-const addAPIToApp = require(path.resolve(paths.appServerSrc, 'api', 'server'));
-const addGraphQLToApp = require(path.resolve(paths.appServerSrc, 'graphql', 'server'));
+const addAPIToApp = require(path.resolve(paths.appServerSrc, 'api', 'api'));
+const addGraphQLToApp = require(path.resolve(paths.appServerSrc, 'graphql', 'apollo'));
 
 function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   const app = express();
@@ -34,6 +36,17 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
       })
     );
   }
+
+  const appLogger = winston.createLogger({
+    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+    transports: [
+      new WinstonDailyRotateFile({
+        name: 'app',
+        filename: path.resolve(paths.logPath, 'app-%DATE%.log'),
+        zippedArchive: true,
+      }),
+    ],
+  });
 
   // Create a server build with an entry point at /server/App.js
   // Note the SSR boolean flag passed to configFactory.
@@ -56,16 +69,13 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
     serverApp = requireFromString(contents, serverConfig.output.filename).default;
   });
 
-  var unless = function(middleware, ...paths) {
-    return function(req, res, next) {
-      const pathCheck = paths.some(path => path === req.path);
-      pathCheck ? next() : middleware(req, res, next);
-    };
-  };
   // Hook up paths to the public (except / and index.html)
   app.use(unless(express.static(paths.appPublic), '/', '/index.html'));
 
+  // Hook up API.
   addAPIToApp(app);
+
+  // Hook up GraphQL and Apollo.
   addGraphQLToApp(app);
 
   // Setup webpackDevMiddleware so that the next middleware gets `webpackStats` in its `locals`.
@@ -82,6 +92,15 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   // `res` has the assets (via webpack's `stats` object) from the clientCompiler.
   app.get('/*', (req, res) => {
     const assetPathsByType = processAssetsFromWebpackStats(res);
+    const connection = req.info || req.connection;
+    appLogger.info({
+      id: req.id,
+      method: req.method,
+      url: req.url,
+      headers: req.headers,
+      remoteAddress: connection && connection.remoteAddress,
+      remotePort: connection && connection.remotePort,
+    });
     serverApp({ req, res, assetPathsByType, appName, publicUrl: res.locals.webpackStats.toJson().publicPath });
   });
 
@@ -128,5 +147,12 @@ function processAssetsFromWebpackStats(res) {
 
   return assetPathsByType;
 }
+
+const unless = function(middleware, ...paths) {
+  return function(req, res, next) {
+    const pathCheck = paths.some(path => path === req.path);
+    pathCheck ? next() : middleware(req, res, next);
+  };
+};
 
 module.exports = startAppServer;

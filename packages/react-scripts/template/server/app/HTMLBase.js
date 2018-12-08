@@ -8,6 +8,31 @@ export default function HTMLBase({ assetPathsByType, apolloStateFn, title, publi
       <body>
         <div id="root">{children}</div>
 
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+            var hasGlobalErrorFired = false;
+            window.onerror = function(message, file, line, column, error) {
+              if (hasGlobalErrorFired) {
+                return;
+              }
+              hasGlobalErrorFired = true;
+
+              var data = {
+                random: Math.random(),
+                context: navigator.userAgent,
+                message: message,
+                file: file,
+                line: line,
+                column: column,
+                url: window.location.href
+              };
+              var img = new Image();
+              img.src = '/api/errors?data=' + encodeURIComponent(JSON.stringify(data));
+            };`,
+          }}
+        />
+
         {/*
           TODO(mime): This would be blocked by a CSP policy that doesn't allow inline scripts.
           Try to get a nonce here instead.
