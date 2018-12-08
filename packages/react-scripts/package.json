@@ -44,6 +44,7 @@
     "babel-plugin-named-asset-import": "0.2.3",
     "babel-preset-react-app": "6.1.0",
     "bfj": "6.1.1",
+    "body-parser": "1.18.3",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
     "css-loader": "1.0.0",

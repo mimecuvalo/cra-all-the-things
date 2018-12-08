@@ -1,5 +1,6 @@
 'use strict';
 
+const bodyParser = require('body-parser');
 const compression = require('compression');
 const configFactory = require('../config/webpack.config');
 const { createCompiler, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
@@ -21,6 +22,8 @@ const addGraphQLToApp = require(path.resolve(paths.appServerSrc, 'graphql', 'apo
 function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   const app = express();
   app.use(compression());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
 
   const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   if (process.env.NODE_ENV === 'development') {
