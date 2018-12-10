@@ -15,11 +15,11 @@ const clientsideErrorsLogger = winston.createLogger({
 });
 
 const router = express.Router();
-router.get('/errors', function(req, res) {
+router.get('/report-error', function(req, res) {
   clientsideErrorsLogger.error(JSON.parse(req.query.data));
   res.sendStatus(204);
 });
-router.post('/errors', function(req, res) {
+router.post('/report-error', function(req, res) {
   clientsideErrorsLogger.error(req.body.data);
   res.sendStatus(204);
 });

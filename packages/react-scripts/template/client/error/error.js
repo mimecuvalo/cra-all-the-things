@@ -1,5 +1,5 @@
 export function logError(data) {
-  fetch('/api/errors', {
+  fetch('/api/report-error', {
     method: 'POST',
     body: JSON.stringify({ data }),
     headers: {

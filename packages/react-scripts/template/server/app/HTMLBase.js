@@ -28,7 +28,7 @@ export default function HTMLBase({ assetPathsByType, apolloStateFn, title, publi
                 url: window.location.href
               };
               var img = new Image();
-              img.src = '/api/errors?data=' + encodeURIComponent(JSON.stringify(data));
+              img.src = '/api/report-error?data=' + encodeURIComponent(JSON.stringify(data));
             };`,
           }}
         />
