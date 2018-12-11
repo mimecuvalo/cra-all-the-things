@@ -1,32 +1,14 @@
+import errorRouter from './error';
 import express from 'express';
-import path from 'path';
-import winston from 'winston';
-import WinstonDailyRotateFile from 'winston-daily-rotate-file';
+import openSearchRouterFactory from './opensearch';
 
-const clientsideErrorsLogger = winston.createLogger({
-  format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-  transports: [
-    new WinstonDailyRotateFile({
-      name: 'clientside-errors',
-      filename: path.resolve(process.cwd(), 'logs', 'clientside-errors-%DATE%.log'),
-      zippedArchive: true,
-    }),
-  ],
-});
+export default function apiServerFactory({ appName, urls }) {
+  const router = express.Router();
+  router.use('/opensearch', openSearchRouterFactory({ appName, urls }));
+  router.use('/report-error', errorRouter);
+  router.get('/', (req, res) => {
+    res.sendStatus(404);
+  });
 
-const router = express.Router();
-router.get('/report-error', function(req, res) {
-  clientsideErrorsLogger.error(JSON.parse(req.query.data));
-  res.sendStatus(204);
-});
-router.post('/report-error', function(req, res) {
-  clientsideErrorsLogger.error(req.body.data);
-  res.sendStatus(204);
-});
-
-router.get('/', function(req, res) {
-  res.sendStatus(404);
-});
-
-const apiServer = router;
-export default apiServer;
+  return router;
+}

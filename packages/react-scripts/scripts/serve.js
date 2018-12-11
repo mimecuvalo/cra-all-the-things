@@ -60,7 +60,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   serverCompiler.watch(serverConfig.watchOptions, (err, stats) => {
     const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
     const { apiServer, apolloServer, appServer } = requireFromString(contents, serverConfig.output.filename);
-    app = constructApps({ apiServer, apolloServer, appServer, clientPort, appName });
+    app = constructApps({ apiServer, apolloServer, appServer, clientPort, appName, urls });
   });
 
   let firstCompileDone = false;
@@ -78,7 +78,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   });
 }
 
-function constructApps({ apiServer, apolloServer, appServer, clientPort, appName }) {
+function constructApps({ apiServer, apolloServer, appServer, clientPort, appName, urls }) {
   const app = express.Router();
 
   // Add basics: gzip, body parsing, cookie parsing.
@@ -109,7 +109,7 @@ function constructApps({ apiServer, apolloServer, appServer, clientPort, appName
   app.use(unless(express.static(paths.appPublic), '/', '/index.html'));
 
   // Set up API server.
-  apiServer && app.use('/api', csrfMiddleware, apiServer);
+  apiServer && app.use('/api', csrfMiddleware, apiServer({ appName, urls }));
 
   // XXX(mime): Not ideal. The GraphQL playground needs the csrf token to work so it's disabled in dev mode :-/
   if (process.env.NODE_ENV === 'production') {
