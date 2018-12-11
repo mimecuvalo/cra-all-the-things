@@ -34,7 +34,8 @@ export default function HTMLHead({ assetPathsByType, title, urls, publicUrl }) {
   );
 }
 
-// TODO(mime): this needs more fleshing out.
+// This needs to be filled out by the developer to provide content for the site.
+// Learn more here: http://ogp.me/
 function OpenGraphMetadata({ title, urls }) {
   return (
     <React.Fragment>
