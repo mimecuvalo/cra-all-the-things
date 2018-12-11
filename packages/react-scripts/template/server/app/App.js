@@ -1,6 +1,7 @@
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import App from '../../client/app/App';
+import { exec } from 'child_process';
 import HTMLBase from './HTMLBase';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import React from 'react';
@@ -8,6 +9,7 @@ import { renderToNodeStream } from 'react-dom/server';
 import { schema } from '../graphql/schema';
 import { SchemaLink } from 'apollo-link-schema';
 import { StaticRouter } from 'react-router';
+import util from 'util';
 import uuid from 'uuid';
 
 export default async function render({ req, res, assetPathsByType, appName, publicUrl, urls }) {
@@ -15,10 +17,20 @@ export default async function render({ req, res, assetPathsByType, appName, publ
   const context = {};
   const nonce = createNonceAndSetCSP(res);
 
+  // Calculate an app version and time so that we can give our clients some kind of versioning scheme.
+  // This lets us make sure that if there are bad / incompatible clients in the wild later on, we can
+  // disable certain clients using their version number and making sure they're upgraded to the
+  // latest, working version.
+  const execPromise = util.promisify(exec);
+  const gitRev = (await execPromise('git rev-parse HEAD')).stdout.trim();
+  const gitTime = (await execPromise('git log -1 --format=%cd --date=unix')).stdout.trim();
+
   const completeApp = (
     <HTMLBase
       nonce={nonce}
       title={appName}
+      appVersion={gitRev}
+      appTime={gitTime}
       assetPathsByType={assetPathsByType}
       publicUrl={publicUrl}
       urls={urls}

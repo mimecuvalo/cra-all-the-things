@@ -1,4 +1,5 @@
 import './App.css';
+import clientHealthCheck from './client_health_check';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ErrorBoundary from '../error/ErrorBoundary';
 import Footer from './Footer';
@@ -10,6 +11,10 @@ import React, { Component } from 'react';
 import YourFeature from '../your_feature/YourFeature';
 
 export default class App extends Component {
+  componentDidMount() {
+    clientHealthCheck();
+  }
+
   render() {
     return (
       <ErrorBoundary>

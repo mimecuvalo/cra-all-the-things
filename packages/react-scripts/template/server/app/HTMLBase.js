@@ -5,6 +5,8 @@ export default function HTMLBase({
   nonce,
   assetPathsByType,
   apolloStateFn,
+  appVersion,
+  appTime,
   title,
   urls,
   publicUrl,
@@ -16,7 +18,7 @@ export default function HTMLBase({
       <HTMLHead nonce={nonce} assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} urls={urls} />
       <body>
         <div id="root">{children}</div>
-        <ConfigurationScript nonce={nonce} csrfToken={csrfToken} />
+        <ConfigurationScript nonce={nonce} appVersion={appVersion} appTime={appTime} csrfToken={csrfToken} />
         <WindowErrorScript nonce={nonce} />
 
         {/*
@@ -52,7 +54,7 @@ export default function HTMLBase({
   );
 }
 
-function ConfigurationScript({ csrfToken, nonce }) {
+function ConfigurationScript({ csrfToken, appVersion, appTime, nonce }) {
   return (
     <script
       nonce={nonce}
@@ -60,6 +62,8 @@ function ConfigurationScript({ csrfToken, nonce }) {
         __html: `
           window.configuration = {
             csrf: '${csrfToken}',
+            appVersion: '${appVersion}',
+            appTime: ${appTime}
           };
         `,
       }}
