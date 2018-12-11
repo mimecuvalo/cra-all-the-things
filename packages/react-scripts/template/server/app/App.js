@@ -8,13 +8,16 @@ import { renderToNodeStream } from 'react-dom/server';
 import { schema } from '../graphql/schema';
 import { SchemaLink } from 'apollo-link-schema';
 import { StaticRouter } from 'react-router';
+import uuid from 'uuid';
 
 export default async function render({ req, res, assetPathsByType, appName, publicUrl, urls }) {
   const apolloClient = await createApolloClient();
   const context = {};
+  const nonce = createNonceAndSetCSP(res);
 
   const completeApp = (
     <HTMLBase
+      nonce={nonce}
       title={appName}
       assetPathsByType={assetPathsByType}
       publicUrl={publicUrl}
@@ -52,4 +55,28 @@ async function createApolloClient() {
   });
 
   return client;
+}
+
+function createNonceAndSetCSP(res) {
+  // nonce is used in conjunction with a CSP policy to only execute scripts that have the correct nonce attribute.
+  // see https://content-security-policy.com
+  const nonce = uuid.v4();
+
+  // If you wish to enable CSP, here's a sane policy to start with.
+  // NOTE! this *won't* work with webpack currently!!!
+  // TODO(mime): fix this. see https://webpack.js.org/guides/csp/
+  // res.set('Content-Security-Policy',
+  //     `upgrade-insecure-requests; ` +
+  //     `default-src 'none'; ` +
+  //     `script-src 'self' 'nonce-${nonce}'; ` +
+  //     `style-src 'self' https://* 'nonce-${nonce}'; ` +
+  //     `font-src 'self' https://*; ` +
+  //     `connect-src 'self'; ` +
+  //     `frame-ancestors 'self'; ` +
+  //     `frame-src 'self' http://* https://*; ` +
+  //     `media-src 'self' blob:; ` +
+  //     `img-src https: http: data:; ` +
+  //     `object-src 'self';`);
+
+  return nonce;
 }

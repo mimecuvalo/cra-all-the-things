@@ -1,13 +1,13 @@
 import React from 'react';
 
-export default function HTMLHead({ assetPathsByType, title, urls, publicUrl }) {
+export default function HTMLHead({ nonce, assetPathsByType, title, urls, publicUrl }) {
   return (
     <head>
       <meta charSet="utf-8" />
       <link rel="author" href={`${publicUrl}humans.txt`} />
       <link rel="shortcut icon" href={`${publicUrl}favicon.ico`} />
       {assetPathsByType['css'].map(path => (
-        <link rel="stylesheet" key={path} href={path} />
+        <link nonce={nonce} rel="stylesheet" key={path} href={path} />
       ))}
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />

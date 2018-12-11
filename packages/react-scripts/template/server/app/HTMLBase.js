@@ -1,14 +1,23 @@
 import HTMLHead from './HTMLHead';
 import React from 'react';
 
-export default function HTMLBase({ assetPathsByType, apolloStateFn, title, urls, publicUrl, children, csrfToken }) {
+export default function HTMLBase({
+  nonce,
+  assetPathsByType,
+  apolloStateFn,
+  title,
+  urls,
+  publicUrl,
+  children,
+  csrfToken,
+}) {
   return (
     <html lang="en">
-      <HTMLHead assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} urls={urls} />
+      <HTMLHead nonce={nonce} assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} urls={urls} />
       <body>
         <div id="root">{children}</div>
-        <ConfigurationScript csrfToken={csrfToken} />
-        <WindowErrorScript />
+        <ConfigurationScript nonce={nonce} csrfToken={csrfToken} />
+        <WindowErrorScript nonce={nonce} />
 
         {/*
           TODO(mime): This would be blocked by a CSP policy that doesn't allow inline scripts.
@@ -21,10 +30,10 @@ export default function HTMLBase({ assetPathsByType, apolloStateFn, title, urls,
         />
 
         {assetPathsByType['js'].map(path => (
-          <script key={path} src={path} />
+          <script nonce={nonce} key={path} src={path} />
         ))}
 
-        <StructuredMetaData title={title} urls={urls} />
+        <StructuredMetaData nonce={nonce} title={title} urls={urls} />
 
         {/*
           This HTML file is a template.
@@ -43,9 +52,10 @@ export default function HTMLBase({ assetPathsByType, apolloStateFn, title, urls,
   );
 }
 
-function ConfigurationScript({ csrfToken }) {
+function ConfigurationScript({ csrfToken, nonce }) {
   return (
     <script
+      nonce={nonce}
       dangerouslySetInnerHTML={{
         __html: `
           window.configuration = {
@@ -57,9 +67,10 @@ function ConfigurationScript({ csrfToken }) {
   );
 }
 
-function WindowErrorScript() {
+function WindowErrorScript({ nonce }) {
   return (
     <script
+      nonce={nonce}
       dangerouslySetInnerHTML={{
         __html: `
         var hasGlobalErrorFired = false;
@@ -88,9 +99,10 @@ function WindowErrorScript() {
 
 // This needs to be filled out by the developer to provide content for the site.
 // Learn more here: https://developers.google.com/search/docs/guides/intro-structured-data
-function StructuredMetaData({ title, urls }) {
+function StructuredMetaData({ title, urls, nonce }) {
   return (
     <script
+      nonce={nonce}
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: `
