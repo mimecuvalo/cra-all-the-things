@@ -1,12 +1,12 @@
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import App from '../../client/app/App';
-import { createHttpLink } from 'apollo-link-http';
-import fetch from 'node-fetch';
 import HTMLBase from './HTMLBase';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
+import { schema } from '../graphql/schema';
+import { SchemaLink } from 'apollo-link-schema';
 import { StaticRouter } from 'react-router';
 
 export default async function render({ req, res, assetPathsByType, appName, publicUrl }) {
@@ -19,6 +19,7 @@ export default async function render({ req, res, assetPathsByType, appName, publ
       assetPathsByType={assetPathsByType}
       publicUrl={publicUrl}
       apolloStateFn={() => apolloClient.extract()}
+      csrfToken={req.csrfToken()}
     >
       <ApolloProvider client={apolloClient}>
         <StaticRouter location={req.url} context={context}>
@@ -45,13 +46,7 @@ export default async function render({ req, res, assetPathsByType, appName, publ
 async function createApolloClient() {
   const client = new ApolloClient({
     ssrMode: true,
-    // TODO(all-the-things): probably could use SchemaLink here but currently having trouble with
-    // CJS<->ESM crossover with the schema.js file. Blargh.
-    link: createHttpLink({
-      uri: 'http://localhost:3001/graphql',
-      credentials: 'same-origin',
-      fetch: fetch,
-    }),
+    link: new SchemaLink({ schema }),
     cache: new InMemoryCache(),
   });
 

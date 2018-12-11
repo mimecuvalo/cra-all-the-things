@@ -1,9 +1,7 @@
-const { ApolloServer } = require('apollo-server-express');
-const { typeDefs, resolvers } = require('./schema');
+import { ApolloServer } from 'apollo-server-express';
+import { typeDefs, resolvers } from './schema';
 
-function addGraphQLToApp(app) {
+export default function apolloServer(app) {
   const schema = new ApolloServer({ typeDefs, resolvers });
   schema.applyMiddleware({ app });
 }
-
-module.exports = addGraphQLToApp;

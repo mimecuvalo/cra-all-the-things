@@ -2,6 +2,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
+import configuration from '../app/configuration';
 import './index.css';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import React from 'react';
@@ -11,6 +12,13 @@ import * as serviceWorker from './serviceWorker';
 function renderAppTree(app) {
   // We add the Apollo/GraphQL capabilities here (also notice ApolloProvider below).
   const client = new ApolloClient({
+    request: async op => {
+      op.setContext({
+        headers: {
+          'x-xsrf-token': configuration.csrf || '',
+        },
+      });
+    },
     cache: new InMemoryCache().restore(window['__APOLLO_STATE__']),
   });
 

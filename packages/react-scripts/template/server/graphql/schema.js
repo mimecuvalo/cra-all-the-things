@@ -1,4 +1,5 @@
-const { gql } = require('apollo-server-express');
+import { gql } from 'apollo-server-express';
+import { makeExecutableSchema } from 'graphql-tools';
 
 const Query = gql`
   type Query {
@@ -10,15 +11,15 @@ const Schema = gql`
     query: Query
   }
 `;
-const typeDefs = [Query, Schema];
+export const typeDefs = [Query, Schema];
 
-const resolvers = {
+export const resolvers = {
   Query: {
     hello: () => 'GraphQL',
   },
 };
 
-module.exports = {
+export const schema = makeExecutableSchema({
   typeDefs,
   resolvers,
-};
+});

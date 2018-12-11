@@ -133,7 +133,7 @@ module.exports = function(webpackEnv, isSSR) {
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     entry: isSSR
-      ? paths.appServerAppJs
+      ? paths.serverJsEntryPoint
       : [
           // Include an alternative client for WebpackDevServer. A client's job is to
           // connect to WebpackDevServer by a socket and get notified about changes.

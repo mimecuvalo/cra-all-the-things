@@ -1,12 +1,22 @@
 import HTMLHead from './HTMLHead';
 import React from 'react';
 
-export default function HTMLBase({ assetPathsByType, apolloStateFn, title, publicUrl, children }) {
+export default function HTMLBase({ assetPathsByType, apolloStateFn, title, publicUrl, children, csrfToken }) {
   return (
     <html lang="en">
       <HTMLHead assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} />
       <body>
         <div id="root">{children}</div>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.configuration = {
+                csrf: '${csrfToken}',
+              };
+            `,
+          }}
+        />
 
         <script
           dangerouslySetInnerHTML={{

@@ -1,14 +1,14 @@
-const express = require('express');
-const path = require('path');
-const winston = require('winston');
-const WinstonDailyRotateFile = require('winston-daily-rotate-file');
+import express from 'express';
+import path from 'path';
+import winston from 'winston';
+import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
 const clientsideErrorsLogger = winston.createLogger({
   format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
   transports: [
     new WinstonDailyRotateFile({
       name: 'clientside-errors',
-      filename: path.resolve(__dirname, '..', '..', 'logs', 'clientside-errors-%DATE%.log'),
+      filename: path.resolve(process.cwd(), 'logs', 'clientside-errors-%DATE%.log'),
       zippedArchive: true,
     }),
   ],
@@ -28,8 +28,5 @@ router.get('/', function(req, res) {
   res.sendStatus(404);
 });
 
-function addAPIToApp(app) {
-  app.use('/api', router);
-}
-
-module.exports = addAPIToApp;
+const apiServer = router;
+export default apiServer;
