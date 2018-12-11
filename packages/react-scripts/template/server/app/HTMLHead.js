@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function HTMLHead({ assetPathsByType, title, publicUrl }) {
+export default function HTMLHead({ assetPathsByType, title, urls, publicUrl }) {
   return (
     <head>
       <meta charSet="utf-8" />
@@ -14,6 +14,7 @@ export default function HTMLHead({ assetPathsByType, title, publicUrl }) {
       <link rel="search" href="/api/opensearch" type="application/opensearchdescription+xml" title={title} />
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
       <meta name="theme-color" content="#000000" />
+      <OpenGraphMetadata title={title} urls={urls} />
       {/*
         manifest.json provides metadata used when your web app is added to the
         homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -30,5 +31,19 @@ export default function HTMLHead({ assetPathsByType, title, publicUrl }) {
       */}
       <title>{title}</title>
     </head>
+  );
+}
+
+// TODO(mime): this needs more fleshing out.
+function OpenGraphMetadata({ title, urls }) {
+  return (
+    <React.Fragment>
+      <meta property="og:title" content="page title" />
+      <meta property="og:description" content="page description" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={urls.localUrlForBrowser} />
+      <meta property="og:site_name" content={title} />
+      <meta property="og:image" content={`${urls.localUrlForBrowser}favicon.ico`} />
+    </React.Fragment>
   );
 }

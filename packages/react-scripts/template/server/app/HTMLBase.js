@@ -1,10 +1,10 @@
 import HTMLHead from './HTMLHead';
 import React from 'react';
 
-export default function HTMLBase({ assetPathsByType, apolloStateFn, title, publicUrl, children, csrfToken }) {
+export default function HTMLBase({ assetPathsByType, apolloStateFn, title, urls, publicUrl, children, csrfToken }) {
   return (
     <html lang="en">
-      <HTMLHead assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} />
+      <HTMLHead assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} urls={urls} />
       <body>
         <div id="root">{children}</div>
         <ConfigurationScript csrfToken={csrfToken} />

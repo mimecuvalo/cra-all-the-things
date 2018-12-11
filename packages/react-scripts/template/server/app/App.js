@@ -9,7 +9,7 @@ import { schema } from '../graphql/schema';
 import { SchemaLink } from 'apollo-link-schema';
 import { StaticRouter } from 'react-router';
 
-export default async function render({ req, res, assetPathsByType, appName, publicUrl }) {
+export default async function render({ req, res, assetPathsByType, appName, publicUrl, urls }) {
   const apolloClient = await createApolloClient();
   const context = {};
 
@@ -18,6 +18,7 @@ export default async function render({ req, res, assetPathsByType, appName, publ
       title={appName}
       assetPathsByType={assetPathsByType}
       publicUrl={publicUrl}
+      urls={urls}
       apolloStateFn={() => apolloClient.extract()}
       csrfToken={req.csrfToken()}
     >

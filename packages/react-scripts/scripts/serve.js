@@ -126,7 +126,7 @@ function constructApps({ apiServer, apolloServer, appServer, clientPort, appName
   app.get('/*', csrfMiddleware, (req, res) => {
     logRequest(appLogger, req, req.info || req.connection);
     const assetPathsByType = processAssetsFromWebpackStats(res);
-    appServer({ req, res, assetPathsByType, appName, publicUrl: res.locals.webpackStats.toJson().publicPath });
+    appServer({ req, res, assetPathsByType, appName, urls, publicUrl: res.locals.webpackStats.toJson().publicPath });
   });
 
   return app;
