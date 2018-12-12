@@ -32,7 +32,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
     console.log('Setting up proxy from SSR server → WebpackDevServer for HMR support...');
     const HOST = process.env.HOST || '0.0.0.0';
     topLevelApp.use(
-      ['/sockjs-node'],
+      ['/sockjs-node', '/__get-internal-source*', '/__open-stack-frame-in-editor', '/service-worker.js'],
       proxy({
         target: `${protocol}://${HOST}:${clientPort}`,
         changeOrigin: true,
