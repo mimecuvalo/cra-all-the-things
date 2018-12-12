@@ -24,12 +24,27 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   const serverConfig = configFactory(process.env.NODE_ENV, true /* SSR */);
 
   // Create our express app.
-  const realExpressApp = express();
+  const topLevelApp = express();
+
+  // In development, create a proxy bridge to the regular client build to get hot updates (HMR).
+  const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Setting up proxy from SSR server → WebpackDevServer for HMR support...');
+    const HOST = process.env.HOST || '0.0.0.0';
+    topLevelApp.use(
+      ['/sockjs-node'],
+      proxy({
+        target: `${protocol}://${HOST}:${clientPort}`,
+        changeOrigin: true,
+        ws: true,
+      })
+    );
+  }
 
   // Setup webpackDevMiddleware so that the next middleware gets `webpackStats` in its `locals`.
   // This is so we can get the assets list (CSS + JS) and insert them in our SSR appropriately.
   // TODO(mime): ostensibly, this shouldn't be used in prod...better ideas?
-  realExpressApp.use(
+  topLevelApp.use(
     webpackDevMiddleware(clientCompiler, {
       logLevel: 'warn',
       serverSideRender: true,
@@ -41,12 +56,11 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   // This neat trick lets us create routes dynamically at runtime.
   // Useful since Apollo does `schema.applyMiddleware({ app });`
   // Otherwise, we wouldn't need to do this dance.
-  realExpressApp.use(function(req, res, next) {
+  topLevelApp.use(function(req, res, next) {
     app(req, res, next);
   });
 
   // createCompiler adds logging / console nicities to our compiler.
-  const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   const SERVER_HOST = process.env.HOST || '0.0.0.0';
   const SERVER_PORT = process.env.REACT_APP_SSR_PORT || 3001;
   const urls = prepareUrls(protocol, SERVER_HOST, SERVER_PORT);
@@ -60,7 +74,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   serverCompiler.watch(serverConfig.watchOptions, (err, stats) => {
     const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
     const { apiServer, apolloServer, appServer } = requireFromString(contents, serverConfig.output.filename);
-    app = constructApps({ apiServer, apolloServer, appServer, clientPort, appName, urls });
+    app = constructApps({ apiServer, apolloServer, appServer, appName, urls });
   });
 
   let firstCompileDone = false;
@@ -72,13 +86,13 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
 
     firstCompileDone = true;
     // Finally, kick off our Express server.
-    realExpressApp.listen(SERVER_PORT, () => {
+    topLevelApp.listen(SERVER_PORT, () => {
       openBrowser(urls.localUrlForBrowser);
     });
   });
 }
 
-function constructApps({ apiServer, apolloServer, appServer, clientPort, appName, urls }) {
+function constructApps({ apiServer, apolloServer, appServer, appName, urls }) {
   const app = express.Router();
 
   // Add basics: gzip, body parsing, cookie parsing.
@@ -89,21 +103,6 @@ function constructApps({ apiServer, apolloServer, appServer, clientPort, appName
 
   // Add XSRF/CSRF protection.
   const csrfMiddleware = csurf({ cookie: true });
-
-  // In development, create a proxy bridge to the regular client build to get hot updates (HMR).
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Setting up proxy from SSR server → WebpackDevServer for HMR support...');
-    const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
-    const HOST = process.env.HOST || '0.0.0.0';
-    app.use(
-      ['/sockjs-node'],
-      proxy({
-        target: `${protocol}://${HOST}:${clientPort}`,
-        changeOrigin: true,
-        ws: true,
-      })
-    );
-  }
 
   // Hook up paths to the public (except / and index.html)
   app.use(unless(express.static(paths.appPublic), '/', '/index.html'));
