@@ -6,7 +6,7 @@ import HTMLBase from './HTMLBase';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
-import { schema } from '../graphql/schema';
+import { schema } from '../data/graphql/schema';
 import { SchemaLink } from 'apollo-link-schema';
 import { StaticRouter } from 'react-router';
 import util from 'util';
