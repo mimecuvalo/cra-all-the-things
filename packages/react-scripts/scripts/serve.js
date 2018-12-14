@@ -1,11 +1,7 @@
 'use strict';
 
-const bodyParser = require('body-parser');
-const compression = require('compression');
 const configFactory = require('../config/webpack.config');
-const cookieParser = require('cookie-parser');
 const { createCompiler, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
-const csurf = require('csurf');
 const express = require('express');
 const MemoryFS = require('memory-fs');
 const openBrowser = require('react-dev-utils/openBrowser');
@@ -15,8 +11,6 @@ const proxy = require('http-proxy-middleware');
 const requireFromString = require('require-from-string');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
-const winston = require('winston');
-const WinstonDailyRotateFile = require('winston-daily-rotate-file');
 
 function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   // Create a server build with an entry point at /server/App.js
@@ -40,6 +34,9 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
       })
     );
   }
+
+  // Hook up paths to the public (except / and index.html)
+  topLevelApp.use(unless(express.static(paths.appPublic), '/', '/index.html'));
 
   // Setup webpackDevMiddleware so that the next middleware gets `webpackStats` in its `locals`.
   // This is so we can get the assets list (CSS + JS) and insert them in our SSR appropriately.
@@ -73,8 +70,8 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   // We watch for changes on the server and change the appServer when it is recompiled.
   serverCompiler.watch(serverConfig.watchOptions, (err, stats) => {
     const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
-    const { apiServer, apolloServer, appServer } = requireFromString(contents, serverConfig.output.filename);
-    app = constructApps({ apiServer, apolloServer, appServer, appName, urls });
+    const constructApps = requireFromString(contents, serverConfig.output.filename).default;
+    app = constructApps({ appName, urls });
   });
 
   let firstCompileDone = false;
@@ -90,99 +87,6 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
       openBrowser(urls.localUrlForBrowser);
     });
   });
-}
-
-function constructApps({ apiServer, apolloServer, appServer, appName, urls }) {
-  const app = express.Router();
-
-  // Add basics: gzip, body parsing, cookie parsing.
-  app.use(compression());
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
-  app.use(cookieParser());
-
-  // Add XSRF/CSRF protection.
-  const csrfMiddleware = csurf({ cookie: true });
-
-  // Hook up paths to the public (except / and index.html)
-  app.use(unless(express.static(paths.appPublic), '/', '/index.html'));
-
-  // Set up API server.
-  apiServer && app.use('/api', csrfMiddleware, apiServer({ appName, urls }));
-
-  // XXX(mime): Not ideal. The GraphQL playground needs the csrf token to work so it's disabled in dev mode :-/
-  if (process.env.NODE_ENV === 'production') {
-    app.use('/graphql', csrfMiddleware, (req, res, next) => next());
-  }
-  // Set up Apollo server.
-  apolloServer && apolloServer(app);
-
-  // Create logger for app server to log requests.
-  const appLogger = createLogger();
-
-  // Our main request handler that kicks off the SSR, using the appServer which is compiled from serverCompiler.
-  // `res` has the assets (via webpack's `stats` object) from the clientCompiler.
-  app.get('/*', csrfMiddleware, (req, res) => {
-    logRequest(appLogger, req, req.info || req.connection);
-    const assetPathsByType = processAssetsFromWebpackStats(res);
-    appServer({ req, res, assetPathsByType, appName, urls, publicUrl: res.locals.webpackStats.toJson().publicPath });
-  });
-
-  return app;
-}
-
-function createLogger() {
-  return winston.createLogger({
-    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
-    transports: [
-      new WinstonDailyRotateFile({
-        name: 'app',
-        filename: path.resolve(paths.logPath, 'app-%DATE%.log'),
-        zippedArchive: true,
-      }),
-    ],
-  });
-}
-
-function logRequest(appLogger, req, connection) {
-  appLogger.info({
-    id: req.id,
-    method: req.method,
-    url: req.url,
-    headers: req.headers,
-    remoteAddress: connection && connection.remoteAddress,
-    remotePort: connection && connection.remotePort,
-  });
-}
-
-function processAssetsFromWebpackStats(res) {
-  const webpackStats = res.locals.webpackStats.toJson();
-  const extensionRegexp = /\.(css|js)(\?|$)/;
-  const entrypoints = Object.keys(webpackStats.entrypoints);
-  const assetDuplicateCheckMap = {};
-  const assetPathsByType = {
-    css: [],
-    js: [],
-  };
-  for (const entrypoint of entrypoints) {
-    for (const assetPath of webpackStats.entrypoints[entrypoint].assets) {
-      const extMatch = extensionRegexp.exec(assetPath);
-      if (!extMatch) {
-        continue;
-      }
-
-      const publicPath = webpackStats.publicPath + assetPath;
-      if (assetDuplicateCheckMap[publicPath]) {
-        continue;
-      }
-
-      assetDuplicateCheckMap[publicPath] = true;
-      const extension = extMatch[1];
-      assetPathsByType[extension].push(publicPath);
-    }
-  }
-
-  return assetPathsByType;
 }
 
 const unless = function(middleware, ...paths) {
