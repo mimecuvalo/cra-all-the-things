@@ -4,11 +4,13 @@ import App from '../../client/app/App';
 import { exec } from 'child_process';
 import HTMLBase from './HTMLBase';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { makeExecutableSchema } from 'graphql-tools';
 import React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
-import { schema } from '../data/graphql/schema';
+import resolvers from '../data/graphql/resolvers';
 import { SchemaLink } from 'apollo-link-schema';
 import { StaticRouter } from 'react-router';
+import typeDefs from '../data/graphql/schema';
 import util from 'util';
 import uuid from 'uuid';
 
@@ -60,6 +62,8 @@ export default async function render({ req, res, assetPathsByType, appName, publ
 
 // We create an Apollo client here on the server so that we can get server-side rendering in properly.
 async function createApolloClient() {
+  const schema = makeExecutableSchema({ typeDefs, resolvers });
+
   const client = new ApolloClient({
     ssrMode: true,
     link: new SchemaLink({ schema }),

@@ -1,9 +1,7 @@
-import { User } from '../models';
+import { User } from '../../models';
 
-const resolvers = {
+export default {
   Query: {
-    hello: () => 'GraphQL',
-
     async allUsers() {
       return await User.findAll();
     },
@@ -14,7 +12,7 @@ const resolvers = {
   },
 
   Mutation: {
-    async login(_, { email, password }) {
+    async login(_, { email }) {
       const user = await User.findOne({ where: { email } });
 
       if (!user) {
@@ -24,10 +22,8 @@ const resolvers = {
       // TODO(mime)
     },
 
-    async createUser(_, { name, email }) {
-      return await User.create({ name, email });
+    async createUser(_, { username, email }) {
+      return await User.create({ username, email });
     },
   },
 };
-
-export default resolvers;

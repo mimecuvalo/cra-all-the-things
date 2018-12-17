@@ -8,14 +8,24 @@ export default (sequelize, DataTypes) => {
         autoIncrement: true,
         allowNull: false,
       },
-      name: {
+      username: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [1, 191],
+        },
       },
       email: {
         type: DataTypes.STRING,
         unique: true,
         allowNull: false,
+        validate: {
+          isEmail: true,
+          notEmpty: true,
+          len: [3, 191],
+        },
       },
     },
     {
