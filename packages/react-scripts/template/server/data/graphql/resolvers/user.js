@@ -1,19 +1,17 @@
-import { User } from '../../models';
-
 export default {
   Query: {
-    async allUsers() {
-      return await User.findAll();
+    async allUsers(parent, args, { models, currentUser }) {
+      return await models.User.findAll();
     },
 
-    async fetchUser(_, { id }) {
-      return await User.findById(id);
+    async fetchUser(parent, { id }, { models }) {
+      return await models.User.findById(id);
     },
   },
 
   Mutation: {
-    async login(_, { email }) {
-      const user = await User.findOne({ where: { email } });
+    async login(parent, { email }, { models }) {
+      const user = await models.User.findOne({ where: { email } });
 
       if (!user) {
         throw new Error('Login failed.');
@@ -22,8 +20,8 @@ export default {
       // TODO(mime)
     },
 
-    async createUser(_, { username, email }) {
-      return await User.create({ username, email });
+    async createUser(parent, { username, email }, { models }) {
+      return await models.User.create({ username, email });
     },
   },
 };

@@ -63,7 +63,9 @@ function ConfigurationScript({ csrfToken, appVersion, appTime, nonce }) {
           window.configuration = {
             csrf: '${csrfToken}',
             appVersion: '${appVersion}',
-            appTime: ${appTime}
+            appTime: ${appTime},
+            auth0_client_id: '${process.env.REACT_APP_AUTH0_CLIENT_ID}',
+            auth0_domain: '${process.env.REACT_APP_AUTH0_DOMAIN}',
           };
         `,
       }}

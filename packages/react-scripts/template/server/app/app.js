@@ -41,7 +41,7 @@ export default async function render({ req, res, assetPathsByType, appName, publ
     >
       <ApolloProvider client={apolloClient}>
         <StaticRouter location={req.url} context={context}>
-          <App />
+          <App ssrUser={req.user} />
         </StaticRouter>
       </ApolloProvider>
     </HTMLBase>

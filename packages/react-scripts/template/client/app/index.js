@@ -1,3 +1,4 @@
+import { addAuth } from './auth';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import App from './App';
@@ -14,9 +15,9 @@ function renderAppTree(app) {
   const client = new ApolloClient({
     request: async op => {
       op.setContext({
-        headers: {
+        headers: addAuth({
           'x-xsrf-token': configuration.csrf || '',
-        },
+        }),
       });
     },
     cache: new InMemoryCache().restore(window['__APOLLO_STATE__']),

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import LoginLogoutButton from '../components/login';
 import React, { Component } from 'react';
 import styles from './Header.module.css';
 
@@ -16,6 +17,8 @@ export default class Header extends Component {
             </li>
           </ul>
         </nav>
+
+        <LoginLogoutButton className={styles.login} />
       </header>
     );
   }
