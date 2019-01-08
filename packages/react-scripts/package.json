@@ -110,6 +110,8 @@
     "@storybook/addons": "4.0.7",
     "@storybook/react": "4.0.7",
     "axe-core": "3.1.2",
+    "enzyme": "3.8.0",
+    "enzyme-adapter-react-16": "1.7.1",
     "flow-bin": "0.86.0",
     "flow-typed": "2.5.1",
     "husky": "1.1.2",
@@ -118,6 +120,7 @@
     "prettier": "1.14.3",
     "react": "16.6.3",
     "react-dom": "16.6.3",
+    "react-test-renderer": "16.7.0",
     "require-from-string": "2.0.2",
     "source-map-explorer": "1.6.0",
     "webpack-node-externals": "1.7.2"
