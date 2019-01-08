@@ -1,24 +1,34 @@
+import { F } from '../i18n';
 import HTMLHead from './HTMLHead';
 import React from 'react';
 
 export default function HTMLBase({
-  nonce,
-  assetPathsByType,
   apolloStateFn,
-  appVersion,
   appTime,
-  title,
-  urls,
-  publicUrl,
+  appVersion,
+  assetPathsByType,
   children,
   csrfToken,
+  defaultLocale,
+  locale,
+  nonce,
+  publicUrl,
+  title,
+  urls,
 }) {
   return (
-    <html lang="en">
+    <html lang={locale}>
       <HTMLHead nonce={nonce} assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} urls={urls} />
       <body>
         <div id="root">{children}</div>
-        <ConfigurationScript nonce={nonce} appVersion={appVersion} appTime={appTime} csrfToken={csrfToken} />
+        <ConfigurationScript
+          appTime={appTime}
+          appVersion={appVersion}
+          csrfToken={csrfToken}
+          defaultLocale={defaultLocale}
+          locale={locale}
+          nonce={nonce}
+        />
         <WindowErrorScript nonce={nonce} />
 
         {/*
@@ -48,24 +58,28 @@ export default function HTMLBase({
           To create a production bundle, use `npm run build` or `yarn build`.
         */}
 
-        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <noscript>
+          <F msg="You need to enable JavaScript to run this app." />
+        </noscript>
       </body>
     </html>
   );
 }
 
-function ConfigurationScript({ csrfToken, appVersion, appTime, nonce }) {
+function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, locale, nonce }) {
   return (
     <script
       nonce={nonce}
       dangerouslySetInnerHTML={{
         __html: `
           window.configuration = {
-            csrf: '${csrfToken}',
-            appVersion: '${appVersion}',
             appTime: ${appTime},
+            appVersion: '${appVersion}',
             auth0_client_id: '${process.env.REACT_APP_AUTH0_CLIENT_ID}',
             auth0_domain: '${process.env.REACT_APP_AUTH0_DOMAIN}',
+            csrf: '${csrfToken}',
+            defaultLocale: '${defaultLocale}',
+            locale: '${locale}',
           };
         `,
       }}

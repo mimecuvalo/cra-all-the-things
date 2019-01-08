@@ -2,8 +2,11 @@ import { ApolloProvider, getDataFromTree } from 'react-apollo';
 import { ApolloClient } from 'apollo-client';
 import App from '../../client/app/App';
 import { exec } from 'child_process';
+import { DEFAULT_LOCALE, getLocale } from './locale';
 import HTMLBase from './HTMLBase';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+import { IntlProvider } from 'react-intl';
+import * as languages from '../i18n/languages';
 import { makeExecutableSchema } from 'graphql-tools';
 import React from 'react';
 import { renderToNodeStream } from 'react-dom/server';
@@ -27,23 +30,30 @@ export default async function render({ req, res, assetPathsByType, appName, publ
   const gitRev = (await execPromise('git rev-parse HEAD')).stdout.trim();
   const gitTime = (await execPromise('git log -1 --format=%cd --date=unix')).stdout.trim();
 
+  const locale = getLocale(req);
+  const translations = languages[locale];
+
   const completeApp = (
     <HTMLBase
-      nonce={nonce}
-      title={appName}
-      appVersion={gitRev}
-      appTime={gitTime}
-      assetPathsByType={assetPathsByType}
-      publicUrl={publicUrl}
-      urls={urls}
       apolloStateFn={() => apolloClient.extract()}
+      appTime={gitTime}
+      appVersion={gitRev}
+      assetPathsByType={assetPathsByType}
       csrfToken={req.csrfToken()}
+      defaultLocale={DEFAULT_LOCALE}
+      locale={locale}
+      nonce={nonce}
+      publicUrl={publicUrl}
+      title={appName}
+      urls={urls}
     >
-      <ApolloProvider client={apolloClient}>
-        <StaticRouter location={req.url} context={context}>
-          <App ssrUser={req.user} />
-        </StaticRouter>
-      </ApolloProvider>
+      <IntlProvider locale={locale} messages={translations}>
+        <ApolloProvider client={apolloClient}>
+          <StaticRouter location={req.url} context={context}>
+            <App ssrUser={req.user} />
+          </StaticRouter>
+        </ApolloProvider>
+      </IntlProvider>
     </HTMLBase>
   );
 

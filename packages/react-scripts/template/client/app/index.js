@@ -1,4 +1,5 @@
 import { addAuth } from './auth';
+import { addLocaleData, IntlProvider } from 'react-intl';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import App from './App';
@@ -10,7 +11,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
-function renderAppTree(app) {
+async function renderAppTree(app) {
   // We add the Apollo/GraphQL capabilities here (also notice ApolloProvider below).
   const client = new ApolloClient({
     request: async op => {
@@ -23,22 +24,37 @@ function renderAppTree(app) {
     cache: new InMemoryCache().restore(window['__APOLLO_STATE__']),
   });
 
+  let translations = {};
+  if (configuration.locale !== configuration.defaultLocale) {
+    translations = (await import(`../i18n/${configuration.locale}`)).default;
+    const localeData = (await import(`react-intl/locale-data/${configuration.locale}`)).default;
+    addLocaleData(localeData);
+  }
+
   return (
-    <ApolloProvider client={client}>
-      <Router>{app}</Router>
-    </ApolloProvider>
+    <IntlProvider locale={configuration.locale} messages={translations}>
+      <ApolloProvider client={client}>
+        <Router>{app}</Router>
+      </ApolloProvider>
+    </IntlProvider>
   );
 }
 
 // We use `hydrate` here so that we attach to our server-side rendered React components.
-ReactDOM.hydrate(renderAppTree(<App />), document.getElementById('root'));
+async function render() {
+  const appTree = await renderAppTree(<App />);
+  ReactDOM.hydrate(appTree, document.getElementById('root'));
+}
+render();
 
 // This enables hot module reloading for JS (HMR).
 if (module.hot) {
-  module.hot.accept('./App', () => {
+  async function hotModuleRender() {
     const NextApp = require('./App').default;
-    ReactDOM.render(renderAppTree(<NextApp />), document.getElementById('root'));
-  });
+    const appTree = await renderAppTree(<NextApp />);
+    ReactDOM.render(appTree, document.getElementById('root'));
+  }
+  module.hot.accept('./App', hotModuleRender);
 }
 
 // If you want your app to work offline and load faster, you can change

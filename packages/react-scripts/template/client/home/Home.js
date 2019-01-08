@@ -1,8 +1,13 @@
 import Button from '@material-ui/core/Button';
+import { defineMessages, F, injectIntl } from '../i18n';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import logo from './logo.svg';
 import React, { Component } from 'react';
+
+const messages = defineMessages({
+  greeting: { msg: 'logo' },
+});
 
 // This is an Apollo/GraphQL decorator for the Home component which passes the query result to the props.
 @graphql(gql`
@@ -12,11 +17,18 @@ import React, { Component } from 'react';
 `)
 class Home extends Component {
   render() {
+    const logoAltText = this.props.intl.formatMessage(messages.greeting);
+
     return (
       <div>
-        <img src={logo} className="App-logo" alt="logo" />
+        <img src={logo} className="App-logo" alt={logoAltText} />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          <F
+            msg="Edit {code} and save to reload."
+            values={{
+              code: <code>src/App.js</code>,
+            }}
+          />
         </p>
         <Button
           href="https://reactjs.org"
@@ -25,7 +37,7 @@ class Home extends Component {
           variant="contained"
           color="primary"
         >
-          Learn React
+          <F msg="Learn React" />
         </Button>
 
         <br />
@@ -38,11 +50,18 @@ class Home extends Component {
           variant="contained"
           color="primary"
         >
-          Learn {this.props.data.hello}
+          <F msg="Learn {data}" values={{ data: this.props.data.hello }} />
         </Button>
+        <br />
+        <F
+          msg="Translation number test: {itemCount, plural, =0 {no items} one {# item} other {# items}}."
+          values={{
+            itemCount: 5000,
+          }}
+        />
       </div>
     );
   }
 }
 
-export default Home;
+export default injectIntl(Home);

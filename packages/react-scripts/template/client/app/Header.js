@@ -1,3 +1,4 @@
+import { F } from '../i18n';
 import { Link } from 'react-router-dom';
 import LoginLogoutButton from '../components/login';
 import React, { Component } from 'react';
@@ -10,10 +11,14 @@ export default class Header extends Component {
         <nav>
           <ul className={styles.menu}>
             <li>
-              <Link to="/">Home</Link>
+              <Link to="/">
+                <F msg="Home" />
+              </Link>
             </li>
             <li>
-              <Link to="/your-feature">Your Feature</Link>
+              <Link to="/your-feature">
+                <F msg="Your Feature" />
+              </Link>
             </li>
           </ul>
         </nav>

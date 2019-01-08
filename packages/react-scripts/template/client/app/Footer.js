@@ -1,3 +1,4 @@
+import { F } from '../i18n';
 import Help from './Help';
 import React, { Component, Suspense, lazy } from 'react';
 import styles from './Footer.module.css';
@@ -8,7 +9,11 @@ export default class Footer extends Component {
     if (process.env.NODE_ENV === 'development') {
       // TODO(mime): Suspense and lazy aren't supported by ReactDOMServer yet (breaks SSR).
       const IS_CLIENT = typeof window !== 'undefined';
-      const Fallback = <span>Loading...</span>;
+      const Fallback = (
+        <span>
+          <F msg="Loading…" />
+        </span>
+      );
       let SuspenseWithTemporaryWorkaround;
       if (IS_CLIENT) {
         const Debug = lazy(() => import('../internal/Debug'));
