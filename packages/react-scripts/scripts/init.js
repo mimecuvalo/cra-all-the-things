@@ -100,7 +100,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     styleguide: 'start-storybook -p 9001 -c .storybook --ci --quiet',
   };
 
-  let originalPackageJson = require.resolve(path.join(__dirname, '..', 'package.json'));
+  let originalPackageJson = require(path.join(__dirname, '..', 'package.json'));
   appPackage.devDependencies = originalPackageJson.devDependencies;
 
   appPackage.husky = {
