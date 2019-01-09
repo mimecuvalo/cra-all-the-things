@@ -24,27 +24,39 @@ command line
 ```
 
 ## 🤘 Usage
+
 ```sh
 command line
 ```
 
 ### 🔨 Development
+
 To run locally:
+
 ```sh
 command to run locally
 ```
 
 To run tests:
+
 ```sh
 command to run tests
 ```
 
 ## 📙 Learn More
+
 ### [Changelog](changelog.md)
+
 ### [Code of Conduct](code_of_conduct.md)
+
 ### [Contributing](.github/contributing.md)
+
 ### [Contributors](contributors.md)
+
 ### [Support](support.md)
 
 ## 📜 License
+
 [MIT](license.md)
+
+(The format is based on [Make a README](https://www.makeareadme.com/))
