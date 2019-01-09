@@ -1,6 +1,6 @@
 {
   "name": "cra-all-the-things",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "all the bells 🔔 and whistles 😙 for create-react-app",
   "repository": "mimecuvalo/all-the-things",
   "license": "MIT",
@@ -11,6 +11,7 @@
   "bugs": {
     "url": "https://github.com/mimecuvalo/all-the-things/issues"
   },
+  "keywords": ["cra", "create-react-app", "react"],
   "files": [
     "bin",
     "config",

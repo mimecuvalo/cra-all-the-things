@@ -191,6 +191,16 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     }
   }
 
+  let depsCommand = useYarn ? 'yarn' : 'npm';
+  let depsArgs = ['install'];
+  console.log();
+  console.log('Installing all-the-things devDependencies.');
+  const proc = spawn.sync(depsCommand, depsArgs, { stdio: 'inherit' });
+  if (proc.status !== 0) {
+    console.error(`\`${depsCommand} ${depsArgs.join(' ')}\` failed`);
+    return;
+  }
+
   if (useTypeScript) {
     verifyTypeScriptSetup();
   }

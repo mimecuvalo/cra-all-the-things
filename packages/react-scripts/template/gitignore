@@ -31,3 +31,9 @@ yarn-error.log*
 
 # windows thumbnail cache files
 Thumbs.db
+
+# development directories
+.cache
+flow-typed
+logs/*.log
+logs/*.log.gz

@@ -1,4 +1,4 @@
-import { F } from '../i18n';
+import { F } from '../../shared/i18n';
 import { Link } from 'react-router-dom';
 import LoginLogoutButton from '../components/login';
 import React, { Component } from 'react';

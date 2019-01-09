@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import { createLock, setUser } from '../app/auth';
-import { F } from '../i18n';
+import { F } from '../../shared/i18n';
 import React, { Component } from 'react';
 import UserContext from '../app/User_Context';
 

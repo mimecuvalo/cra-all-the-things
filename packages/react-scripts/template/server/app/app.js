@@ -6,7 +6,7 @@ import { DEFAULT_LOCALE, getLocale } from './locale';
 import HTMLBase from './HTMLBase';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { IntlProvider } from 'react-intl';
-import * as languages from '../i18n/languages';
+import * as languages from '../../shared/i18n/languages';
 import { makeExecutableSchema } from 'graphql-tools';
 import React from 'react';
 import { renderToNodeStream } from 'react-dom/server';

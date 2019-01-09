@@ -1,4 +1,4 @@
-import { F } from '../i18n';
+import { F } from '../../shared/i18n';
 import HTMLHead from './HTMLHead';
 import React from 'react';
 

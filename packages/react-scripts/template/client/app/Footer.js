@@ -1,4 +1,4 @@
-import { F } from '../i18n';
+import { F } from '../../shared/i18n';
 import Help from './Help';
 import React, { Component, Suspense, lazy } from 'react';
 import styles from './Footer.module.css';

@@ -1,4 +1,4 @@
-import { defineMessages, F, FHTML, injectIntl } from '../i18n';
+import { defineMessages, F, FHTML, injectIntl } from '../../shared/i18n';
 import React from 'react';
 import styles from './Error.module.css';
 

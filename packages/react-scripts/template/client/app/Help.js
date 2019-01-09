@@ -1,4 +1,4 @@
-import { defineMessages, F, injectIntl } from '../i18n';
+import { defineMessages, F, injectIntl } from '../../shared/i18n';
 import HelpOutlineRoundedIcon from '@material-ui/icons/HelpOutlineRounded';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';

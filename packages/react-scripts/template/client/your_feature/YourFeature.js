@@ -1,4 +1,4 @@
-import { F } from '../i18n';
+import { F } from '../../shared/i18n';
 import { Route, Link } from 'react-router-dom';
 import React from 'react';
 

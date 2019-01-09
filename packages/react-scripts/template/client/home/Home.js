@@ -1,5 +1,5 @@
 import Button from '@material-ui/core/Button';
-import { defineMessages, F, injectIntl } from '../i18n';
+import { defineMessages, F, injectIntl } from '../../shared/i18n';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import logo from './logo.svg';

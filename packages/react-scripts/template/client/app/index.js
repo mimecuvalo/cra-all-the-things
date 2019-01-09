@@ -26,7 +26,7 @@ async function renderAppTree(app) {
 
   let translations = {};
   if (configuration.locale !== configuration.defaultLocale) {
-    translations = (await import(`../i18n/${configuration.locale}`)).default;
+    translations = (await import(`../../shared/i18n/${configuration.locale}`)).default;
     const localeData = (await import(`react-intl/locale-data/${configuration.locale}`)).default;
     addLocaleData(localeData);
   }
