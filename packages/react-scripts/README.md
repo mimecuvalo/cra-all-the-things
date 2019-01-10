@@ -6,9 +6,11 @@
 </blockquote>
 
 <p style="text-align: center">
-  [![CI status](https://img.shields.io/travis/username/project.svg)](https://travis-ci.org/username/project)
-  [![code style: prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
-  [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](license.md)
+
+[![CI status](https://img.shields.io/travis/mimecuvalo/all-the-things.svg)](https://travis-ci.org/mimecuvalo/all-the-things)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](license.md)
+
 </p>
 
 ## 📯 Description
