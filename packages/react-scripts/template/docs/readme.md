@@ -49,7 +49,7 @@ command to run tests
 
 ### [Code of Conduct](code_of_conduct.md)
 
-### [Contributing](.github/contributing.md)
+### [Contributing](contributing.md)
 
 ### [Contributors](contributors.md)
 

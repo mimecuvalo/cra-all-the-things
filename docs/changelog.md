@@ -8,9 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - nothing unreleased currently.
 
-## [1.0.0] - [2018-10-24]
+## [0.0.3] - [2019-01-09]
 ### Added
-- added this project! <email@gmail.com> [@githubusername](https://github.com/githubusername)
+- added this project! <mimecuvalo@gmail.com> [@mimecuvalo](https://github.com/mimecuvalo)
 
 ### Changed
 ### Deprecated
