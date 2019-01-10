@@ -1,16 +1,20 @@
-<h1 style="text-align: center">
+<h1 align="center">
   🔮 create-react-app, ✨ ALL THE THINGS ✨ edition
 </h1>
-<blockquote style="border: 0; text-align: center">
+<blockquote align="center">
   DO NOT USE - NOT QUITE READY FOR BROAD USE YET!
 </blockquote>
 
-<p style="text-align: center">
-
-[![CI status](https://img.shields.io/travis/mimecuvalo/all-the-things.svg)](https://travis-ci.org/mimecuvalo/all-the-things)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
-[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](license.md)
-
+<p align="center">
+  <a href="https://travis-ci.org/mimecuvalo/all-the-things">
+    <img src="https://img.shields.io/travis/mimecuvalo/all-the-things.svg" alt="CI status" />
+  </a>
+  <a href="https://github.com/prettier/prettier">
+    <img src="https://img.shields.io/travis/username/project.svg" alt="CI status" />
+  </a>
+  <a href="https://github.com/mimecuvalo/all-the-things/docs/license.md">
+    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license" />
+  </a>
 </p>
 
 ## 📯 Description
