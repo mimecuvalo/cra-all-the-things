@@ -1,10 +1,10 @@
 import axe from 'axe-core';
 import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './A11y.module.css';
 
-export default class A11y extends Component {
+export default class A11y extends PureComponent {
   constructor() {
     super();
 

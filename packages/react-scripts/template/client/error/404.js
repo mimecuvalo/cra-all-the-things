@@ -6,7 +6,7 @@ const messages = defineMessages({
   upsideDownFace: { msg: 'upside down face' },
 });
 
-function NotFound({ intl }) {
+const NotFound = React.memo(function NotFound({ intl }) {
   const emojiAriaLabel = intl.formatMessage(messages.upsideDownFace);
 
   return (
@@ -24,6 +24,6 @@ function NotFound({ intl }) {
       </div>
     </div>
   );
-}
+});
 
 export default injectIntl(NotFound);

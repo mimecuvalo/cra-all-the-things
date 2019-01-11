@@ -1,10 +1,10 @@
 import { F } from '../../shared/i18n';
 import { Link } from 'react-router-dom';
 import LoginLogoutButton from '../components/login';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import styles from './Header.module.css';
 
-export default class Header extends Component {
+export default class Header extends PureComponent {
   render() {
     return (
       <header className="App-header">

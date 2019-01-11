@@ -1,9 +1,9 @@
 import { F } from '../../shared/i18n';
 import Help from './Help';
-import React, { Component, Suspense, lazy } from 'react';
+import React, { PureComponent, Suspense, lazy } from 'react';
 import styles from './Footer.module.css';
 
-export default class Footer extends Component {
+export default class Footer extends PureComponent {
   renderDebugMenu() {
     // Conditionally compile this code. Should not appear in production.
     if (process.env.NODE_ENV === 'development') {

@@ -1,8 +1,8 @@
 import { F } from '../../shared/i18n';
 import { logError } from './error';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
-export default class ErrorBoundary extends Component {
+export default class ErrorBoundary extends PureComponent {
   constructor(props) {
     super(props);
     this.state = { hasError: false };

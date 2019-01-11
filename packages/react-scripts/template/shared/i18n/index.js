@@ -17,7 +17,7 @@ export function generateId(id = '', msg = '', description = '') {
   return scrubbedMsg + (scrubbedDesc ? '___' : '') + scrubbedDesc;
 }
 
-export function F({ id, description, msg, values }) {
+export const F = React.memo(function F({ id, description, msg, values }) {
   return (
     <FormattedMessage
       id={generateId(id, msg, description)}
@@ -26,9 +26,9 @@ export function F({ id, description, msg, values }) {
       values={values}
     />
   );
-}
+});
 
-export function FHTML({ id, description, msg, values }) {
+export const FHTML = React.memo(function FHTML({ id, description, msg, values }) {
   return (
     <FormattedHTMLMessage
       id={generateId(id, msg, description)}
@@ -37,7 +37,7 @@ export function FHTML({ id, description, msg, values }) {
       values={values}
     />
   );
-}
+});
 
 export function defineMessages(values) {
   for (const key in values) {

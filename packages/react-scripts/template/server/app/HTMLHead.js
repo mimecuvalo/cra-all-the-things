@@ -38,13 +38,13 @@ export default function HTMLHead({ nonce, assetPathsByType, title, urls, publicU
 // Learn more here: http://ogp.me/
 function OpenGraphMetadata({ title, urls }) {
   return (
-    <React.Fragment>
+    <>
       <meta property="og:title" content="page title" />
       <meta property="og:description" content="page description" />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={urls.localUrlForBrowser} />
       <meta property="og:site_name" content={title} />
       <meta property="og:image" content={`${urls.localUrlForBrowser}favicon.ico`} />
-    </React.Fragment>
+    </>
   );
 }

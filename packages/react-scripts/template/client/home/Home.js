@@ -3,7 +3,7 @@ import { defineMessages, F, injectIntl } from '../../shared/i18n';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 import logo from './logo.svg';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 const messages = defineMessages({
   greeting: { msg: 'logo' },
@@ -15,7 +15,7 @@ const messages = defineMessages({
     hello
   }
 `)
-class Home extends Component {
+class Home extends PureComponent {
   render() {
     const logoAltText = this.props.intl.formatMessage(messages.greeting);
 

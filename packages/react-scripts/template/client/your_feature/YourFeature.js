@@ -2,7 +2,7 @@ import { F } from '../../shared/i18n';
 import { Route, Link } from 'react-router-dom';
 import React from 'react';
 
-export default function YourFeature({ match }) {
+export default React.memo(function YourFeature({ match }) {
   return (
     <div>
       <h2>
@@ -38,12 +38,12 @@ export default function YourFeature({ match }) {
       />
     </div>
   );
-}
+});
 
-function Topic({ match }) {
+const Topic = React.memo(function Topic({ match }) {
   return (
     <div>
       <h3>{match.params.topicId}</h3>
     </div>
   );
-}
+});

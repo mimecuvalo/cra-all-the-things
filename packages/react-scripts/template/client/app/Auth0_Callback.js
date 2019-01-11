@@ -1,9 +1,9 @@
-import { Component } from 'react';
+import { PureComponent } from 'react';
 import { createLock, setUser } from '../app/auth';
 import { withRouter } from 'react-router-dom';
 import UserContext from './User_Context';
 
-class Auth0Callback extends Component {
+class Auth0Callback extends PureComponent {
   static contextType = UserContext;
 
   componentDidMount() {
