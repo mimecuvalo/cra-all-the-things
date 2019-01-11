@@ -34,27 +34,27 @@ export default async function render({ req, res, assetPathsByType, appName, publ
   const translations = languages[locale];
 
   const completeApp = (
-    <HTMLBase
-      apolloStateFn={() => apolloClient.extract()}
-      appTime={gitTime}
-      appVersion={gitRev}
-      assetPathsByType={assetPathsByType}
-      csrfToken={req.csrfToken()}
-      defaultLocale={DEFAULT_LOCALE}
-      locale={locale}
-      nonce={nonce}
-      publicUrl={publicUrl}
-      title={appName}
-      urls={urls}
-    >
-      <IntlProvider locale={locale} messages={translations}>
+    <IntlProvider locale={locale} messages={translations}>
+      <HTMLBase
+        apolloStateFn={() => apolloClient.extract()}
+        appTime={gitTime}
+        appVersion={gitRev}
+        assetPathsByType={assetPathsByType}
+        csrfToken={req.csrfToken()}
+        defaultLocale={DEFAULT_LOCALE}
+        locale={locale}
+        nonce={nonce}
+        publicUrl={publicUrl}
+        title={appName}
+        urls={urls}
+      >
         <ApolloProvider client={apolloClient}>
           <StaticRouter location={req.url} context={context}>
             <App ssrUser={req.user} />
           </StaticRouter>
         </ApolloProvider>
-      </IntlProvider>
-    </HTMLBase>
+      </HTMLBase>
+    </IntlProvider>
   );
 
   // This is so we can do `apolloClient.extract()` later on.
