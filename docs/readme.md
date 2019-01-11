@@ -33,10 +33,10 @@ npx create-react-app react-all-the-things --use-npm --scripts-version=all-the-th
 
 ### 🔨 Development
 
-To run locally:
+To run locally (without Storybook server):
 
 ```sh
-yarn start:dev
+yarn serve:dev
 ```
 
 To run tests:
@@ -97,6 +97,7 @@ yarn:test
 
 - CI integration, for own repo and template
   - perhaps, Danger JS
+- assess webpack-dev-middleware further for production use - is hacky
 - PWA, explore enabling by default (desktop PWA, too?) - but probably won't
   - https://hnpwa.com/
   - https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
