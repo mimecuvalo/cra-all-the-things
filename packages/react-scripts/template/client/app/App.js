@@ -48,7 +48,7 @@ export default class App extends Component {
             <main className="App-main">
               <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/your-feature" component={YourFeature} />
+                <Route path="/your-feature" component={YourFeature} />
                 <Route exact path="/auth0-callback" component={Auth0Callback} />
                 <Route component={NotFound} />
               </Switch>
