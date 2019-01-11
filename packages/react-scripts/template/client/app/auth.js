@@ -5,6 +5,7 @@ const STORAGE_ID_TOKEN = 'auth0_idToken';
 const STORAGE_ACCESS_TOKEN = 'auth0_accessToken';
 const STORAGE_PROFILE = 'auth0_profile';
 
+// Sets up the Auth0 object to be used later to create a login window.
 export function createLock() {
   return new Auth0Lock(configuration.auth0_client_id, configuration.auth0_domain, {
     auth: {
@@ -17,6 +18,7 @@ export function createLock() {
   });
 }
 
+// Appends the Authorization (with Bearer and token to an outgoing HTTP headers object).
 export function addAuth(obj) {
   const idToken = localStorage.getItem(STORAGE_ID_TOKEN);
   if (idToken) {
@@ -26,6 +28,7 @@ export function addAuth(obj) {
   return obj;
 }
 
+// Retrieves the current user object.
 export function getUser() {
   if (typeof window === 'undefined') {
     return undefined;
@@ -39,6 +42,8 @@ export function getUser() {
   return undefined;
 }
 
+// Wrapper function to saveLogin/removeLogin that sets the user object appropriately.
+// Once set, it will execute the callback with user info.
 export function setUser(userObjOrUndefined, appCallback) {
   if (!userObjOrUndefined) {
     removeLogin();
@@ -49,16 +54,19 @@ export function setUser(userObjOrUndefined, appCallback) {
   appCallback(getUser());
 }
 
+// Whether the user is logged in.
 export function isLoggedIn() {
   return !!localStorage.getItem(STORAGE_ID_TOKEN);
 }
 
+// Internal function to this file to save the user information.
 function saveLogin({ authResult, profile }) {
   localStorage.setItem(STORAGE_ID_TOKEN, authResult.idToken);
   localStorage.setItem(STORAGE_ACCESS_TOKEN, authResult.accessToken);
   localStorage.setItem(STORAGE_PROFILE, JSON.stringify(profile));
 }
 
+// Internal function to this file to remove the user information.
 function removeLogin() {
   localStorage.removeItem(STORAGE_ID_TOKEN);
   localStorage.removeItem(STORAGE_ACCESS_TOKEN);

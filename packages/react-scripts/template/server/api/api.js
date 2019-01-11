@@ -5,6 +5,25 @@ import jwksRsa from 'jwks-rsa';
 import jwt from 'express-jwt';
 import openSearchRouterFactory from './opensearch';
 
+/**
+ * Main routing entry point for all of our API server.
+ */
+export default function apiServerFactory({ appName, urls }) {
+  const router = express.Router();
+  router.use('/client-health-check', clientHealthCheckRouter);
+  router.use('/is-user-logged-in', checkHasValidLogin, (req, res) => {
+    // Just an example of the checkHasValidLogin capability.
+    res.send('OK');
+  });
+  router.use('/opensearch', openSearchRouterFactory({ appName, urls }));
+  router.use('/report-error', errorRouter);
+  router.get('/', (req, res) => {
+    res.sendStatus(404);
+  });
+
+  return router;
+}
+
 // Add as middleware to any of your routes, e.g.:
 //   router.use('/path-where-login-is-needed', checkHasValidLogin, loggedInRouter);
 // This checks the HTTP `Authorization` header of the form `Bearer {...token...}`.
@@ -23,19 +42,3 @@ const checkHasValidLogin = jwt({
   issuer: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/`,
   algorithms: ['RS256'],
 });
-
-export default function apiServerFactory({ appName, urls }) {
-  const router = express.Router();
-  router.use('/client-health-check', clientHealthCheckRouter);
-  router.use('/is-user-logged-in', checkHasValidLogin, (req, res) => {
-    // Just an example of the checkHasValidLogin capability.
-    res.send('OK');
-  });
-  router.use('/opensearch', openSearchRouterFactory({ appName, urls }));
-  router.use('/report-error', errorRouter);
-  router.get('/', (req, res) => {
-    res.sendStatus(404);
-  });
-
-  return router;
-}

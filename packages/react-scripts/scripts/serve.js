@@ -39,7 +39,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   topLevelApp.use(unless(express.static(paths.appPublic), '/', '/index.html'));
 
   // Setup webpackDevMiddleware so that the next middleware gets `webpackStats` in its `locals`.
-  // This is so we can get the assets list (CSS + JS) and insert them in our SSR appropriately.
+  // This is so we can get the assets list (CSS + JS) and insert them for the purpose of server-side rendering.
   // TODO(mime): ostensibly, this shouldn't be used in prod...better ideas?
   topLevelApp.use(
     webpackDevMiddleware(clientCompiler, {

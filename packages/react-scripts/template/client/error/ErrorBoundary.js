@@ -2,6 +2,7 @@ import { F } from '../../shared/i18n';
 import { logError } from './error';
 import React, { PureComponent } from 'react';
 
+// See React's documentation: https://reactjs.org/docs/error-boundaries.html
 export default class ErrorBoundary extends PureComponent {
   constructor(props) {
     super(props);

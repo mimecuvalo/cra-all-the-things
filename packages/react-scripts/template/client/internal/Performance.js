@@ -3,6 +3,10 @@ import Popover from '@material-ui/core/Popover';
 import React, { PureComponent } from 'react';
 import styles from './Performance.module.css';
 
+// Provides insight into how long the initial render took.
+// Relies heavily on window['performance'] for now.
+// Could be improved with some more server-side stats and with some metrics on
+// ajax navigations.
 export default class Performance extends PureComponent {
   constructor() {
     super();

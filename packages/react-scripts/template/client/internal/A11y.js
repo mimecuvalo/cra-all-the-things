@@ -4,6 +4,9 @@ import Popover from '@material-ui/core/Popover';
 import React, { PureComponent } from 'react';
 import styles from './A11y.module.css';
 
+// Provides information about the app's shortcomings when it comes to accessibility.
+// This uses the `axe-core` package underneath to provide the info.
+// Should only be used and run in development.
 export default class A11y extends PureComponent {
   constructor() {
     super();
@@ -32,7 +35,8 @@ export default class A11y extends PureComponent {
   };
 
   componentDidMount() {
-    // Wait a tick until the page more or less finishes rendering.
+    // Wait a tick until the page more or less finishes rendering to make sure this doesn't block
+    // the app's main functionality.
     setTimeout(() => this.runAudit(), 0);
   }
 

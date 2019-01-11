@@ -3,6 +3,8 @@ import { createLock, setUser } from '../app/auth';
 import { withRouter } from 'react-router-dom';
 import UserContext from './User_Context';
 
+// When logging into the app, Auth0 will return to this callback which then lets us extract and set the user info.
+// Once set, we redirect to the `next` url parameter to return the user to the origin.
 class Auth0Callback extends PureComponent {
   static contextType = UserContext;
 

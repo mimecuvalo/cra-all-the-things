@@ -2,6 +2,8 @@ import { F } from '../../shared/i18n';
 import HTMLHead from './HTMLHead';
 import React from 'react';
 
+// The main wrapper around all of our app's code.
+// It's React all the way down!
 export default function HTMLBase({
   apolloStateFn,
   appTime,
@@ -66,6 +68,7 @@ export default function HTMLBase({
   );
 }
 
+// Passes key initial, bootstrap data to the client.
 function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, locale, nonce }) {
   return (
     <script
@@ -87,6 +90,9 @@ function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, lo
   );
 }
 
+// If there is an error that occurs upon page load, i.e. when executing the initial app code,
+// then we send the error up to the server via this mechanism.
+// Once the app is loaded, then the rest of error reporting goes through error.js -> logError.
 function WindowErrorScript({ nonce }) {
   return (
     <script

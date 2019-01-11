@@ -5,12 +5,40 @@ import models from './models';
 import typeDefs from './graphql/schema';
 import resolvers from './graphql/resolvers';
 
+/**
+ * The main entry point for our Apollo/GraphQL server.
+ * Works by apply middleware to the app.
+ */
+export default function apolloServer(app) {
+  const schema = new ApolloServer({
+    typeDefs,
+    resolvers,
+    context: async ({ req, connection }) => {
+      if (connection) {
+        // For subscriptions
+        return {
+          models,
+        };
+      }
+      const currentUser = await getCurrentUser(req);
+
+      return {
+        currentUser,
+        models,
+      };
+    },
+  });
+  schema.applyMiddleware({ app });
+}
+
+// Used below by getCurrentUser to retrieve user information.
 const jwksClient = createJwksClient({
   cache: true,
   rateLimit: true,
   jwksRequestsPerMinute: 5,
   jwksUri: `https://${process.env.REACT_APP_AUTH0_DOMAIN}/.well-known/jwks.json`,
 });
+
 function getJwksKey(header, callback) {
   jwksClient.getSigningKey(header.kid, (err, key) => {
     const signingKey = key.publicKey || key.rsaPublicKey;
@@ -48,25 +76,3 @@ const getCurrentUser = async req => {
 
   return undefined;
 };
-
-export default function apolloServer(app) {
-  const schema = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: async ({ req, connection }) => {
-      if (connection) {
-        // For subscriptions
-        return {
-          models,
-        };
-      }
-      const currentUser = await getCurrentUser(req);
-
-      return {
-        currentUser,
-        models,
-      };
-    },
-  });
-  schema.applyMiddleware({ app });
-}

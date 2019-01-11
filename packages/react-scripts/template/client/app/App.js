@@ -13,6 +13,7 @@ import React, { Component } from 'react';
 import UserContext from './User_Context';
 import YourFeature from '../your_feature/YourFeature';
 
+// This is the main entry point on the client-side.
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,7 @@ export default class App extends Component {
     };
   }
 
+  // This is a callback used in conjunction with User_Context to set the user app-wide.
   setAppUser = user => {
     this.setState({
       userContext: {
@@ -35,6 +37,7 @@ export default class App extends Component {
   };
 
   componentDidMount() {
+    // Upon starting the app, kick off a client health check which runs periodically.
     clientHealthCheck();
   }
 

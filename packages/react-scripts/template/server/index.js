@@ -10,6 +10,7 @@ import path from 'path';
 import winston from 'winston';
 import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
+// Called from scripts/serve.js to create the three apps we currently support: the main App, API, and Apollo servers.
 export default function constructApps({ appName, urls }) {
   const app = express.Router();
 
@@ -46,6 +47,7 @@ export default function constructApps({ appName, urls }) {
   return app;
 }
 
+// Sets up winston to give us request logging on the main App server.
 function createLogger() {
   return winston.createLogger({
     format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
@@ -70,6 +72,10 @@ function logRequest(appLogger, req, connection) {
   });
 }
 
+// This magic function lets us extract the list of CSS/JS generated from webpack so
+// that our server-side rendering can be complete. We take this list of assets and pass them to
+// HTMLHead/HTMLBase.
+// This is possible since we set `serverSideRender: true` in serve.js which sets res.locals.webpackStats.
 function processAssetsFromWebpackStats(res) {
   const webpackStats = res.locals.webpackStats.toJson();
   const extensionRegexp = /\.(css|js)(\?|$)/;

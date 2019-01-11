@@ -1,5 +1,6 @@
 'use strict';
 
+// Keep in sync with both models/user.js and graphql/user/user.js
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('users', {
@@ -21,6 +22,7 @@ module.exports = {
       },
     });
   },
+
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('users');
   },

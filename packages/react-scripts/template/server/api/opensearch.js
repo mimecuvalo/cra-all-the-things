@@ -1,5 +1,7 @@
 import express from 'express';
 
+// OpenSearch is a way to tell your browser to let a user hit <tab> and search your site.
+// See http://www.opensearch.org/Home
 export default function openSearchRouterFactory({ appName, urls }) {
   const router = express.Router();
   router.use((req, res) => {
