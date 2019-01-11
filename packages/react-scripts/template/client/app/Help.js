@@ -19,22 +19,26 @@ class Help extends Component {
     };
   }
 
-  handleClick = event => {
+  handleMenuOpenerClick = event => {
     this.setState({ anchorEl: event.currentTarget });
   };
 
-  handleClose = () => {
+  handleStyleguide = () => {
     this.setState({ anchorEl: null });
+    window.open('http://localhost:9001', 'styleguide');
+  };
+
+  handleLanguage = () => {
+    this.setState({ anchorEl: null });
+    window.location.href = '/?lang=fr';
   };
 
   renderStyleguide() {
     // Conditionally compile this code. Should not appear in production.
     if (process.env.NODE_ENV === 'development') {
       return (
-        <MenuItem key="styleguide" onClick={this.handleClose}>
-          <a href="http://localhost:9001" target="_blank" rel="noopener noreferrer" className={styles.menuLink}>
-            Styleguide
-          </a>
+        <MenuItem key="styleguide" onClick={this.handleStyleguide}>
+          Styleguide
         </MenuItem>
       );
     }
@@ -53,7 +57,7 @@ class Help extends Component {
           aria-label={helpAriaLabel}
           aria-owns={isOpen ? 'help-menu' : undefined}
           aria-haspopup="true"
-          onClick={this.handleClick}
+          onClick={this.handleMenuOpenerClick}
         >
           <HelpOutlineRoundedIcon className={styles.helpIcon} />
         </IconButton>
@@ -73,9 +77,7 @@ class Help extends Component {
         >
           {this.renderStyleguide()}
           <MenuItem key="language" onClick={this.handleLanguage}>
-            <a href="/?lang=fr" className={styles.menuLink}>
-              <F msg="Test language alternative" />
-            </a>
+            <F msg="Test language alternative" />
           </MenuItem>
         </Menu>
       </div>
