@@ -69,9 +69,13 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
 
   // We watch for changes on the server and change the appServer when it is recompiled.
   serverCompiler.watch(serverConfig.watchOptions, (err, stats) => {
-    const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
-    const constructApps = requireFromString(contents, serverConfig.output.filename).default;
-    app = constructApps({ appName, urls });
+    try {
+      const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
+      const constructApps = requireFromString(contents, serverConfig.output.filename).default;
+      app = constructApps({ appName, urls });
+    } catch (ex) {
+      console.log(ex);
+    }
   });
 
   let firstCompileDone = false;
