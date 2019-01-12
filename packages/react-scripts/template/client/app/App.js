@@ -23,6 +23,7 @@ export default class App extends Component {
         user: props.ssrUser || getUser(),
         setAppUser: this.setAppUser,
       },
+      devOnlyHiddenOnLoad: process.env.NODE_ENV === 'development',
     };
   }
 
@@ -39,13 +40,19 @@ export default class App extends Component {
   componentDidMount() {
     // Upon starting the app, kick off a client health check which runs periodically.
     clientHealthCheck();
+
+    this.setState({ devOnlyHiddenOnLoad: false });
   }
 
   render() {
+    // HACK(all-the-things): we can't get rid of FOUC in dev mode because we want hot reloading of CSS updates.
+    // This hides the unsightly unstyled app. However, in dev mode, it removes the perceived gain of SSR. :-/
+    const devOnlyHiddenOnLoadStyle = this.state.devOnlyHiddenOnLoad ? { opacity: 0 } : null;
+
     return (
       <UserContext.Provider value={this.state.userContext}>
         <ErrorBoundary>
-          <div className="App">
+          <div className="App" style={devOnlyHiddenOnLoadStyle}>
             <CssBaseline />
             <Header />
             <main className="App-main">
