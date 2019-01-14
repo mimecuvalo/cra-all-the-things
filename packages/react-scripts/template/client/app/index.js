@@ -1,10 +1,10 @@
-import { addAuth } from './auth';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configuration from '../app/configuration';
+import CurrentUser from './current_user';
 import './index.css';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import React from 'react';
@@ -16,9 +16,9 @@ async function renderAppTree(app) {
   const client = new ApolloClient({
     request: async op => {
       op.setContext({
-        headers: addAuth({
+        headers: {
           'x-xsrf-token': configuration.csrf || '',
-        }),
+        },
       });
     },
     cache: new InMemoryCache().restore(window['__APOLLO_STATE__']),
@@ -42,7 +42,7 @@ async function renderAppTree(app) {
 
 // We use `hydrate` here so that we attach to our server-side rendered React components.
 async function render() {
-  const appTree = await renderAppTree(<App />);
+  const appTree = await renderAppTree(<App user={CurrentUser} />);
   ReactDOM.hydrate(appTree, document.getElementById('root'));
 }
 render();
@@ -51,7 +51,7 @@ render();
 if (module.hot) {
   async function hotModuleRender() {
     const NextApp = require('./App').default;
-    const appTree = await renderAppTree(<NextApp />);
+    const appTree = await renderAppTree(<NextApp user={CurrentUser} />);
     ReactDOM.render(appTree, document.getElementById('root'));
   }
   module.hot.accept('./App', hotModuleRender);

@@ -1,7 +1,7 @@
 let CurrentUser;
 
 if (typeof window !== 'undefined') {
-  CurrentUser = JSON.parse(localStorage.getItem('auth0_profile'));
+  CurrentUser = window.configuration.user;
 } else {
   CurrentUser = {};
 }

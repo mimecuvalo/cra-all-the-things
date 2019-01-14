@@ -9,7 +9,7 @@ export default class LoginLogoutButton extends PureComponent {
 
   handleClick = () => {
     if (this.context.user) {
-      setUser(undefined, this.context.setAppUser);
+      setUser(undefined);
     } else {
       createLock().show();
     }

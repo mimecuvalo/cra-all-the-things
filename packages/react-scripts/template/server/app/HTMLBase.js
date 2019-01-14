@@ -17,6 +17,7 @@ export default function HTMLBase({
   publicUrl,
   title,
   urls,
+  user,
 }) {
   return (
     <html lang={locale}>
@@ -30,6 +31,7 @@ export default function HTMLBase({
           defaultLocale={defaultLocale}
           locale={locale}
           nonce={nonce}
+          user={user}
         />
         <WindowErrorScript nonce={nonce} />
 
@@ -69,7 +71,7 @@ export default function HTMLBase({
 }
 
 // Passes key initial, bootstrap data to the client.
-function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, locale, nonce }) {
+function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, locale, nonce, user }) {
   return (
     <script
       nonce={nonce}
@@ -83,6 +85,7 @@ function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, lo
             csrf: '${csrfToken}',
             defaultLocale: '${defaultLocale}',
             locale: '${locale}',
+            user: ${JSON.stringify(user)},
           };
         `,
       }}

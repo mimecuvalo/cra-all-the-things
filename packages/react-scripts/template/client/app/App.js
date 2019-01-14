@@ -1,10 +1,8 @@
 import './App.css';
-import Auth0Callback from './Auth0_Callback';
 import clientHealthCheck from './client_health_check';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ErrorBoundary from '../error/ErrorBoundary';
 import Footer from './Footer';
-import { getUser } from './auth';
 import Header from './Header';
 import Home from '../home/Home';
 import { Route, Switch } from 'react-router-dom';
@@ -20,22 +18,11 @@ export default class App extends Component {
 
     this.state = {
       userContext: {
-        user: props.ssrUser || getUser(),
-        setAppUser: this.setAppUser,
+        user: props.user,
       },
       devOnlyHiddenOnLoad: process.env.NODE_ENV === 'development',
     };
   }
-
-  // This is a callback used in conjunction with User_Context to set the user app-wide.
-  setAppUser = user => {
-    this.setState({
-      userContext: {
-        user,
-        setAppUser: this.setAppUser,
-      },
-    });
-  };
 
   componentDidMount() {
     // Upon starting the app, kick off a client health check which runs periodically.
@@ -59,7 +46,6 @@ export default class App extends Component {
               <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/your-feature" component={YourFeature} />
-                <Route exact path="/auth0-callback" component={Auth0Callback} />
                 <Route component={NotFound} />
               </Switch>
             </main>

@@ -9,6 +9,7 @@ export default {
     },
   },
 
+  // Example stubs of mutations, non-functional out of the box.
   Mutation: {
     async login(parent, { email }, { models }) {
       const user = await models.User.findOne({ where: { email } });
@@ -16,8 +17,6 @@ export default {
       if (!user) {
         throw new Error('Login failed.');
       }
-
-      // TODO(mime)
     },
 
     async createUser(parent, { username, email }, { models }) {

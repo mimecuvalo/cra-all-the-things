@@ -7,8 +7,12 @@ import cookieParser from 'cookie-parser';
 import csurf from 'csurf';
 import express from 'express';
 import path from 'path';
+import session from 'express-session';
+import sessionFileStore from 'session-file-store';
 import winston from 'winston';
 import WinstonDailyRotateFile from 'winston-daily-rotate-file';
+
+const FileStore = sessionFileStore(session);
 
 // Called from scripts/serve.js to create the three apps we currently support: the main App, API, and Apollo servers.
 export default function constructApps({ appName, urls }) {
@@ -19,6 +23,25 @@ export default function constructApps({ appName, urls }) {
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(cookieParser());
+
+  // Session store.
+  // NOTE! We use a file storage mechanism which keeps things simple for purposes of ubiquity of this CRA package.
+  // However, I recommend using `connect-redis` for a better session store.
+  const SESSION_MAX_AGE = 60 * 60 * 24 * 30; // 30 days.
+  app.use(
+    session({
+      store: new FileStore({ ttl: SESSION_MAX_AGE }),
+      secret: process.env.REACT_APP_SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        path: '/',
+        httpOnly: true,
+        secure: false,
+        maxAge: SESSION_MAX_AGE * 1000 /* milliseconds */,
+      },
+    })
+  );
 
   // Add XSRF/CSRF protection.
   const csrfMiddleware = csurf({ cookie: true });
