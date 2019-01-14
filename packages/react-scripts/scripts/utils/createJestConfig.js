@@ -8,20 +8,18 @@
 'use strict';
 
 const fs = require('fs');
-const chalk = require('chalk');
+const chalk = require('react-dev-utils/chalk');
 const paths = require('../../config/paths');
 
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-  const setupTestsMatches = paths.testsSetup.match(/src\/setupTests\.(.+)/);
+  const setupTestsMatches = paths.testsSetup.match(/src[/\\]setupTests\.(.+)/);
   const setupTestsFileExtension = (setupTestsMatches && setupTestsMatches[1]) || 'js';
   const setupTestsFile = fs.existsSync(paths.testsSetup)
     ? `<rootDir>/src/setupTests.${setupTestsFileExtension}`
     : undefined;
 
-  // TODO: I don't know if it's safe or not to just use / as path separator
-  // in Jest configs. We need help from somebody with Windows to determine this.
   const config = {
     collectCoverageFrom: ['(client|server)/**/*.{js,jsx,ts,tsx}', '!(client|server)/**/*.d.ts'],
 
