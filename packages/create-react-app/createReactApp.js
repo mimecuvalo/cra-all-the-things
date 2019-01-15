@@ -135,12 +135,13 @@ if (program.info) {
         npmGlobalPackages: ['create-react-app'],
       },
       {
-        clipboard: false,
+        clipboard: true,
         duplicates: true,
         showNotFound: true,
       }
     )
-    .then(console.log);
+    .then(console.log)
+    .then(() => console.log(chalk.green('Copied To Clipboard!\n')));
 }
 
 if (typeof projectName === 'undefined') {
@@ -243,7 +244,7 @@ function createApp(
           chalk.yellow(
             `You are using npm ${
               npmInfo.npmVersion
-            } so the project will be bootstrapped with an old unsupported version of tools.\n\n` +
+            } so the project will be boostrapped with an old unsupported version of tools.\n\n` +
               `Please update to npm 3 or higher for a better, fully supported experience.\n`
           )
         );

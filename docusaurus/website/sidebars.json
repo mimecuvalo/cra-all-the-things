@@ -1,6 +1,8 @@
 {
   "docs": {
-    "Welcome": ["documentation-intro"],
+    "Welcome": [
+      "documentation-intro"
+    ],
     "Getting Started": [
       "getting-started",
       "folder-structure",
@@ -33,8 +35,7 @@
       "adding-relay",
       "adding-a-router",
       "adding-custom-environment-variables",
-      "making-a-progressive-web-app",
-      "production-build"
+      "making-a-progressive-web-app"
     ],
     "Testing": ["running-tests", "debugging-tests"],
     "Back-End Integration": [
@@ -50,6 +51,8 @@
       "advanced-configuration",
       "alternatives-to-ejecting"
     ],
-    "Support": ["troubleshooting"]
+    "Support": [
+      "troubleshooting"
+    ]
   }
 }

@@ -11,8 +11,7 @@
       "tag: bug fix": ":bug: Bug Fix",
       "tag: enhancement": ":nail_care: Enhancement",
       "tag: documentation": ":memo: Documentation",
-      "tag: internal": ":house: Internal",
-      "tag: underlying tools": ":hammer: Underlying Tools"
+      "tag: internal": ":house: Internal"
     },
     "cacheDir": ".changelog"
   }
