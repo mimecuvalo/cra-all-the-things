@@ -1,6 +1,6 @@
 'use strict';
 
-// Keep in sync with both models/user.js and graphql/user/user.js
+// Keep in sync with both models/user.js and graphql/schema/user.js
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('users', {

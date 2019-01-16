@@ -10,7 +10,7 @@ export const sequelize = new Sequelize({
   operatorsAliases: false,
 });
 
-export const User = user(sequelize, Sequelize.DataTypes);
+export const User = user(sequelize, Sequelize);
 
 export default {
   User,

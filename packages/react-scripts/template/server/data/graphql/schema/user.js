@@ -3,7 +3,7 @@ import { gql } from 'apollo-server-express';
 // Keep in sync with both models/user.js and migrations/[date]-create-user.js
 export default gql`
   type User {
-    id: Int!
+    id: ID!
     username: String!
     email: String!
   }

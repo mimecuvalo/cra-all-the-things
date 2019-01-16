@@ -1,16 +1,16 @@
 // Keep in sync with both graphql/schema/user.js and migrations/[date]-create-user.js
-export default (sequelize, DataTypes) => {
+export default (sequelize, Sequelize) => {
   const User = sequelize.define(
     'User',
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER.UNSIGNED,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
       },
       username: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING(191),
         unique: true,
         allowNull: false,
         validate: {
@@ -19,7 +19,7 @@ export default (sequelize, DataTypes) => {
         },
       },
       email: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING(191),
         unique: true,
         allowNull: false,
         validate: {
@@ -31,6 +31,7 @@ export default (sequelize, DataTypes) => {
     },
     {
       timestamps: false,
+      freezeTableName: true,
     }
   );
 
