@@ -55,6 +55,7 @@
     "body-parser": "1.18.3",
     "case-sensitive-paths-webpack-plugin": "2.1.2",
     "chalk": "2.4.1",
+    "classnames": "2.2.6",
     "cookie-parser": "1.4.3",
     "css-loader": "1.0.0",
     "csurf": "1.9.0",
