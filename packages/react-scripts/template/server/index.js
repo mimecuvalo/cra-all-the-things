@@ -44,7 +44,13 @@ export default function constructApps({ appName, urls }) {
   );
 
   // Add XSRF/CSRF protection.
-  const csrfMiddleware = csurf({ cookie: true });
+  const csrfMiddleware = csurf({
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      secure: false,
+    },
+  });
 
   // Set up API server.
   apiServer && app.use('/api', csrfMiddleware, apiServer({ appName, urls }));
