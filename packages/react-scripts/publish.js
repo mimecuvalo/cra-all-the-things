@@ -1,7 +1,9 @@
+'use strict';
+
 const execSync = require('child_process').execSync;
 const fs = require('fs');
 const readline = require('readline');
-const package = require('./package.json');
+const allTheThingsPackageJson = require('./package.json');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -10,7 +12,7 @@ const rl = readline.createInterface({
 
 const execOptions = { stdio: 'inherit' };
 
-console.log(`Current package version: ${package.version}`);
+console.log(`Current package version: ${allTheThingsPackageJson.version}`);
 
 rl.question('New version: ', answer => {
   rl.close();
@@ -22,8 +24,8 @@ rl.question('New version: ', answer => {
 
 function savePackageJson(version) {
   console.log('Saving to package.json...');
-  package.version = version;
-  fs.writeFileSync('package.json', JSON.stringify(package, null, 2));
+  allTheThingsPackageJson.version = version;
+  fs.writeFileSync('package.json', JSON.stringify(allTheThingsPackageJson, null, 2));
 }
 
 function pushToGitRepo(version) {
@@ -49,7 +51,7 @@ function publishToNpm(version) {
   });
 }
 
-function updateExampleRepo() {
+function updateExampleRepo(version) {
   console.log('Updating example repo...');
   const cdCmd = 'cd ~/Dropbox/Sites/';
 
@@ -78,10 +80,10 @@ function updateExampleRepo() {
 function updateHelloworldRepo(version) {
   console.log('Updating helloworld repo...');
 
-  const packageJson = '/Users/mime/Dropbox/Sites/helloworld/package.json';
-  const helloworldPackageJson = require(packageJson);
+  const packageJsonPath = '/Users/mime/Dropbox/Sites/helloworld/package.json';
+  const helloworldPackageJson = require(packageJsonPath);
   helloworldPackageJson['dependencies']['cra-all-the-things'] = version;
-  fs.writeFileSync(packageJson, JSON.stringify(helloworldPackageJson, null, 2));
+  fs.writeFileSync(packageJsonPath, JSON.stringify(helloworldPackageJson, null, 2));
 
   const cdCmd = 'cd ~/Dropbox/Sites/helloworld';
   execSync(`${cdCmd}; npm update cra-all-the-things`, execOptions);

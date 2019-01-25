@@ -68,7 +68,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   serverCompiler.outputFileSystem = fs;
 
   // We watch for changes on the server and change the appServer when it is recompiled.
-  serverCompiler.watch(serverConfig.watchOptions, (err, stats) => {
+  serverCompiler.watch(serverConfig.watchOptions, () => {
     try {
       const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
       const constructApps = requireFromString(contents, serverConfig.output.filename).default;
@@ -80,7 +80,7 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
 
   let firstCompileDone = false;
   // We listen for our initial compilation to complete and then kick off our node server.
-  serverCompiler.hooks.done.tap('server-done', stats => {
+  serverCompiler.hooks.done.tap('server-done', () => {
     if (firstCompileDone) {
       return;
     }
