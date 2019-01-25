@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/travis/username/project.svg" alt="CI status" />
   </a>
   <a href="https://github.com/prettier/prettier">
-    <img src="https://img.shields.io/travis/username/project.svg" alt="CI status" />
+    <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="prettier status" />
   </a>
   <a href="https://github.com/username/project/docs/license.md">
     <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license" />

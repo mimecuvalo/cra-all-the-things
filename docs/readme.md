@@ -10,7 +10,7 @@
     <img src="https://img.shields.io/travis/mimecuvalo/all-the-things.svg" alt="CI status" />
   </a>
   <a href="https://github.com/prettier/prettier">
-    <img src="https://img.shields.io/travis/mimecuvalo/all-the-things.svg" alt="prettier status" />
+    <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="prettier status" />
   </a>
   <a href="https://github.com/mimecuvalo/all-the-things/docs/license.md">
     <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license" />
