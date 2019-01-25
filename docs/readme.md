@@ -36,6 +36,9 @@ npx create-react-app react-all-the-things --use-npm --scripts-version=all-the-th
 To run locally (without Storybook server):
 
 ```sh
+cd packages/react-scripts  # TODO(mime) need to get rid of this command eventually - it's a crutch
+npm install
+cd ../../
 yarn serve:dev
 ```
 
