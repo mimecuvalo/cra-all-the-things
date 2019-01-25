@@ -2,14 +2,13 @@ const execSync = require('child_process').execSync;
 const fs = require('fs');
 const readline = require('readline');
 const package = require('./package.json');
-const util = require('util');
 
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
 });
 
-const fsWrite = util.promisify(fs.writeFile);
+const execOptions = { stdio: 'inherit' };
 
 console.log(`Current package version: ${package.version}`);
 
@@ -18,9 +17,7 @@ rl.question('New version: ', answer => {
 
   savePackageJson(answer);
   pushToGitRepo(answer);
-  publishToNpm();
-  updateExampleRepo();
-  updateHelloworldRepo();
+  publishToNpm(answer);
 });
 
 function savePackageJson(version) {
@@ -31,29 +28,64 @@ function savePackageJson(version) {
 
 function pushToGitRepo(version) {
   console.log('Pushing git repo...');
-  execSync('git add -A');
-  execSync(`git commit -m "Publish version: ${version}"`);
-  execSync('git push');
+  execSync(`git commit -am "Publish version: ${version}"`, execOptions);
+  execSync('git push', execOptions);
 }
 
-function publishToNpm() {
+function publishToNpm(version) {
   console.log('Publishing to npm...');
-  execSync('npm publish');
+
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  rl.question('OTP: ', code => {
+    rl.close();
+    execSync(`npm publish --otp=${code}`, execOptions);
+
+    updateExampleRepo(version);
+    updateHelloworldRepo(version);
+  });
 }
 
 function updateExampleRepo() {
   console.log('Updating example repo...');
-  execSync('cd ~/Dropbox/Sites/');
-  execSync('mv all-the-things-example/.git .');
-  execSync('rm -rf all-the-things-example');
-  execSync('npx create-react-app all-the-things-example --use-npm --scripts-version=cra-all-the-things');
-  execSync('mv .git all-the-things-example');
-  execSync('git add -A');
+  const cdCmd = 'cd ~/Dropbox/Sites/';
+
+  console.log('Moving .git directory to a safe place...');
+  execSync(`${cdCmd}; mv all-the-things-example/.git .`, execOptions);
+
+  console.log('Removing old repo...');
+  execSync(`${cdCmd}; rm -rf all-the-things-example`, execOptions);
+  execSync(`${cdCmd}; mkdir all-the-things-example`, execOptions);
+
+  console.log('Moving .git directory back into place...');
+  execSync(`${cdCmd}; mv .git all-the-things-example`, execOptions);
+
+  console.log('Installing new repo via npx...');
+  execSync(
+    `${cdCmd}; npx create-react-app all-the-things-example --use-npm --scripts-version=cra-all-the-things`,
+    execOptions
+  );
+
+  console.log('Creating commit...');
+  const cdExampleCmd = 'cd ~/Dropbox/Sites/all-the-things-example';
+  execSync(`${cdExampleCmd}; git commit -am "Publish version: ${version}"`, execOptions);
+  execSync(`${cdExampleCmd}; git push`, execOptions);
 }
 
-function updateHelloworldRepo() {
+function updateHelloworldRepo(version) {
   console.log('Updating helloworld repo...');
-  execSync('cd ~/Dropbox/Sites/helloworld');
-  execSync('npm update cra-all-the-things');
-  execSync('git add -A');
+
+  const packageJson = '/Users/mime/Dropbox/Sites/helloworld/package.json';
+  const helloworldPackageJson = require(packageJson);
+  helloworldPackageJson['dependencies']['cra-all-the-things'] = version;
+  fs.writeFileSync(packageJson, JSON.stringify(helloworldPackageJson, null, 2));
+
+  const cdCmd = 'cd ~/Dropbox/Sites/helloworld';
+  execSync(`${cdCmd}; npm update cra-all-the-things`, execOptions);
+  execSync(`${cdCmd}; git add -A`, execOptions);
 }
+
+console.log('Finished!');
