@@ -109,7 +109,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     },
   };
   appPackage['lint-staged'] = {
-    '(client|server)/**/*.{js,jsx,ts,tsx,json,css,scss,md}': ['prettier --single-quote --write', 'git add'],
+    '(client|server|shared)/**/*.{js,jsx,ts,tsx,json,css,scss,md}': ['prettier --single-quote --write', 'git add'],
   };
 
   // Setup the eslint config
