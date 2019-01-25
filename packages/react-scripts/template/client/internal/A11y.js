@@ -14,19 +14,19 @@ export default class A11y extends PureComponent {
     this.state = {
       anchorEl: null,
       errorCount: 0,
-      results: null,
+      results: null
     };
   }
 
   handleClick = event => {
     this.setState({
-      anchorEl: event.currentTarget,
+      anchorEl: event.currentTarget
     });
   };
 
   handleClose = () => {
     this.setState({
-      anchorEl: null,
+      anchorEl: null
     });
   };
 
@@ -142,11 +142,11 @@ export default class A11y extends PureComponent {
           onClose={this.handleClose}
           anchorOrigin={{
             vertical: 'top',
-            horizontal: 'center',
+            horizontal: 'center'
           }}
           transformOrigin={{
             vertical: 'bottom',
-            horizontal: 'center',
+            horizontal: 'center'
           }}
         >
           {this.renderResults()}
