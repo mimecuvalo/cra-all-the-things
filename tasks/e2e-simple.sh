@@ -134,11 +134,11 @@ cd ../..
 # Test local build command
 yarn build
 # Check for expected output
-exists build/*.html
+#exists build/*.html
 exists build/static/js/*.js
 exists build/static/css/*.css
-exists build/static/media/*.svg
-exists build/favicon.ico
+#exists build/static/media/*.svg
+#exists build/favicon.ico
 
 # Run tests with CI flag
 CI=true yarn test
@@ -272,11 +272,11 @@ echo yes | npm run eject
 # Test the build
 yarn build
 # Check for expected output
-exists build/*.html
+#exists build/*.html
 exists build/static/js/*.js
 exists build/static/css/*.css
-exists build/static/media/*.svg
-exists build/favicon.ico
+#exists build/static/media/*.svg
+#exists build/favicon.ico
 
 # Run tests, overriding the watch option to disable it.
 # `CI=true yarn test` won't work here because `yarn test` becomes just `jest`.
