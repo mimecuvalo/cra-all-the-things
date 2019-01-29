@@ -73,6 +73,7 @@ function updateExampleRepo(version) {
 
   console.log('Creating commit...');
   const cdExampleCmd = 'cd ~/Dropbox/Sites/all-the-things-example';
+  execSync(`${cdExampleCmd}; git add -A`, execOptions);
   execSync(`${cdExampleCmd}; git commit -am "Publish version: ${version}"`, execOptions);
   execSync(`${cdExampleCmd}; git push`, execOptions);
 }
