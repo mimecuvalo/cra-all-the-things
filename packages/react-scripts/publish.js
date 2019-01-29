@@ -88,6 +88,6 @@ function updateHelloworldRepo(version) {
   const cdCmd = 'cd ~/Dropbox/Sites/helloworld';
   execSync(`${cdCmd}; npm update cra-all-the-things`, execOptions);
   execSync(`${cdCmd}; git add -A`, execOptions);
-}
 
-console.log('Finished!');
+  console.log('Finished!');
+}
