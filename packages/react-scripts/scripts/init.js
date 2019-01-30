@@ -95,7 +95,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     eject: 'react-scripts eject',
     analyze: 'source-map-explorer build/static/js/main.*',
     flow: 'flow',
-    postinstall: 'flow-typed install',
+    postinstall: 'if test "$NODE_ENV" = "development" ; then flow-typed install; fi',
     'build-storybook': 'build-storybook -s public',
     styleguide: 'start-storybook -p 9001 -c .storybook --ci --quiet',
   };
