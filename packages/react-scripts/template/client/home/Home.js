@@ -10,14 +10,31 @@ const messages = defineMessages({
 });
 
 // This is an Apollo/GraphQL decorator for the Home component which passes the query result to the props.
-@graphql(gql`
+// It's a more complex example that lets you grab the props value of the component you're looking at.
+@graphql(
+  gql`
+    query helloAndEchoQueries($str: String!) {
+      echoExample(str: $str) {
+        exampleField
+      }
+
+      hello
+    }
+  `,
   {
-    hello
+    options: ({ match: { url } }) => ({
+      variables: {
+        str: url,
+      },
+    }),
   }
-`)
+)
 class Home extends PureComponent {
   render() {
     const logoAltText = this.props.intl.formatMessage(messages.greeting);
+    if (this.props.data.loading) {
+      return null;
+    }
 
     return (
       <div>
@@ -53,8 +70,16 @@ class Home extends PureComponent {
           <F msg="Learn {data}" values={{ data: this.props.data.hello }} />
         </Button>
         <br />
+        <p>
+          <F
+            msg="GraphQL variables test (current url path): {url}"
+            values={{
+              url: this.props.data.echoExample.exampleField,
+            }}
+          />
+        </p>
         <F
-          msg="Translation number test: {itemCount, plural, =0 {no items} one {# item} other {# items}}."
+          msg="i18n pluralization test: {itemCount, plural, =0 {no items} one {# item} other {# items}}."
           values={{
             itemCount: 5000,
           }}

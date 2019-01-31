@@ -4,9 +4,14 @@ import userSchema from './user';
 // The `_` (underscores) here signify that the queries, mutations, subscriptions will be extended
 // by the rest of the schemas. This schema simply ties them all together.
 const linkSchema = gql`
+  type Echo {
+    exampleField: String!
+  }
+
   type Query {
     _: Boolean
     hello: String
+    echoExample(str: String!): Echo
   }
 
   type Mutation {
