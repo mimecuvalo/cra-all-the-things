@@ -1,4 +1,5 @@
 import './App.css';
+import classNames from 'classnames';
 import clientHealthCheck from './client_health_check';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import ErrorBoundary from '../error/ErrorBoundary';
@@ -39,7 +40,7 @@ export default class App extends Component {
     return (
       <UserContext.Provider value={this.state.userContext}>
         <ErrorBoundary>
-          <div className="App" style={devOnlyHiddenOnLoadStyle}>
+          <div className={classNames('App', { 'App-logged-in': this.props.user })} style={devOnlyHiddenOnLoadStyle}>
             <CssBaseline />
             <Header />
             <main className="App-main">
