@@ -33,13 +33,19 @@ npx create-react-app react-all-the-things --use-npm --scripts-version=all-the-th
 
 ### 🔨 Development
 
-To run locally (without Storybook server):
+To run locally (**with** the Storybook styleguide server):
 
 ```sh
-yarn
+yarn start
 cd packages/react-scripts  # TODO(mime) need to get rid of this command eventually - it's a crutch
 npm install
 cd ../../
+yarn serve:dev
+```
+
+To run locally, (**without** the Storybook styleguide server):
+
+```sh
 yarn serve:dev
 ```
 
@@ -47,6 +53,12 @@ To run tests:
 
 ```sh
 yarn:test
+```
+
+To run in production:
+
+```sh
+yarn serve:prod
 ```
 
 ## ⚡ Features
