@@ -361,7 +361,10 @@ module.exports = function(webpackEnv, isSSR) {
                 ),
                 // @remove-on-eject-end
                 plugins: [
+                  // Turn on decorators beacuse they're awesome.
                   [require('@babel/plugin-proposal-decorators').default, { legacy: true }],
+                  // Turn on optional chaining, because it's great.
+                  [require('@babel/plugin-proposal-optional-chaining').default],
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {

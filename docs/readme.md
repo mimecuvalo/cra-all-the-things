@@ -36,6 +36,7 @@ npx create-react-app react-all-the-things --use-npm --scripts-version=all-the-th
 To run locally (without Storybook server):
 
 ```sh
+yarn
 cd packages/react-scripts  # TODO(mime) need to get rid of this command eventually - it's a crutch
 npm install
 cd ../../
@@ -55,7 +56,6 @@ yarn:test
 - **bundle size analyzer**: à la [CRA’s docs](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size) and [source-map-explorer](https://www.npmjs.com/package/source-map-explorer). do `npm run analyze` after creating a build.
 - **component Libary (UI)**: via [Material-UI](https://material-ui.com/).
 - **CSP nonce**: adds example code in `server/app/app.js` (not enabled though).
-- **decorators (ES6)**: yes, they’re experimental and probably shouldn’t use but they’re sooo nice.
 - **documentation**: adds some standard and GitHub-specific Markdown files using best practices. files include:
   - [changelog](https://keepachangelog.com)
   - [code of conduct](https://www.contributor-covenant.org)
@@ -70,6 +70,7 @@ yarn:test
 - **error boundary**: adds a top-level one to the app. (see [doc](https://reactjs.org/docs/error-boundaries.html)).
 - **error pages**: [401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401), [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), [500](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500).
 - **error reporting**: listens to `window.onerror` and reports JS errors to the server for debugging.
+- **ES6: [decorators](https://babeljs.io/docs/en/babel-plugin-proposal-decorators) and [optional chaining](https://babeljs.io/docs/en/babel-plugin-proposal-optional-chaining)**: yes, they’re experimental and probably shouldn’t use but they’re sooo nice.
 - [**Flow**](https://flow.org): enable by default (off by default in CRA).
 - [**hot module replacement (HMR)**](https://webpack.js.org/concepts/hot-module-replacement/): enable by default (off by default in CRA).
 - [**humans.txt**](http://humanstxt.org/) **/** [**robots.txt**](http://www.robotstxt.org/): adds stubs of these files.
