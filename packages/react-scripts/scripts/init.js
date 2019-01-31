@@ -80,7 +80,6 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
   const appPackage = require(path.join(appPath, 'package.json'));
   const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
-  // Copy over some of the devDependencies
   appPackage.dependencies = appPackage.dependencies || {};
 
   const useTypeScript = appPackage.dependencies['typescript'] != null;
@@ -100,8 +99,13 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     styleguide: 'start-storybook -p 9001 -c .storybook --ci --quiet',
   };
 
+  // Copy over some of the devDependencies
   let originalPackageJson = require(path.join(__dirname, '..', 'package.json'));
   appPackage.devDependencies = originalPackageJson.devDependencies;
+
+  // Remove unnecessary dev dependencies since they're added as regular dependencies.
+  delete appPackage.devDependencies['react'];
+  delete appPackage.devDependencies['react-dom'];
 
   appPackage.husky = {
     hooks: {
