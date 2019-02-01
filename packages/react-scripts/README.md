@@ -31,9 +31,34 @@ Please refer to its documentation:
 npx create-react-app react-all-the-things --use-npm --scripts-version=all-the-things
 ```
 
-### 🔨 Development
+Then, to run your newly created server locally, **with** the Storybook styleguide server:
 
-To run locally (**with** the Storybook styleguide server):
+```sh
+npm start
+```
+
+Or, to run locally **without** the Storybook styleguide server:
+
+```sh
+npm run serve:dev
+```
+
+To run in production (or better yet check out bin/flightplan.js)
+
+```sh
+npm --production install
+npm run serve:prod
+```
+
+To run tests:
+
+```sh
+npm run test
+```
+
+### 🔨 Development (of this meta-repo, not of the repo created by the npx command above)
+
+To run locally, **with** the Storybook styleguide server:
 
 ```sh
 yarn
@@ -43,7 +68,7 @@ cd ../../
 yarn start
 ```
 
-To run locally, (**without** the Storybook styleguide server):
+To run locally, **without** the Storybook styleguide server:
 
 ```sh
 yarn serve:dev
@@ -53,12 +78,6 @@ To run tests:
 
 ```sh
 yarn:test
-```
-
-To run in production:
-
-```sh
-yarn serve:prod
 ```
 
 ## ⚡ Features

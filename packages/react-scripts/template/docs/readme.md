@@ -23,30 +23,33 @@ Write your stunning description here.
 
 ## 💾 Install
 
-- List of requirements here
-
 ```sh
-command line
+npx create-react-app react-all-the-things --use-npm --scripts-version=all-the-things
 ```
 
-## 🤘 Usage
+Then, to run your newly created server locally, **with** the Storybook styleguide server:
 
 ```sh
-command line
+npm start
 ```
 
-### 🔨 Development
-
-To run locally:
+Or, to run locally **without** the Storybook styleguide server:
 
 ```sh
-command to run locally
+npm run serve:dev
+```
+
+To run in production (or better yet check out bin/flightplan.js)
+
+```sh
+npm --production install
+npm run serve:prod
 ```
 
 To run tests:
 
 ```sh
-command to run tests
+npm run test
 ```
 
 ## 📙 Learn More
