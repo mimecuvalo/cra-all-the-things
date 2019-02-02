@@ -16,3 +16,8 @@ code {
 ::after {
   box-sizing: border-box;
 }
+
+img {
+  border: 0;
+  vertical-align: middle;
+}
