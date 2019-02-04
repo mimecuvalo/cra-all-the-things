@@ -8,7 +8,7 @@
 
 'use strict';
 
-const chalk = require('chalk');
+const chalk = require('react-dev-utils/chalk');
 const fs = require('fs');
 const path = require('path');
 
@@ -83,9 +83,9 @@ function verifyPackageTree() {
             `  ${chalk.bold(chalk.red(maybeDep))} (version: ${chalk.bold(chalk.red(depPackageJson.version))}) \n\n` +
             `Manually installing incompatible versions is known to cause hard-to-debug issues.\n\n` +
             chalk.red(
-              `If prefer to ignore this check, add ${chalk.bold('SKIP_PREFLIGHT_CHECK=true')} to an ${chalk.bold(
-                '.env'
-              )} file in your project.\n` +
+              `If you would prefer to ignore this check, add ${chalk.bold(
+                'SKIP_PREFLIGHT_CHECK=true'
+              )} to an ${chalk.bold('.env')} file in your project.\n` +
                 `That will permanently disable this message but you might encounter other issues.\n\n`
             ) +
             `To ${chalk.green('fix')} the dependency tree, try following the steps below in the exact order:\n\n` +
