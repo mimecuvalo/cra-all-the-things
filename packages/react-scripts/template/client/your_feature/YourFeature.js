@@ -1,3 +1,4 @@
+import DocumentTitle from 'react-document-title';
 import { F } from '../../shared/i18n';
 import { Route, Link } from 'react-router-dom';
 import React, { PureComponent } from 'react';
@@ -49,9 +50,11 @@ export default class YourFeature extends PureComponent {
 class Topic extends PureComponent {
   render() {
     return (
-      <div>
-        <h3>{this.props.match.params.topicId}</h3>
-      </div>
+      <DocumentTitle title={this.props.match.params.topicId}>
+        <div>
+          <h3>{this.props.match.params.topicId}</h3>
+        </div>
+      </DocumentTitle>
     );
   }
 }
