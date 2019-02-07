@@ -60,6 +60,8 @@ export default function constructApps({ appName, urls }) {
   // Set up Apollo server.
   apolloServer && apolloServer(app);
 
+  const dispose = () => {}; // Use this function in case you need to cleanup state before an HMR refresh.
+
   // Create logger for app server to log requests.
   const appLogger = createLogger();
 
@@ -72,7 +74,7 @@ export default function constructApps({ appName, urls }) {
     appServer({ req, res, next, assetPathsByType, appName, urls, publicUrl });
   });
 
-  return app;
+  return [app, dispose];
 }
 
 // Sets up winston to give us request logging on the main App server.

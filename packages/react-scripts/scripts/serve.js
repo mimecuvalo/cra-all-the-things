@@ -49,7 +49,8 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
     })
   );
 
-  let app = undefined;
+  let app;
+  let dispose;
   // This neat trick lets us create routes dynamically at runtime.
   // Useful since Apollo does `schema.applyMiddleware({ app });`
   // Otherwise, we wouldn't need to do this dance.
@@ -70,9 +71,10 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   // We watch for changes on the server and change the appServer when it is recompiled.
   serverCompiler.watch(serverConfig.watchOptions, () => {
     try {
+      dispose && dispose(); // Cleanup previous instance.
       const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
       const constructApps = requireFromString(contents, serverConfig.output.filename).default;
-      app = constructApps({ appName, urls });
+      [app, dispose] = constructApps({ appName, urls });
     } catch (ex) {
       console.log(ex);
     }
