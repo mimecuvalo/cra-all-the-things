@@ -38,16 +38,20 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
   // Hook up paths to the public (except / and index.html)
   topLevelApp.use(unless(express.static(paths.appPublic), '/', '/index.html'));
 
-  // Setup webpackDevMiddleware so that the next middleware gets `webpackStats` in its `locals`.
-  // This is so we can get the assets list (CSS + JS) and insert them for the purpose of server-side rendering.
-  // TODO(mime): ostensibly, this shouldn't be used in prod...better ideas?
-  topLevelApp.use(
-    webpackDevMiddleware(clientCompiler, {
-      logLevel: 'warn',
-      serverSideRender: true,
-      publicPath: serverConfig.output.publicPath,
-    })
-  );
+  // If production, wire up build directory to serve up directly.
+  if (process.env.NODE_ENV === 'production') {
+    topLevelApp.use(express.static(paths.appBuild));
+  } else {
+    // Setup webpackDevMiddleware so that the next middleware gets `webpackStats` in its `locals`.
+    // This is so we can get the assets list (CSS + JS) and insert them for the purpose of server-side rendering.
+    topLevelApp.use(
+      webpackDevMiddleware(clientCompiler, {
+        logLevel: 'warn',
+        serverSideRender: true,
+        publicPath: serverConfig.output.publicPath,
+      })
+    );
+  }
 
   let app;
   let dispose;
@@ -70,18 +74,34 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
   // Set the file system for the server compiler to be in-memory, we don't need the files actually outputted.
   const fs = new MemoryFS();
   serverCompiler.outputFileSystem = fs;
+  const getConstructApps = () => {
+    const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
+    return requireFromString(contents, serverConfig.output.filename).default;
+  };
 
-  // We watch for changes on the server and change the appServer when it is recompiled.
-  serverCompiler.watch(serverConfig.watchOptions, () => {
-    try {
-      dispose && dispose(); // Cleanup previous instance.
-      const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
-      const constructApps = requireFromString(contents, serverConfig.output.filename).default;
-      [app, dispose] = constructApps({ appName, urls });
-    } catch (ex) {
-      console.log(ex);
-    }
-  });
+  const publicUrl = serverConfig.output.publicPath;
+  if (process.env.NODE_ENV === 'production') {
+    serverCompiler.run(() => {
+      try {
+        const constructApps = getConstructApps();
+        let productionAssetsByType = getProductionAssetsByType();
+        [app, dispose] = constructApps({ appName, productionAssetsByType, publicUrl, urls });
+      } catch (ex) {
+        console.log(ex);
+      }
+    });
+  } else {
+    // We watch for changes on the server and change the appServer when it is recompiled.
+    serverCompiler.watch(serverConfig.watchOptions, () => {
+      try {
+        dispose && dispose(); // Cleanup previous instance.
+        const constructApps = getConstructApps();
+        [app, dispose] = constructApps({ appName, publicUrl, urls });
+      } catch (ex) {
+        console.log(ex);
+      }
+    });
+  }
 
   let firstCompileDone = false;
   // We listen for our initial compilation to complete and then kick off our node server.
@@ -104,5 +124,23 @@ const unless = function(middleware, ...paths) {
     pathCheck ? next() : middleware(req, res, next);
   };
 };
+
+function getProductionAssetsByType() {
+  const assetManifest = require(`${paths.appBuild}/asset-manifest.json`);
+  if (!assetManifest) {
+    console.log(`Your asset-manifest.json file could not be found. Run ``npm run build`` to generate it.`);
+    throw new Error('need to run build first');
+  }
+
+  // XXX(mime): this can't be the correct of doing this... errr.
+  const assetKeys = Object.keys(assetManifest);
+  const runtimeIndex = assetKeys.indexOf('runtime~main.js.map');
+  const bundleKey = assetKeys[runtimeIndex + 1];
+
+  const js = [assetManifest['runtime~main.js'], assetManifest[bundleKey], assetManifest['main.js']];
+  const css = [assetManifest['main.css']];
+
+  return { css, js };
+}
 
 module.exports = startAppServer;
