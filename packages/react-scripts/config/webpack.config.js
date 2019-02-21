@@ -30,7 +30,7 @@ const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin-alt');
+const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 // @remove-on-eject-begin
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
@@ -129,7 +129,7 @@ module.exports = function(webpackEnv, isSSR) {
       ? shouldUseSourceMap
         ? 'source-map'
         : false
-      : isEnvDevelopmentOrSSR && 'eval-source-map',
+      : isEnvDevelopmentOrSSR && 'cheap-module-source-map',
     // These are the "entry points" to our application.
     // This means they will be the "root" imports that are included in JS bundle.
     entry: isSSR
@@ -160,11 +160,11 @@ module.exports = function(webpackEnv, isSSR) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProductionButNotSSR
-        ? 'static/js/[name].[chunkhash:8].js'
+        ? 'static/js/[name].[contenthash:8].js'
         : isEnvDevelopmentOrSSR && 'static/js/bundle.js',
       // There are also additional JS chunk files if you use code splitting.
       chunkFilename: isEnvProductionButNotSSR
-        ? 'static/js/[name].[chunkhash:8].chunk.js'
+        ? 'static/js/[name].[contenthash:8].chunk.js'
         : isEnvDevelopmentOrSSR && 'static/js/[name].chunk.js',
       // We inferred the "public path" (such as / or /my-project) from homepage.
       // We use "/" in development.
@@ -369,7 +369,7 @@ module.exports = function(webpackEnv, isSSR) {
                     {
                       loaderMap: {
                         svg: {
-                          ReactComponent: '@svgr/webpack?-svgo![path]',
+                          ReactComponent: '@svgr/webpack?-svgo,+ref![path]',
                         },
                       },
                     },
@@ -601,17 +601,10 @@ module.exports = function(webpackEnv, isSSR) {
           typescript: resolve.sync('typescript', {
             basedir: paths.appNodeModules,
           }),
-          async: false,
+          async: isEnvDevelopment,
+          useTypescriptIncrementalApi: true,
           checkSyntacticErrors: true,
           tsconfig: paths.appTsConfig,
-          compilerOptions: {
-            module: 'esnext',
-            moduleResolution: 'node',
-            resolveJsonModule: true,
-            isolatedModules: true,
-            noEmit: true,
-            jsx: 'preserve',
-          },
           reportFiles: [
             '**',
             '!**/*.json',
@@ -622,13 +615,16 @@ module.exports = function(webpackEnv, isSSR) {
           ],
           watch: paths.appSrc,
           silent: true,
-          formatter: typescriptFormatter,
+          // The formatter is invoked directly in WebpackDevServerUtils during development
+          formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
     node: {
+      module: 'empty',
       dgram: 'empty',
+      dns: 'mock',
       fs: 'empty',
       net: 'empty',
       tls: 'empty',

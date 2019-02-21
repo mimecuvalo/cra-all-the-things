@@ -61,7 +61,7 @@ if (process.env.HOST) {
     chalk.cyan(`Attempting to bind to HOST environment variable: ${chalk.yellow(chalk.bold(process.env.HOST))}`)
   );
   console.log(`If this was unintentional, check that you haven't mistakenly set it in your shell.`);
-  console.log(`Learn more here: ${chalk.yellow('http://bit.ly/CRA-advanced-config')}`);
+  console.log(`Learn more here: ${chalk.yellow('https://bit.ly/CRA-advanced-config')}`);
   console.log();
 }
 
@@ -83,7 +83,12 @@ checkBrowsers(paths.appPath, isInteractive)
     const config = configFactory(process.env.NODE_ENV, false /* SSR */);
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
+    const useTypeScript = fs.existsSync(paths.appTsConfig);
     const urls = prepareUrls(protocol, HOST, port);
+    const devSocket = {
+      warnings: warnings => devServer.sockWrite(devServer.sockets, 'warnings', warnings),
+      errors: errors => devServer.sockWrite(devServer.sockets, 'errors', errors),
+    };
     // Create a webpack compiler that is configured with custom messages.
     // NOTE(all-the-things): we remove the custom messages here in lieu of the server ones (which are dupes basically).
     const compiler = webpack(config);
@@ -101,7 +106,7 @@ checkBrowsers(paths.appPath, isInteractive)
 
     // Start our app server which does server-side rendering. We pass it our client's webpack compiler so that
     // we can render the assets during rendering.
-    startAppServer(compiler, port, appName, useYarn);
+    startAppServer({ clientCompiler: compiler, clientPort: port, appName, devSocket, useTypeScript, useYarn });
 
     if (process.env.NODE_ENV == 'production') {
       compiler.run(() => {});

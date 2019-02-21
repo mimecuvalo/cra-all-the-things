@@ -12,7 +12,7 @@ const requireFromString = require('require-from-string');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
-function startAppServer(clientCompiler, clientPort, appName, useYarn) {
+function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTypeScript, useYarn }) {
   // Create a server build with an entry point at /server/App.js
   // Note the SSR boolean flag passed to configFactory.
   const serverConfig = configFactory(process.env.NODE_ENV, true /* SSR */);
@@ -62,6 +62,9 @@ function startAppServer(clientCompiler, clientPort, appName, useYarn) {
   const SERVER_HOST = process.env.HOST || '0.0.0.0';
   const SERVER_PORT = process.env.REACT_APP_SSR_PORT || 3001;
   const urls = prepareUrls(protocol, SERVER_HOST, SERVER_PORT);
+
+  // TODO(mime): next version of CRA will be like this:
+  //const serverCompiler = createCompiler({ webpack, config: serverConfig, appName: `${appName}-server`, urls, devSocket, useTypeScript, useYarn });
   const serverCompiler = createCompiler(webpack, serverConfig, `${appName}-server`, urls, useYarn);
 
   // Set the file system for the server compiler to be in-memory, we don't need the files actually outputted.
