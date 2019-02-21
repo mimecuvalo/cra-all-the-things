@@ -24,7 +24,7 @@ Write your stunning description here.
 ## 💾 Install
 
 ```sh
-npx create-react-app react-all-the-things --use-npm --scripts-version=all-the-things
+npx create-react-app react-all-the-things --use-npm --scripts-version=cra-all-the-things
 ```
 
 Then, to run your newly created server locally, **with** the Storybook styleguide server:
