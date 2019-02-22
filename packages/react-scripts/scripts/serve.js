@@ -126,8 +126,10 @@ const unless = function(middleware, ...paths) {
 };
 
 function getProductionAssetsByType() {
-  const assetManifest = require(`${paths.appBuild}/asset-manifest.json`);
-  if (!assetManifest) {
+  let assetManifest;
+  try {
+    assetManifest = require(`${paths.appBuild}/asset-manifest.json`);
+  } catch (ex) {
     console.log(`Your asset-manifest.json file could not be found. Run ``npm run build`` to generate it.`);
     throw new Error('need to run build first');
   }
