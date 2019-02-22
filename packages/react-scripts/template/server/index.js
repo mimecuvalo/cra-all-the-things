@@ -67,7 +67,7 @@ export default function constructApps({ appName, productionAssetsByType, publicU
 
   // Our main request handler that kicks off the SSR, using the appServer which is compiled from serverCompiler.
   // `res` has the assets (via webpack's `stats` object) from the clientCompiler.
-  app.get('/*', csrfMiddleware, async (req, res, next) => {
+  app.get('/*', csrfMiddleware, (req, res, next) => {
     logRequest(appLogger, req, req.info || req.connection);
     const assetPathsByType =
       process.env.NODE_ENV === 'development' ? processAssetsFromWebpackStats(res) : productionAssetsByType;
