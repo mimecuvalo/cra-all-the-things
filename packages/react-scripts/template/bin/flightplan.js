@@ -89,7 +89,7 @@ plan.remote(function(remote) {
   remote.log('Seeing if we can just reuse the previous node_modules folder...');
   const isNPMUnchanged = remote.sudo(`cmp ${destDir}/package.json ${varTmpDir}/package.json`, { user, failsafe: true });
 
-  if (isNPMUnchanged.code === 0) {
+  if (isNPMUnchanged.code === 0 || isNPMUnchanged.stderr.indexOf('cmp: EOF') === 0 /* ignore NOEOL false positive */) {
     remote.log('package.json is unchanged. Reusing previous node_modules folder...');
     remote.sudo(`cp -R ${destDir}/node_modules ${varTmpDir}`, { user });
   } else {
@@ -99,7 +99,12 @@ plan.remote(function(remote) {
 
   remote.log('Reloading application...');
   remote.sudo(`ln -snf ${varTmpDir} ${destDir}`, { user });
-  remote.sudo(`cd ${destDir}; pm2 startOrReload`, { user });
+
+  // XXX(mime) :-/ sucks but getCSSModuleLocalIdent gives hashes based on filepaths... need to look for workaround
+  remote.log('Building production files...');
+  remote.sudo(`cd ${varTmpDir}; npm run build`, { user });
+
+  remote.sudo(`cd ${destDir}; pm2 startOrReload ecosystem.config.js`, { user });
 });
 
 // run more commands on localhost afterwards
