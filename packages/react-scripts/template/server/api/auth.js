@@ -8,8 +8,9 @@ import fetch from 'node-fetch';
 const router = express.Router();
 router.get('/callback', async (req, res) => {
   try {
+    const protocol = req.get('x-scheme') || req.protocol;
     const hostWithPort = req.get('host');
-    const redirectUri = `${req.protocol}://${hostWithPort}/api/auth/callback`;
+    const redirectUri = `${protocol}://${hostWithPort}/api/auth/callback`;
     const tokenResponse = await fetch(`https://${process.env.REACT_APP_AUTH0_DOMAIN}/oauth/token`, {
       method: 'POST',
       body: JSON.stringify({
