@@ -6,7 +6,7 @@ import ErrorBoundary from '../error/ErrorBoundary';
 import Footer from './Footer';
 import Header from './Header';
 import Home from '../home/Home';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import NotFound from '../error/404';
 import React, { Component } from 'react';
 import UserContext from './User_Context';
@@ -50,16 +50,31 @@ export default class App extends Component {
             <CssBaseline />
             <Header />
             <main className="App-main">
-              <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/your-feature" component={YourFeature} />
-                <Route component={NotFound} />
-              </Switch>
+              <ScrollToTop>
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/your-feature" component={YourFeature} />
+                  <Route component={NotFound} />
+                </Switch>
+              </ScrollToTop>
             </main>
             <Footer />
           </div>
         </ErrorBoundary>
       </UserContext.Provider>
     );
+  }
+}
+
+@withRouter
+class ScrollToTop extends Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+      window.scrollTo(0, 0);
+    }
+  }
+
+  render() {
+    return this.props.children;
   }
 }
