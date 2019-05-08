@@ -46,7 +46,7 @@ export default async function render({ req, res, next, assetPathsByType, appName
     },
   });
 
-  const coreApp = <App user={filteredUser} />;
+  const coreApp = <App user={req.session.user} />;
   // We need to set leave out Material-UI classname generation when traversing the React tree for
   // react-apollo data. a) it speeds things up, but b) if we didn't do this, on prod, it can cause
   // classname hydration mismatches.
