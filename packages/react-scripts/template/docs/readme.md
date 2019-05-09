@@ -39,6 +39,12 @@ Or, to run locally **without** the Storybook styleguide server:
 npm run serve:dev
 ```
 
+In dev or prod you'll want to setup your environment as well. Check out the `.env.example` file and `mv` it to `.env.development.local` (or `.env` for prod) and set the various variables:
+
+- `REACT_APP_DB*` for your database
+- `REACT_APP_SESSION_SECRET` for session management
+- `REACT_APP_AUTH0*` variables if you would like to use Auth0 for logging in
+
 To run in production (or better yet check out bin/flightplan.js)
 
 ```sh
