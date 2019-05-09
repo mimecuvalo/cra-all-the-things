@@ -85,7 +85,7 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
       try {
         const constructApps = getConstructApps();
         let productionAssetsByType = getProductionAssetsByType();
-        [app, dispose] = constructApps({ appName, productionAssetsByType, publicUrl, urls });
+        [app, dispose] = constructApps({ appName, productionAssetsByType, publicUrl });
       } catch (ex) {
         console.log(ex);
       }
@@ -96,7 +96,7 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
       try {
         dispose && dispose(); // Cleanup previous instance.
         const constructApps = getConstructApps();
-        [app, dispose] = constructApps({ appName, publicUrl, urls });
+        [app, dispose] = constructApps({ appName, publicUrl });
       } catch (ex) {
         console.log(ex);
       }

@@ -15,13 +15,13 @@ export default function HTMLBase({
   locale,
   nonce,
   publicUrl,
+  req,
   title,
-  urls,
   user,
 }) {
   return (
     <html lang={locale}>
-      <HTMLHead nonce={nonce} assetPathsByType={assetPathsByType} title={title} publicUrl={publicUrl} urls={urls} />
+      <HTMLHead assetPathsByType={assetPathsByType} nonce={nonce} publicUrl={publicUrl} req={req} title={title} />
       <body>
         <div id="root">{children}</div>
         <ConfigurationScript
@@ -49,7 +49,7 @@ export default function HTMLBase({
           <script nonce={nonce} key={path} src={path} />
         ))}
 
-        <StructuredMetaData nonce={nonce} title={title} urls={urls} />
+        <StructuredMetaData nonce={nonce} title={title} req={req} />
 
         {/*
           This HTML file is a template.
@@ -128,7 +128,11 @@ function WindowErrorScript({ nonce }) {
 
 // This needs to be filled out by the developer to provide content for the site.
 // Learn more here: https://developers.google.com/search/docs/guides/intro-structured-data
-function StructuredMetaData({ title, urls, nonce }) {
+function StructuredMetaData({ title, req, nonce }) {
+  // TODO(mime): combine with url_factory code.
+  const protocol = req.get('x-scheme') || req.protocol;
+  const url = `${protocol}://${req.get('host')}`;
+
   return (
     <script
       nonce={nonce}
@@ -140,7 +144,7 @@ function StructuredMetaData({ title, urls, nonce }) {
           "@type": "NewsArticle",
           "mainEntityOfPage": {
             "@type": "WebPage",
-            "@id": "${urls.localUrlForBrowser}"
+            "@id": "${url}"
           },
           "headline": "page title",
           "image": [
@@ -157,7 +161,7 @@ function StructuredMetaData({ title, urls, nonce }) {
             "name": "${title}",
             "logo": {
               "@type": "ImageObject",
-              "url": "${urls.localUrlForBrowser}favicon.ico"
+              "url": "${url}favicon.ico"
             }
           },
           "description": "page description"

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function HTMLHead({ nonce, assetPathsByType, title, urls, publicUrl }) {
+export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, title }) {
   return (
     <head>
       <meta charSet="utf-8" />
@@ -15,7 +15,7 @@ export default function HTMLHead({ nonce, assetPathsByType, title, urls, publicU
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
       <meta name="theme-color" content="#000000" />
       <meta name="generator" content="cra-all-the-things. https://github.com/mimecuvalo/all-the-things" />
-      <OpenGraphMetadata title={title} urls={urls} />
+      <OpenGraphMetadata title={title} req={req} />
       {/*
         manifest.json provides metadata used when your web app is added to the
         homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -43,15 +43,19 @@ export default function HTMLHead({ nonce, assetPathsByType, title, urls, publicU
 
 // This needs to be filled out by the developer to provide content for the site.
 // Learn more here: http://ogp.me/
-function OpenGraphMetadata({ title, urls }) {
+function OpenGraphMetadata({ title, req }) {
+  // TODO(mime): combine with url_factory code.
+  const protocol = req.get('x-scheme') || req.protocol;
+  const url = `${protocol}://${req.get('host')}`;
+
   return (
     <>
       <meta property="og:title" content="page title" />
       <meta property="og:description" content="page description" />
       <meta property="og:type" content="website" />
-      <meta property="og:url" content={urls.localUrlForBrowser} />
+      <meta property="og:url" content={url} />
       <meta property="og:site_name" content={title} />
-      <meta property="og:image" content={`${urls.localUrlForBrowser}favicon.ico`} />
+      <meta property="og:image" content={`${url}favicon.ico`} />
     </>
   );
 }

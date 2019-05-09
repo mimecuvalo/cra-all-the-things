@@ -18,7 +18,7 @@ import { SheetsRegistry } from 'jss';
 import { StaticRouter } from 'react-router';
 import uuid from 'uuid';
 
-export default async function render({ req, res, next, assetPathsByType, appName, publicUrl, urls }) {
+export default async function render({ req, res, next, assetPathsByType, appName, publicUrl }) {
   const apolloClient = await createApolloClient(req);
   const context = {};
   const nonce = createNonceAndSetCSP(res);
@@ -62,8 +62,8 @@ export default async function render({ req, res, next, assetPathsByType, appName
         locale={locale}
         nonce={nonce}
         publicUrl={publicUrl}
+        req={req}
         title={appName}
-        urls={urls}
         user={req.session.user}
       >
         <ApolloProvider client={apolloClient}>
