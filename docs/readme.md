@@ -14,6 +14,8 @@
   </a>
 </p>
 
+<strong>NOTE: still under active development and I'm not currently providing backwards compatibility until things stabilize.</strong>
+
 ## 📯 Description
 
 This package includes scripts and configuration used by [Create React App](https://github.com/facebook/create-react-app).<br>
@@ -182,11 +184,13 @@ yarn:test
 
 ### p2 (ideas)
 
+- check out dataloader: https://github.com/graphql/dataloader
 - dev mode, sqllite
 - staging / canary server flags
 - lazy load image capability
 - event bus
 - Redis
+- take a look at sanitize.css
 - immutability, via immutable.js / immer
 - fp: ramda, observables, rxjs
 
