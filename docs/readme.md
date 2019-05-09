@@ -144,9 +144,10 @@ yarn:test
 - maybe SASS
 - maybe shared css/js constants file
 - maybe event listener decorator for events on an react component
+- recommend better secrets service: https://www.thoughtworks.com/radar/techniques/secrets-as-a-service
 - go through Flow warnings / add type annotations
 - common css mixins file needed still? e.g. ellipsize, and color palette
-- admin panel
+- admin panel, separate webpack entry point/code split
   - REPL
   - exception collector
   - system info
