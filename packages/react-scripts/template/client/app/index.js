@@ -2,9 +2,12 @@ import { addLocaleData, IntlProvider } from 'react-intl';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import App from './App';
+import { BatchHttpLink } from 'apollo-link-batch-http';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configuration from '../app/configuration';
 import CurrentUser from './current_user';
+import { defaultDataIdFromObject } from 'apollo-cache-inmemory';
+import { HttpLink } from 'apollo-link-http';
 import './index.css';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -14,7 +17,15 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 
 async function renderAppTree(app) {
+  const apolloUrl = '/graphql';
+  // link to use if batching
+  // also adds a `batch: true` header to the request to prove it's a different link (default)
+  const batchHttpLink = new BatchHttpLink({ apolloUrl });
+  // link to use if not batching
+  const httpLink = new HttpLink({ apolloUrl });
+
   // We add the Apollo/GraphQL capabilities here (also notice ApolloProvider below).
+  const cache = new InMemoryCache({ dataIdFromObject }).restore(window['__APOLLO_STATE__']);
   const client = new ApolloClient({
     request: async op => {
       op.setContext({
@@ -23,7 +34,12 @@ async function renderAppTree(app) {
         },
       });
     },
-    cache: new InMemoryCache().restore(window['__APOLLO_STATE__']),
+    link: split(
+      op => op.getContext().important === true,
+      httpLink, // if test is true, debatch
+      batchHttpLink // otherwise, batch
+    ),
+    cache,
   });
 
   let translations = {};
@@ -60,6 +76,14 @@ async function render() {
   ReactDOM.hydrate(appTree, document.getElementById('root'));
 }
 render();
+
+// You can add custom caching controls based on your data model.
+function dataIdFromObject(obj) {
+  switch (obj.__typename) {
+    default:
+      return defaultDataIdFromObject(obj); // fall back to default handling
+  }
+}
 
 // This enables hot module reloading for JS (HMR).
 if (module.hot) {
