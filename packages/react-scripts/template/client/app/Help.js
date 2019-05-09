@@ -5,11 +5,14 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import React, { PureComponent } from 'react';
 import styles from './Help.module.css';
+import { withSnackbar } from 'notistack';
 
 const messages = defineMessages({
   help: { msg: 'Help' },
+  snack: { msg: 'Snackbar test' },
 });
 
+@withSnackbar
 class Help extends PureComponent {
   constructor() {
     super();
@@ -31,6 +34,10 @@ class Help extends PureComponent {
   handleLanguage = () => {
     this.handleClose();
     window.location.href = '/?lang=fr';
+  };
+
+  handleSnackClick = () => {
+    this.props.enqueueSnackbar(this.props.intl.formatMessage(messages.snack), { variant: 'success' });
   };
 
   handleClose = () => {
@@ -82,6 +89,9 @@ class Help extends PureComponent {
           {this.renderStyleguide()}
           <MenuItem key="language" onClick={this.handleLanguage}>
             <F msg="Test language alternative" />
+          </MenuItem>
+          <MenuItem key="snack" onClick={this.handleSnackClick}>
+            <F msg="Test snackbar" />
           </MenuItem>
         </Menu>
       </div>

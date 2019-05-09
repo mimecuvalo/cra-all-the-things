@@ -91,6 +91,7 @@
     "mini-css-extract-plugin": "0.5.0",
     "mysql2": "1.6.4",
     "node-fetch": "2.3.0",
+    "notistack": "0.8.2",
     "optimize-css-assets-webpack-plugin": "5.0.1",
     "pnp-webpack-plugin": "1.2.1",
     "postcss-flexbugs-fixes": "4.1.0",
