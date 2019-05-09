@@ -1,9 +1,6 @@
 <h1 align="center">
   🔮 create-react-app, ✨ ALL THE THINGS ✨ edition
 </h1>
-<blockquote align="center">
-  DO NOT USE - NOT QUITE READY FOR BROAD USE YET!
-</blockquote>
 
 <p align="center">
   <a href="https://travis-ci.org/mimecuvalo/all-the-things">
@@ -129,7 +126,10 @@ yarn:test
 
 - CI integration, for own repo and template
   - perhaps, Danger JS
-- assess webpack-dev-middleware further for production use - is hacky
+- fix up tests
+  - test for example repo
+  - need to fix up test to accept decorators
+  - fix e2e-simple test
 - PWA, explore enabling by default (desktop PWA, too?) - but probably won't
   - https://hnpwa.com/
   - https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
@@ -137,15 +137,28 @@ yarn:test
   - https://developers.google.com/web/updates/2018/07/pwacompat
   - https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker
   - https://developers.google.com/web/tools/workbox/
+  - asset-manifest: https://github.com/facebook/create-react-app/issues/5513
 
 ### p1 (medium pri)
 
+- maybe SASS
+- maybe shared css/js constants file
+- maybe event listener decorator for events on an react component
+- go through Flow warnings / add type annotations
+- common css mixins file needed still? e.g. ellipsize, and color palette
 - admin panel
-  - exception reports
+  - REPL
+  - exception collector
   - system info
   - add docusaurus / read the docs (for this repo and template)
 - authentication - add ability to refresh tokens (auth0)
+- keygrip for signing cookies
+- update createNonceAndSetCSP - probably have to intercept entry file and add nonce manually for webpack dynamically loaded js, then might not need csp at nginx layer
+- finish up ‘configuration.js’ - should be usable server-side
+- create staticUrl function for cache busting upon new versions (using git hash, images and other static files)
+- create buildUrl functionality (copy over from helloworld project)
 - i18n features
+  - package name to avoid conflicts
   - message extractor
   - polyfill for `Intl` for older browsers
   - highlight missing translations
@@ -160,15 +173,27 @@ yarn:test
 - GitHub PR request, show infobar of impact of PR
 - TypeScript (syncing `template-typescript` with `template`)
 - redux
+- different DB? maybe mongodb?
+- web components? (e.g. check out youtube.com)
+- update `npm eject`
+- development of this repo: shouldn’t need to do yarn and then npm install in react-scripts
+- getCSSModuleLocalIdent causes problems with flightplan.js, should be able to build first and *then* link over new prod build but currently doing vice-versa unfortunately.
 
 ### p2 (ideas)
 
+- dev mode, sqllite
 - staging / canary server flags
 - lazy load image capability
 - event bus
 - Redis
 - immutability, via immutable.js / immer
 - fp: ramda, observables, rxjs
+
+### 🔭 Things to explore (experimental roadmap)
+
+- be more package-y, choose 'some-of-the-things' :)
+- explore Koa
+- explore Next.js
 
 ## 📙 Learn More
 
