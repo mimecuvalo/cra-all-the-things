@@ -153,6 +153,7 @@ yarn:test
   - subscriptions
   - check out dataloader: https://github.com/graphql/dataloader
   - generate automatically schemas/typedefs
+- generator steps for Sequelize files
 
 ### p1 (medium pri)
 
