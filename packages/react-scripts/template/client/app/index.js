@@ -15,6 +15,7 @@ import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from '@mate
 import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
+import { split } from 'apollo-link';
 
 async function renderAppTree(app) {
   const apolloUrl = '/graphql';

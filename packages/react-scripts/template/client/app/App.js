@@ -22,7 +22,7 @@ const messages = defineMessages({
 
 // This is the main entry point on the client-side.
 @injectIntl
-export default class App extends Component {
+class App extends Component {
   constructor(props) {
     super(props);
 
@@ -95,3 +95,5 @@ class ScrollToTop extends Component {
     return this.props.children;
   }
 }
+
+export default App;
