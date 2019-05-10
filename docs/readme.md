@@ -138,6 +138,7 @@ yarn:test
   - test for example repo
   - need to fix up test to accept decorators
   - fix e2e-simple test
+- flesh out TypeScript template (syncing `template-typescript` with `template`)
 - PWA, explore enabling by default (desktop PWA, too?) - but probably won't
   - https://hnpwa.com/
   - https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
@@ -146,6 +147,12 @@ yarn:test
   - https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker
   - https://developers.google.com/web/tools/workbox/
   - asset-manifest: https://github.com/facebook/create-react-app/issues/5513
+- more GraphQL examples:
+  - fragments
+  - local state
+  - subscriptions
+  - check out dataloader: https://github.com/graphql/dataloader
+  - generate automatically schemas/typedefs
 
 ### p1 (medium pri)
 
@@ -180,7 +187,6 @@ yarn:test
 - bundle analyzers (bundlesize, webpack-bundle-analyzer, webpack-dashboard)
 - ability to config repo (add name/email to Markdown docs at least)
 - GitHub PR request, show infobar of impact of PR
-- TypeScript (syncing `template-typescript` with `template`)
 - redux
 - different DB? maybe mongodb?
 - web components? (e.g. check out youtube.com)
@@ -190,7 +196,6 @@ yarn:test
 
 ### p2 (ideas)
 
-- check out dataloader: https://github.com/graphql/dataloader
 - dev mode, sqllite
 - staging / canary server flags
 - lazy load image capability
