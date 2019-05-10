@@ -205,6 +205,7 @@ yarn:test
 - take a look at sanitize.css
 - immutability, via immutable.js / immer
 - fp: ramda, observables, rxjs
+- serve.js currently uses a bundle.js server-side which gives crap stack traces. some beautiful day we wouldn't need to use webpack basically when we just went to be able to require the constructApps function directly!
 
 ### 🔭 Things to explore (experimental roadmap)
 
