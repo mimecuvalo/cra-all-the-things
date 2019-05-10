@@ -21,6 +21,8 @@ const linkSchema = gql`
   type Subscription {
     _: Boolean
   }
+
+  scalar Date
 `;
 
 export default [linkSchema, userSchema];
