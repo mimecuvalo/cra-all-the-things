@@ -86,7 +86,7 @@ module.exports = function(webpackEnv, isSSR) {
         options: shouldUseRelativeAssetPaths ? { publicPath: '../../' } : {},
       },
       {
-        loader: require.resolve('css-loader' + (isSSR ? '/locals' : '')),
+        loader: require.resolve('css-loader'),
         options: cssOptions,
       },
       {
@@ -268,9 +268,7 @@ module.exports = function(webpackEnv, isSSR) {
       // We placed these paths second because we want `node_modules` to "win"
       // if there are any conflicts. This matches Node resolution mechanism.
       // https://github.com/facebook/create-react-app/issues/253
-      modules: ['node_modules', paths.appNodeModules].concat(
-        modules.additionalModulePaths || []
-      ),
+      modules: ['node_modules', paths.appNodeModules].concat(modules.additionalModulePaths || []),
       // These are the reasonable defaults supported by the Node ecosystem.
       // We also include JSX as a common component filename extension to support
       // some tools, although we do not recommend using it, see:
@@ -432,6 +430,7 @@ module.exports = function(webpackEnv, isSSR) {
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProductionButNotSSR && shouldUseSourceMap,
+                exportOnlyLocals: isSSR,
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -448,6 +447,7 @@ module.exports = function(webpackEnv, isSSR) {
                 sourceMap: isEnvProductionButNotSSR && shouldUseSourceMap,
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
+                exportOnlyLocals: isSSR,
               }),
             },
             // Opt-in support for SASS (using .scss or .sass extensions).
@@ -460,6 +460,7 @@ module.exports = function(webpackEnv, isSSR) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProductionButNotSSR && shouldUseSourceMap,
+                  exportOnlyLocals: isSSR,
                 },
                 'sass-loader'
               ),
@@ -624,12 +625,8 @@ module.exports = function(webpackEnv, isSSR) {
           async: isEnvDevelopment,
           useTypescriptIncrementalApi: true,
           checkSyntacticErrors: true,
-          resolveModuleNameModule: process.versions.pnp
-            ? `${__dirname}/pnpTs.js`
-            : undefined,
-          resolveTypeReferenceDirectiveModule: process.versions.pnp
-            ? `${__dirname}/pnpTs.js`
-            : undefined,
+          resolveModuleNameModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
+          resolveTypeReferenceDirectiveModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
           tsconfig: paths.appTsConfig,
           reportFiles: [
             '**',

@@ -1,7 +1,7 @@
 const translations = {
   test: 'le test',
   Edit__code__and_save_to_reload_: 'Modifier {code} et enregistrer pour recharger.',
-  Translation_number_test___itemCount__plural___0__no_items__one____item__other____items___:
+  i18n_pluralization_test___itemCount__plural___0__no_items__one____item__other____items___:
     "test du numéro de traduction: {itemCount, plural, =0 {pas d'articles} one {# article} other {# articles}}.",
   logo: 'le logo :)',
   Learn_React: 'Apprendre React',
@@ -23,6 +23,8 @@ const translations = {
   try_going_back_to_the__a_href_____beginning__a__: 'essayer retourner au <a href="/">début</a>',
   Something_went_wrong_: "Quelque chose s'est mal passé.",
   Help: "L'assistance",
+  Close: 'Fermer',
+  GraphQL_variables_test__current_url_path____url_: 'Test de variables GraphQL',
 };
 
 export default translations;
