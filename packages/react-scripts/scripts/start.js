@@ -65,7 +65,7 @@ if (process.env.HOST) {
   console.log();
 }
 
-// We require that you explictly set browsers and do not fall back to
+// We require that you explicitly set browsers and do not fall back to
 // browserslist defaults.
 const { checkBrowsers } = require('react-dev-utils/browsersHelper');
 checkBrowsers(paths.appPath, isInteractive)
@@ -104,6 +104,18 @@ checkBrowsers(paths.appPath, isInteractive)
           : 'Starting both the WebpackDevServer and App server...\n'
       )
     );
+
+    // We used to support resolving modules according to `NODE_PATH`.
+    // This now has been deprecated in favor of jsconfig/tsconfig.json
+    // This lets you use absolute paths in imports inside large monorepos:
+    if (process.env.NODE_PATH) {
+      console.log(
+        chalk.yellow(
+          'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.'
+        )
+      );
+      console.log();
+    }
 
     // Start our app server which does server-side rendering. We pass it our client's webpack compiler in development
     // mode so that we can render the assets during rendering. Otherwise, we retrieve the static build assets in

@@ -12,7 +12,7 @@ export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, titl
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
       <link rel="search" href="/api/opensearch" type="application/opensearchdescription+xml" title={title} />
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="theme-color" content="#000000" />
       <meta name="generator" content="cra-all-the-things. https://github.com/mimecuvalo/all-the-things" />
       <OpenGraphMetadata title={title} req={req} />
