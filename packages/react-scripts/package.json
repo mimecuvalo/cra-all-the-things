@@ -115,7 +115,7 @@
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semver": "6.0.0",
-    "sequelize": "4.41.2",
+    "sequelize": "5.8.6",
     "sequelize-cli": "5.4.0",
     "session-file-store": "1.2.0",
     "style-loader": "0.23.1",
