@@ -134,14 +134,14 @@ const unless = function(middleware, ...paths) {
 function getProductionAssetsByType() {
   let assetManifest;
   try {
-    assetManifest = require(`${paths.appBuild}/asset-manifest.json`);
+    assetManifest = require(`${paths.appBuild}/asset-manifest.json`)['files'];
   } catch (ex) {
     console.log(`Your asset-manifest.json file could not be found. Run ``npm run build`` to generate it.`);
     throw new Error('need to run build first');
   }
 
   // XXX(mime): this can't be the correct of doing this... errr.
-  const assetKeys = Object.keys(assetManifest['files']);
+  const assetKeys = Object.keys(assetManifest);
   const runtimeIndex = assetKeys.indexOf('runtime~main.js.map');
   const bundleKey = assetKeys[runtimeIndex + 1];
 
