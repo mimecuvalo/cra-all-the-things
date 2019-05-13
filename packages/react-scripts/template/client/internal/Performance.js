@@ -43,7 +43,8 @@ export default class Performance extends PureComponent {
 
   componentDidMount() {
     // Wait a tick until the page more or less finishes rendering.
-    setTimeout(() => this.calculatePerfInfo(), 0);
+    // XXX(mime): 100 is arbitrary. Look for better way to wait.
+    setTimeout(() => this.calculatePerfInfo(), 100);
   }
 
   renderPerfInfo() {
