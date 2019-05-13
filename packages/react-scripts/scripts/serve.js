@@ -141,7 +141,7 @@ function getProductionAssetsByType() {
   }
 
   // XXX(mime): this can't be the correct of doing this... errr.
-  const assetKeys = Object.keys(assetManifest);
+  const assetKeys = Object.keys(assetManifest['files']);
   const runtimeIndex = assetKeys.indexOf('runtime~main.js.map');
   const bundleKey = assetKeys[runtimeIndex + 1];
 
