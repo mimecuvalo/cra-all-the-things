@@ -2,11 +2,13 @@
 
 const configFactory = require('../config/webpack.config');
 const { createCompiler, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
+const { exec } = require('child_process');
 const express = require('express');
 const MemoryFS = require('memory-fs');
 const openBrowser = require('react-dev-utils/openBrowser');
 const path = require('path');
 const paths = require('../config/paths');
+const { promisify } = require('util');
 const proxy = require('http-proxy-middleware');
 const requireFromString = require('require-from-string');
 const webpack = require('webpack');
@@ -87,22 +89,24 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
 
   const publicUrl = serverConfig.output.publicPath;
   if (process.env.NODE_ENV === 'production') {
-    serverCompiler.run(() => {
+    serverCompiler.run(async () => {
       try {
         const constructApps = getConstructApps();
-        let productionAssetsByType = getProductionAssetsByType();
-        [app, dispose] = constructApps({ appName, productionAssetsByType, publicUrl });
+        const productionAssetsByType = getProductionAssetsByType();
+        const gitInfo = await getGitInfo();
+        [app, dispose] = constructApps({ appName, productionAssetsByType, publicUrl, gitInfo });
       } catch (ex) {
         console.log(ex);
       }
     });
   } else {
     // We watch for changes on the server and change the appServer when it is recompiled.
-    serverCompiler.watch(serverConfig.watchOptions, () => {
+    serverCompiler.watch(serverConfig.watchOptions, async () => {
       try {
         dispose && dispose(); // Cleanup previous instance.
         const constructApps = getConstructApps();
-        [app, dispose] = constructApps({ appName, publicUrl });
+        const gitInfo = await getGitInfo();
+        [app, dispose] = constructApps({ appName, publicUrl, gitInfo });
       } catch (ex) {
         console.log(ex);
       }
@@ -149,6 +153,31 @@ function getProductionAssetsByType() {
   const css = [assetManifest['main.css']];
 
   return { css, js };
+}
+
+async function getGitInfo() {
+  // Calculate an app version and time so that we can give our clients some kind of versioning scheme.
+  // This lets us make sure that if there are bad / incompatible clients in the wild later on, we can
+  // disable certain clients using their version number and making sure they're upgraded to the
+  // latest, working version.
+  const execPromise = promisify(exec);
+
+  let gitRev, gitTime;
+  try {
+    gitRev = (await execPromise('git rev-parse HEAD')).stdout.trim();
+    gitTime = (await execPromise('git log -1 --format=%cd --date=unix')).stdout.trim();
+  } catch (ex) {
+    try {
+      const gitInfo = require(`${paths.appPath}/.cra-all-the-things-prod-git-info.json`);
+      gitRev = gitInfo.gitRev;
+      gitTime = gitInfo.gitTime;
+    } catch (ex) {
+      gitRev = 1;
+      gitTime = 1;
+    }
+  }
+
+  return { gitRev, gitTime };
 }
 
 module.exports = startAppServer;

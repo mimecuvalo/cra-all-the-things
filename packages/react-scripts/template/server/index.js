@@ -15,7 +15,7 @@ import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 const FileStore = sessionFileStore(session);
 
 // Called from scripts/serve.js to create the three apps we currently support: the main App, API, and Apollo servers.
-export default function constructApps({ appName, productionAssetsByType, publicUrl }) {
+export default function constructApps({ appName, productionAssetsByType, publicUrl, gitInfo }) {
   const app = express.Router();
 
   // Add basics: gzip, body parsing, cookie parsing.
@@ -71,7 +71,7 @@ export default function constructApps({ appName, productionAssetsByType, publicU
     logRequest(appLogger, req, req.info || req.connection);
     const assetPathsByType =
       process.env.NODE_ENV === 'development' ? processAssetsFromWebpackStats(res) : productionAssetsByType;
-    appServer({ req, res, next, assetPathsByType, appName, publicUrl });
+    appServer({ req, res, next, assetPathsByType, appName, publicUrl, gitInfo });
   });
 
   return [app, dispose];

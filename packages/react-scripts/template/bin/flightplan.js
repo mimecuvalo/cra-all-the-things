@@ -28,7 +28,10 @@
  * www-data:x:33:33::/var/www-data:/usr/sbin/no-login  # BAD
  */
 
+const { exec } = require('child_process');
+const fs = require('fs');
 const plan = require('flightplan');
+const { promisify } = require('util');
 
 // configuration
 plan.target('stage', {
@@ -60,16 +63,29 @@ const DIRECTORY_NAME = 'example.com';
 
 const time = new Date().getTime();
 const tmpDir = `${DIRECTORY_NAME}-${time}`;
-const remoteTmpDir = `/tmp/${tmpDir}`;
+const remoteTmpDir = `/tmp/${tmpDir}/`;
 
 // run commands on localhost
-plan.local(function(local) {
+plan.local(async function(local) {
   local.log('Copying files to remote hosts...');
-  local.with(`cd ..`, () => {
+
+  const gitInfoFile = '../.cra-all-the-things-prod-git-info.json';
+  async function createGitInfoFile() {
+    const execPromise = promisify(exec);
+    const gitRev = (await execPromise('git rev-parse HEAD')).stdout.trim();
+    const gitTime = (await execPromise('git log -1 --format=%cd --date=unix')).stdout.trim();
+    fs.writeFileSync(gitInfoFile, JSON.stringify({ gitRev, gitTime }));
+  }
+  createGitInfoFile();
+
+  local.with(`cd ..`, async () => {
     const filesToCopy = local.exec(`git ls-files`, { silent: true });
 
-    // rsync files to all the target's remote hosts
+    // rsync git files to all the target's remote hosts
     local.transfer(filesToCopy, remoteTmpDir);
+
+    // Copy over .gitinfo file.
+    local.transfer([gitInfoFile], remoteTmpDir);
   });
 });
 
@@ -94,11 +110,14 @@ plan.remote(function(remote) {
     (isNPMUnchanged.stderr && isNPMUnchanged.stderr.indexOf('cmp: EOF') === 0) /* ignore NOEOL false positive */
   ) {
     remote.log('package.json is unchanged. Reusing previous node_modules folder...');
-    remote.sudo(`cp -R ${destDir}/node_modules ${varTmpDir}`, { user });
+    remote.sudo(`mv ${destDir}/node_modules ${varTmpDir}`, { user });
   } else {
     remote.log('package.json has changed. Installing dependencies...');
     remote.sudo(`npm --production --prefix ${varTmpDir} install ${varTmpDir}`, { user });
   }
+
+  // Copy over sessions.
+  remote.sudo(`cp -R ${destDir}/sessions ${varTmpDir}`, { user, failsafe: true });
 
   remote.log('Reloading application...');
   remote.sudo(`ln -snf ${varTmpDir} ${destDir}`, { user });
