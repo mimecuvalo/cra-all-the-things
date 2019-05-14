@@ -37,6 +37,7 @@ class Help extends PureComponent {
   };
 
   handleSnackClick = () => {
+    this.handleClose();
     this.props.enqueueSnackbar(this.props.intl.formatMessage(messages.snack), { variant: 'success' });
   };
 
