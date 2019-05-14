@@ -197,6 +197,7 @@ yarn:test
 
 ### p2 (ideas)
 
+- look at/switch over to React Hooks
 - dev mode, sqllite
 - staging / canary server flags
 - lazy load image capability
