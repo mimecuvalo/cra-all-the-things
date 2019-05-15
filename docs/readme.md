@@ -182,6 +182,7 @@ yarn:test
   - add fallback capability
   - RTL
 - experiments framework
+- make source-map-explorer script work on arbitrary files in webpack
 - add "test:debug" to scripts for [chrome testing](https://facebook.github.io/create-react-app/docs/debugging-tests)
 - more tests and https://coveralls.io
 - background tasks (if anything, at least via cron)

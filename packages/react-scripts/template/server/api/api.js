@@ -1,3 +1,4 @@
+import authorization from '../authorization';
 import authRouter from './auth';
 import clientHealthCheckRouter from './client_health_check';
 import errorRouter from './error';
@@ -11,8 +12,8 @@ export default function apiServerFactory({ appName }) {
   const router = express.Router();
   router.use('/auth', authRouter);
   router.use('/client-health-check', clientHealthCheckRouter);
-  router.use('/is-user-logged-in', checkIsLoggedIn, (req, res) => {
-    // Just an example of the checkIsLoggedIn (very simplistic) capability.
+  router.use('/is-user-logged-in', isAuthenticated, (req, res) => {
+    // Just an example of the isAuthenticated (very simplistic) capability.
     res.send('OK');
   });
   router.use('/opensearch', openSearchRouterFactory({ appName }));
@@ -24,10 +25,8 @@ export default function apiServerFactory({ appName }) {
   return router;
 }
 
-const checkIsLoggedIn = (req, res, next) => {
-  if (!req.session.user) {
-    res.send(401);
-  }
+const isAuthenticated = (req, res, next) =>
+  authorization.isAuthenticated(req.session.user) ? next() : res.sendStatus(401);
 
-  next();
-};
+// const isAdmin = (req, res, next) =>
+//   authorization.isAdmin(req.session.user) ? next() : res.status(403).send('I call shenanigans.');

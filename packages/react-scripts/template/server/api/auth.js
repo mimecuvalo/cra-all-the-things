@@ -31,7 +31,13 @@ router.get('/callback', async (req, res) => {
     );
     const userInfo = await userResponse.json();
 
-    req.session.user = userInfo;
+    // To the implementer, it's useful to put the model on the session, too.
+    //const userDbInfo = await models.User.findOne({ where: { email: userInfo.email } });
+
+    req.session.user = {
+      oauth: userInfo,
+      model: null, //userDbInfo,
+    };
 
     res.redirect(req.query.next || '/');
     return;
