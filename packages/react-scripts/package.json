@@ -14,7 +14,9 @@
   "keywords": [
     "cra",
     "create-react-app",
-    "react"
+    "react",
+    "ssr",
+    "server-side-rendering"
   ],
   "files": [
     "bin",
