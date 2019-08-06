@@ -134,6 +134,8 @@ yarn:test
 
 - CI integration, for own repo and template
   - perhaps, Danger JS
+- provide escape hatches, modularity
+- what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
 - fix up tests
   - test for example repo
   - need to fix up test to accept decorators
@@ -153,6 +155,10 @@ yarn:test
   - subscriptions
   - check out dataloader: https://github.com/graphql/dataloader
   - generate automatically schemas/typedefs
+- graphql not logged in should be 401 not 500, AuthenticationError vs ForbiddenError
+all-the-things apple-touch icon missing/android-chrome
+- add material-ui theme
+- fix up npm run test
 - generator steps for Sequelize files
 
 ### p1 (medium pri)
