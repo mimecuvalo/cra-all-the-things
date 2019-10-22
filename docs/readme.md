@@ -139,15 +139,28 @@ REACT_APP_SSR_PORT=3001
 
 ### p0 (high pri)
 
+- update cra and packages
+- more GraphQL examples:
+  - fragments
+  - local state (instead of redux, explain)
+  - subscriptions
+  - check out dataloader: https://github.com/graphql/dataloader
+  - generate automatically schemas/typedefs
+- graphql not logged in should be 401 not 500, AuthenticationError vs ForbiddenError
+- look at/switch over to React Hooks
+- add material-ui theme
+- all-the-things apple-touch icon missing/android-chrome
+
 - setup docker to start with?
 - CI integration, for own repo and template
   - perhaps, Danger JS
-- provide escape hatches, modularity
+- provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
 - fix up tests
   - test for example repo
   - need to fix up test to accept decorators
   - fix e2e-simple test
+  - fix up npm run test
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
 - PWA, explore enabling by default (desktop PWA, too?) - but probably won't
   - https://hnpwa.com/
@@ -157,16 +170,6 @@ REACT_APP_SSR_PORT=3001
   - https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker
   - https://developers.google.com/web/tools/workbox/
   - asset-manifest: https://github.com/facebook/create-react-app/issues/5513
-- more GraphQL examples:
-  - fragments
-  - local state
-  - subscriptions
-  - check out dataloader: https://github.com/graphql/dataloader
-  - generate automatically schemas/typedefs
-- graphql not logged in should be 401 not 500, AuthenticationError vs ForbiddenError
-all-the-things apple-touch icon missing/android-chrome
-- add material-ui theme
-- fix up npm run test
 - generator steps for Sequelize files
 
 ### p1 (medium pri)
@@ -204,7 +207,6 @@ all-the-things apple-touch icon missing/android-chrome
 - bundle analyzers (bundlesize, webpack-bundle-analyzer, webpack-dashboard)
 - ability to config repo (add name/email to Markdown docs at least)
 - GitHub PR request, show infobar of impact of PR
-- redux
 - different DB? maybe mongodb?
 - web components? (e.g. check out youtube.com)
 - update `npm eject`
@@ -213,20 +215,15 @@ all-the-things apple-touch icon missing/android-chrome
 
 ### p2 (ideas)
 
-- look at/switch over to React Hooks
 - dev mode, sqllite
 - staging / canary server flags
-- lazy load image capability
-- event bus
 - Redis
-- take a look at sanitize.css
 - immutability, via immutable.js / immer
-- fp: ramda, observables, rxjs
 - serve.js currently uses a bundle.js server-side which gives crap stack traces. some beautiful day we wouldn't need to use webpack basically when we just went to be able to require the constructApps function directly!
 
 ### 🔭 Things to explore (experimental roadmap)
 
-- be more package-y, choose 'some-of-the-things' :)
+- re-evaluate CSS Modules
 - explore Koa
 - explore Next.js
 
