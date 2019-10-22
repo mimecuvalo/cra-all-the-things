@@ -129,9 +129,9 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
 
   fs.writeFileSync(path.join(appPath, 'package.json'), JSON.stringify(appPackage, null, 2) + os.EOL);
 
-  const readmeExists = fs.existsSync(path.join(appPath, 'README.md'));
+  const readmeExists = fs.existsSync(path.join(appPath, 'docs', 'README.md'));
   if (readmeExists) {
-    fs.renameSync(path.join(appPath, 'README.md'), path.join(appPath, 'README.old.md'));
+    fs.renameSync(path.join(appPath, 'docs', 'README.md'), path.join(appPath, 'README.old.md'));
   }
 
   // Copy the files for the user
@@ -143,6 +143,26 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
   } else {
     console.error(`Could not locate supplied template: ${chalk.green(templatePath)}`);
     return;
+  }
+
+  // modifies README.md commands based on user used package manager.
+  if (useYarn) {
+    try {
+      const readme = fs.readFileSync(path.join(appPath, 'docs', 'README.md'), 'utf8');
+      fs.writeFileSync(
+        path.join(appPath, 'docs', 'README.md'),
+        readme
+          .replace(/npm start/g, 'yarn start')
+          .replace(/npm test/g, 'yarn test')
+          .replace(/npm run serve:prod/g, 'yarn serve:prod')
+          .replace(/npm run serve:dev/g, 'yarn serve:dev')
+          .replace(/npm run build/g, 'yarn build')
+          .replace(/npm run eject/g, 'yarn eject'),
+        'utf8'
+      );
+    } catch (err) {
+      // Silencing the error. As it fall backs to using default npm commands.
+    }
   }
 
   // Rename gitignore after the fact to prevent npm from renaming it to .npmignore

@@ -14,7 +14,7 @@ const requireFromString = require('require-from-string');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
-function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTypeScript, useYarn }) {
+function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTypeScript, tscCompileOnError, useYarn }) {
   // Create a server build with an entry point at /server/App.js
   // Note the SSR boolean flag passed to configFactory.
   const serverConfig = configFactory(process.env.NODE_ENV, true /* SSR */);
@@ -76,6 +76,7 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
     urls,
     devSocket,
     useTypeScript,
+    tscCompileOnError,
     useYarn,
   });
 

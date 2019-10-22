@@ -84,6 +84,7 @@ checkBrowsers(paths.appPath, isInteractive)
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
     const useTypeScript = fs.existsSync(paths.appTsConfig);
+    const tscCompileOnError = process.env.TSC_COMPILE_ON_ERROR === 'true';
     const urls = prepareUrls(protocol, HOST, port);
     const devSocket = {
       warnings: warnings => devServer.sockWrite(devServer.sockets, 'warnings', warnings),
@@ -120,7 +121,15 @@ checkBrowsers(paths.appPath, isInteractive)
     // Start our app server which does server-side rendering. We pass it our client's webpack compiler in development
     // mode so that we can render the assets during rendering. Otherwise, we retrieve the static build assets in
     // serve.js via getProductionAssetsByType.
-    startAppServer({ clientCompiler: compiler, clientPort: port, appName, devSocket, useTypeScript, useYarn });
+    startAppServer({
+      clientCompiler: compiler,
+      clientPort: port,
+      appName,
+      devSocket,
+      useTypeScript,
+      tscCompileOnError,
+      useYarn
+    });
 
     let devServer;
     if (process.env.NODE_ENV == 'development') {

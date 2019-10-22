@@ -173,7 +173,10 @@ inquirer
     }
     Object.keys(ownPackage.dependencies).forEach(key => {
       // For some reason optionalDependencies end up in dependencies after install
-      if (ownPackage.optionalDependencies[key]) {
+      if (
+        ownPackage.optionalDependencies &&
+        ownPackage.optionalDependencies[key]
+      ) {
         return;
       }
       console.log(`  Adding ${cyan(key)} to dependencies`);
@@ -215,10 +218,12 @@ inquirer
     };
 
     // Add ESlint config
-    console.log(`  Adding ${cyan('ESLint')} configuration`);
-    appPackage.eslintConfig = {
-      extends: 'react-app',
-    };
+    if (!appPackage.eslintConfig) {
+      console.log(`  Adding ${cyan('ESLint')} configuration`);
+      appPackage.eslintConfig = {
+        extends: 'react-app',
+      };
+    }
 
     fs.writeFileSync(path.join(appPath, 'package.json'), JSON.stringify(appPackage, null, 2) + os.EOL);
     console.log();
