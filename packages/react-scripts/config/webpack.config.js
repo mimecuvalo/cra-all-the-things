@@ -48,9 +48,7 @@ const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
 
-const imageInlineSizeLimit = parseInt(
-  process.env.IMAGE_INLINE_SIZE_LIMIT || '10000'
-);
+const imageInlineSizeLimit = parseInt(process.env.IMAGE_INLINE_SIZE_LIMIT || '10000');
 
 // Check if TypeScript is setup
 const useTypeScript = fs.existsSync(paths.appTsConfig);
@@ -71,8 +69,7 @@ module.exports = function(webpackEnv, isSSR) {
 
   // Variable used for enabling profiling in Production
   // passed into alias object. Uses a flag if passed into the build command
-  const isEnvProductionProfile =
-    isEnvProduction && process.argv.includes('--profile');
+  const isEnvProductionProfile = isEnvProduction && process.argv.includes('--profile');
 
   // Webpack uses `publicPath` to determine where the app is being served from.
   // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -362,9 +359,7 @@ module.exports = function(webpackEnv, isSSR) {
                     const eslintCli = new eslint.CLIEngine();
                     let eslintConfig;
                     try {
-                      eslintConfig = eslintCli.getConfigForFile(
-                        paths.appIndexJs
-                      );
+                      eslintConfig = eslintCli.getConfigForFile(paths.appIndexJs);
                     } catch (e) {
                       console.error(e);
                       process.exit(1);
@@ -432,8 +427,7 @@ module.exports = function(webpackEnv, isSSR) {
                     {
                       loaderMap: {
                         svg: {
-                          ReactComponent:
-                            '@svgr/webpack?-svgo,+titleProp,+ref![path]',
+                          ReactComponent: '@svgr/webpack?-svgo,+titleProp,+ref![path]',
                         },
                       },
                     },
@@ -488,7 +482,7 @@ module.exports = function(webpackEnv, isSSR) {
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProductionButNotSSR && shouldUseSourceMap,
-                exportOnlyLocals: isSSR,
+                onlyLocals: isSSR,
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -503,9 +497,10 @@ module.exports = function(webpackEnv, isSSR) {
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProductionButNotSSR && shouldUseSourceMap,
-                modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
-                exportOnlyLocals: isSSR,
+                modules: {
+                  getLocalIdent: getCSSModuleLocalIdent,
+                },
+                onlyLocals: isSSR,
               }),
             },
             // Opt-in support for SASS (using .scss or .sass extensions).
@@ -518,7 +513,7 @@ module.exports = function(webpackEnv, isSSR) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProductionButNotSSR && shouldUseSourceMap,
-                  exportOnlyLocals: isSSR,
+                  onlyLocals: isSSR,
                 },
                 'sass-loader'
               ),
@@ -536,8 +531,9 @@ module.exports = function(webpackEnv, isSSR) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProductionButNotSSR && shouldUseSourceMap,
-                  modules: true,
-                  getLocalIdent: getCSSModuleLocalIdent,
+                  modules: {
+                    getLocalIdent: getCSSModuleLocalIdent,
+                  },
                 },
                 'sass-loader'
               ),
@@ -650,9 +646,7 @@ module.exports = function(webpackEnv, isSSR) {
             manifest[file.name] = file.path;
             return manifest;
           }, seed);
-          const entrypointFiles = entrypoints.main.filter(
-            fileName => !fileName.endsWith('.map')
-          );
+          const entrypointFiles = entrypoints.main.filter(fileName => !fileName.endsWith('.map'));
 
           return {
             files: manifestFiles,
