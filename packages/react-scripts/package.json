@@ -152,7 +152,8 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-test-renderer": "16.7.0",
-    "source-map-explorer": "1.8.0"
+    "source-map-explorer": "1.8.0",
+    "webpackbar": "4.0.0"
   },
   "optionalDependencies": {
     "fsevents": "2.0.6"

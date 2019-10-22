@@ -38,6 +38,7 @@ const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const getCacheIdentifier = require('react-dev-utils/getCacheIdentifier');
 // @remove-on-eject-end
 const postcssNormalize = require('postcss-normalize');
+const WebpackBar = require('webpackbar');
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
@@ -639,6 +640,11 @@ module.exports = function(webpackEnv, isSSR) {
           silent: true,
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,
+        }),
+      isEnvDevelopment &&
+        new WebpackBar({
+          color: isSSR ? '#fa0' : '#0cf',
+          name: isSSR ? 'server' : 'client',
         }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
