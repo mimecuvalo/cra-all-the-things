@@ -139,8 +139,6 @@ REACT_APP_SSR_PORT=3001
 
 ### p0 (high pri)
 
-- webpackbar
-
 - setup docker to start with?
 - CI integration, for own repo and template
   - perhaps, Danger JS

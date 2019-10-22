@@ -1,17 +1,12 @@
 import { ApolloProvider, getDataFromTree } from 'react-apollo';
-import { ApolloClient } from 'apollo-client';
-import { ApolloLink } from 'apollo-link';
 import App from '../../client/app/App';
+import createApolloClient from '../data/apollo_client';
 import { DEFAULT_LOCALE, getLocale } from './locale';
-import fetch from 'node-fetch';
 import HTMLBase from './HTMLBase';
-import { HttpLink } from 'apollo-link-http';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 import { IntlProvider } from 'react-intl';
 import JssProvider from 'react-jss/lib/JssProvider';
 import * as languages from '../../shared/i18n/languages';
 import { MuiThemeProvider, createMuiTheme, createGenerateClassName } from '@material-ui/core/styles';
-import { onError } from 'apollo-link-error';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { SheetsRegistry } from 'jss';
@@ -19,7 +14,7 @@ import { StaticRouter } from 'react-router';
 import uuid from 'uuid';
 
 export default async function render({ req, res, next, assetPathsByType, appName, publicUrl, gitInfo }) {
-  const apolloClient = await createApolloClient(req);
+  const apolloClient = createApolloClient(req);
   const context = {};
   const nonce = createNonceAndSetCSP(res);
 
@@ -100,41 +95,6 @@ export default async function render({ req, res, next, assetPathsByType, appName
   res.write('<!doctype html>');
   res.write(renderedAppWithMaterialUICSS);
   res.end();
-}
-
-// We create an Apollo client here on the server so that we can get server-side rendering in properly.
-async function createApolloClient(req) {
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors) {
-      graphQLErrors.map(({ message, locations, path }) =>
-        console.log(`\n[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}\n`)
-      );
-    }
-    if (networkError) {
-      console.log(`\n[Network error]: ${networkError}\n`);
-    }
-  });
-
-  const cookieLink = new ApolloLink((operation, forward) => {
-    operation.setContext({
-      headers: {
-        cookie: req.get('cookie'),
-      },
-    });
-    return forward(operation);
-  });
-
-  const httpLink = new HttpLink({ uri: `http://localhost:${req.socket.localPort}/graphql`, fetch });
-
-  const link = ApolloLink.from([errorLink, cookieLink, httpLink]);
-
-  const client = new ApolloClient({
-    ssrMode: true,
-    link,
-    cache: new InMemoryCache(),
-  });
-
-  return client;
 }
 
 function createNonceAndSetCSP(res) {
