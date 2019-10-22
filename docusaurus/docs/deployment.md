@@ -100,7 +100,8 @@ When users install your app to the homescreen of their device the default config
 
 ## Building for Relative Paths
 
-By default, Create React App produces a build assuming your app is hosted at the server root.<br>
+By default, Create React App produces a build assuming your app is hosted at the server root.
+
 To override this, specify the `homepage` in your `package.json`, for example:
 
 ```js
@@ -109,10 +110,10 @@ To override this, specify the `homepage` in your `package.json`, for example:
 
 This will let Create React App correctly infer the root path to use in the generated HTML file.
 
-**Note**: If you are using `react-router@^4`, you can root `<Link>`s using the `basename` prop on any `<Router>`.<br>
-More information [here](https://reacttraining.com/react-router/web/api/BrowserRouter/basename-string).<br>
+**Note**: If you are using `react-router@^4`, you can root `<Link>`s using the `basename` prop on any `<Router>`.
 
-<br>
+More information [here](https://reacttraining.com/react-router/web/api/BrowserRouter/basename-string).
+
 For example:
 
 ```js
@@ -150,7 +151,7 @@ For example, to create a build environment for a staging environment:
    ```json
    {
      "scripts": {
-       "build:staging": "env-cmd .env.staging npm run build"
+       "build:staging": "env-cmd -f .env.staging npm run build"
      }
    }
    ```
@@ -256,7 +257,7 @@ For more information see [Firebase Hosting](https://firebase.google.com/docs/hos
 
 ### Step 1: Add `homepage` to `package.json`
 
-**The step below is important!**<br>
+**The step below is important!**<br/>
 
 **If you skip it, your app will not deploy correctly.**
 
@@ -332,7 +333,7 @@ npm run deploy
 
 Finally, make sure **GitHub Pages** option in your GitHub project settings is set to use the `gh-pages` branch:
 
-<img src="https://i.imgur.com/HUjEr9l.png" width="500" alt="gh-pages branch setting">
+<img src="https://i.imgur.com/HUjEr9l.png" width="500" alt="gh-pages branch setting" />
 
 ### Step 5: Optionally, configure the domain
 
@@ -371,7 +372,8 @@ If, when deploying, you get `Cannot read property 'email' of null`, try the foll
 
 ## [Heroku](https://www.heroku.com/)
 
-Use the [Heroku Buildpack for Create React App](https://github.com/mars/create-react-app-buildpack).<br>
+Use the [Heroku Buildpack for Create React App](https://github.com/mars/create-react-app-buildpack).
+
 You can find instructions in [Deploying React with Zero Configuration](https://blog.heroku.com/deploying-react-with-zero-configuration).
 
 ### Resolving Heroku Deployment Errors
@@ -436,27 +438,35 @@ To support `pushState`, make sure to create a `public/_redirects` file with the 
 
 When you build the project, Create React App will place the `public` folder contents into the build output.
 
-## [Now](https://zeit.co/now)
+## [ZEIT Now](https://zeit.co)
 
-[Now](https://zeit.co/docs) offers a simple, single-command deployment. You can use `now` to deploy your app for free.
+[ZEIT Now](https://zeit.co) is a cloud platform for websites and serverless APIs, that you can use to deploy your Create React App projects to your personal domain (or a free `.now.sh` suffixed URL).
 
-The first step is to install Now. You can do this by installing [the Now Desktop app](https://zeit.co/download), which also installs Now CLI and keeps it up-to-date, or by [installing Now CLI](https://zeit.co/download#now-cli) directly with npm:
+This guide will show you how to get started in a few quick steps:
+
+### Step 1: Installing Now CLI
+
+To install their command-line interface with [npm](https://www.npmjs.com/package/now), run the following command:
 
 ```shell
 npm i -g now
 ```
 
-To deploy your built project directly with Now CLI in your terminal, without any configuration:
+### Step 2: Deploying
 
-1. Build your app by running `npm run build`.
+You can deploy your application by running the following command in the root of the project directory:
 
-2. Move into the build directory by running `cd build`.
+```shell
+now
+```
 
-3. Run `now --name your-project-name` from within the build directory. You will be given a **now.sh** URL as a response as your build is deployed, similar to the following: https://my-cra-project-4rx7b16z3.now.sh/
+**Alternatively**, you can also use their integration for [GitHub](https://zeit.co/github) or [GitLab](https://zeit.co/gitlab).
 
-Click or paste the deployment URL into your browser when the build is complete and you will see your deployed app.
+That’s all!
 
-For more information on deploying React applications with Now, including automatically building your application fresh in the cloud, setting up routes to rewrite all paths to the index.html file, and setting up caching headers for speed, see [the ZEIT Guide for Deploying a React app with Create React App](https://zeit.co/guides/deploying-react-with-now-cra/).
+Your site will now deploy, and you will receive a link similar to the following: https://react.now-examples.now.sh
+
+Out of the box, you are preconfigured for client-side routing compatibility and appropriate default caching headers. This behaviour can be overwritten [like this](https://zeit.co/docs/v2/advanced/routes/).
 
 ## [Render](https://render.com)
 
@@ -468,7 +478,7 @@ Use invite code `cra` to sign up or use [this link](https://render.com/i/cra).
 
 ## [S3](https://aws.amazon.com/s3) and [CloudFront](https://aws.amazon.com/cloudfront/)
 
-See this [blog post](https://medium.com/@omgwtfmarc/deploying-create-react-app-to-s3-or-cloudfront-48dae4ce0af) on how to deploy your React app to Amazon Web Services S3 and CloudFront.
+See this [blog post](https://medium.com/@omgwtfmarc/deploying-create-react-app-to-s3-or-cloudfront-48dae4ce0af) on how to deploy your React app to Amazon Web Services S3 and CloudFront. If you are looking to add a custom domain, HTTPS and continuous deployment see this [blog post](https://medium.com/dailyjs/a-guide-to-deploying-your-react-app-with-aws-s3-including-https-a-custom-domain-a-cdn-and-58245251f081).
 
 ## [Surge](https://surge.sh/)
 

@@ -3,7 +3,7 @@ id: running-tests
 title: Running Tests
 ---
 
-> Note: this feature is available with `react-scripts@0.3.0` and higher.<br>
+> Note: this feature is available with `react-scripts@0.3.0` and higher.
 
 > [Read the migration guide to learn how to enable it in older projects!](https://github.com/facebook/create-react-app/blob/master/CHANGELOG-0.x.md#migrating-from-023-to-030)
 
@@ -60,7 +60,8 @@ it('sums numbers', () => {
 });
 ```
 
-All `expect()` matchers supported by Jest are [extensively documented here](https://jestjs.io/docs/en/expect.html#content).<br>
+All `expect()` matchers supported by Jest are [extensively documented here](https://jestjs.io/docs/en/expect.html#content).
+
 You can also use [`jest.fn()` and `expect(fn).toBeCalled()`](https://jestjs.io/docs/en/expect.html#tohavebeencalled) to create “spies” or mock functions.
 
 ## Testing Components
@@ -111,8 +112,6 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 ```
 
-> Note: When using TypeScript with Babel, all your files need to have at least one export, otherwise you will get the error `Cannot compile namespaces when the '--isolatedModules' flag is provided.`. To fix this, you can add `export default undefined` to `src/setupTests.ts`.
-
 > Note: Keep in mind that if you decide to "eject" before creating `src/setupTests.js`, the resulting `package.json` file won't contain any reference to it. [Read here](#initializing-test-environment) to learn how to add this after ejecting.
 
 Now you can write a smoke test with it:
@@ -146,7 +145,8 @@ it('renders welcome message', () => {
 });
 ```
 
-All Jest matchers are [extensively documented here](https://jestjs.io/docs/en/expect.html).<br>
+All Jest matchers are [extensively documented here](https://jestjs.io/docs/en/expect.html).
+
 Nevertheless you can use a third-party assertion library like [Chai](https://chaijs.com/) if you want to, as described below.
 
 Additionally, you might find [jest-enzyme](https://github.com/blainekasten/enzyme-matchers) helpful to simplify your tests with readable matchers. The above `contains` code can be written more simply with jest-enzyme.
@@ -175,44 +175,42 @@ import 'jest-enzyme';
 
 ### Option 2: React Testing Library
 
-As an alternative or companion to `enzyme`, you may consider using `react-testing-library`. [`react-testing-library`](https://github.com/kentcdodds/react-testing-library) is a library for testing React components in a way that resembles the way the components are used by end users. It is well suited for unit, integration, and end-to-end testing of React components and applications. It works more directly with DOM nodes, and therefore it's recommended to use with [`jest-dom`](https://github.com/gnapse/jest-dom) for improved assertions.
+As an alternative or companion to `enzyme`, you may consider using `react-testing-library`. [`react-testing-library`](https://github.com/testing-library/react-testing-library) is a library for testing React components in a way that resembles the way the components are used by end users. It is well suited for unit, integration, and end-to-end testing of React components and applications. It works more directly with DOM nodes, and therefore it's recommended to use with [`jest-dom`](https://github.com/testing-library/jest-dom) for improved assertions.
 
 To install `react-testing-library` and `jest-dom`, you can run:
 
 ```sh
-npm install --save react-testing-library jest-dom
+npm install --save @testing-library/react @testing-library/jest-dom
 ```
 
 Alternatively you may use `yarn`:
 
 ```sh
-yarn add react-testing-library jest-dom
+yarn add @testing-library/react @testing-library/jest-dom
 ```
 
 Similar to `enzyme` you can create a `src/setupTests.js` file to avoid boilerplate in your test files:
 
 ```js
 // react-testing-library renders your components to document.body,
-// this will ensure they're removed after each test.
-import 'react-testing-library/cleanup-after-each';
 // this adds jest-dom's custom assertions
-import 'jest-dom/extend-expect';
+import '@testing-library/jest-dom/extend-expect';
 ```
 
 Here's an example of using `react-testing-library` and `jest-dom` for testing that the `<App />` component renders "Welcome to React".
 
 ```js
 import React from 'react';
-import { render } from 'react-testing-library';
+import { render } from '@testing-library/react';
 import App from './App';
 
 it('renders welcome message', () => {
   const { getByText } = render(<App />);
-  expect(getByText('Welcome to React')).toBeInTheDocument();
+  expect(getByText('Learn React')).toBeInTheDocument();
 });
 ```
 
-Learn more about the utilities provided by `react-testing-library` to facilitate testing asynchronous interactions as well as selecting form elements from [the `react-testing-library` documentation](https://testing-library.com/react) and [examples](https://codesandbox.io/s/github/kentcdodds/react-testing-library-examples).
+Learn more about the utilities provided by `react-testing-library` to facilitate testing asynchronous interactions as well as selecting form elements from the [`react-testing-library` documentation](https://testing-library.com/react) and [examples](https://codesandbox.io/s/github/kentcdodds/react-testing-library-examples).
 
 ## Using Third Party Assertion Libraries
 
@@ -258,12 +256,14 @@ global.localStorage = localStorageMock;
 
 ## Focusing and Excluding Tests
 
-You can replace `it()` with `xit()` to temporarily exclude a test from being executed.<br>
+You can replace `it()` with `xit()` to temporarily exclude a test from being executed.
+
 Similarly, `fit()` lets you focus on a specific test without running any other tests.
 
 ## Coverage Reporting
 
-Jest has an integrated coverage reporter that works well with ES6 and requires no configuration.<br>
+Jest has an integrated coverage reporter that works well with ES6 and requires no configuration.
+
 Run `npm test -- --coverage` (note extra `--` in the middle) to include a coverage report like this:
 
 ![coverage report](https://i.imgur.com/5bFhnTS.png)
@@ -276,10 +276,21 @@ The default Jest coverage configuration can be overridden by adding any of the f
 
 Supported overrides:
 
+- [`clearMocks`](https://jestjs.io/docs/en/configuration.html#clearmocks-boolean)
 - [`collectCoverageFrom`](https://jestjs.io/docs/en/configuration.html#collectcoveragefrom-array)
 - [`coverageReporters`](https://jestjs.io/docs/en/configuration.html#coveragereporters-array-string)
 - [`coverageThreshold`](https://jestjs.io/docs/en/configuration.html#coveragethreshold-object)
+- [`displayName`](https://jestjs.io/docs/en/configuration.html#displayname-string-object)
+- [`extraGlobals`](https://jestjs.io/docs/en/configuration.html#extraglobals-array-string)
+- [`globalSetup`](https://jestjs.io/docs/en/configuration.html#globalsetup-string)
+- [`globalTeardown`](https://jestjs.io/docs/en/configuration.html#globalteardown-string)
+- [`moduleNameMapper`](https://jestjs.io/docs/en/configuration.html#modulenamemapper-object-string-string)
+- [`resetMocks`](https://jestjs.io/docs/en/configuration.html#resetmocks-boolean)
+- [`resetModules`](https://jestjs.io/docs/en/configuration.html#resetmodules-boolean)
 - [`snapshotSerializers`](https://jestjs.io/docs/en/configuration.html#snapshotserializers-array-string)
+- [`transform`](https://jestjs.io/docs/en/configuration.html#transform-object-string-pathtotransformer-pathtotransformer-object)
+- [`transformIgnorePatterns`](https://jestjs.io/docs/en/configuration.html#transformignorepatterns-array-string)
+- [`watchPathIgnorePatterns`](https://jestjs.io/docs/en/configuration.html#watchpathignorepatterns-array-string)
 
 Example package.json:
 

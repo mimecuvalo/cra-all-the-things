@@ -5,7 +5,7 @@ export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, titl
     <head>
       <meta charSet="utf-8" />
       <link rel="author" href={`${publicUrl}humans.txt`} />
-      <link rel="shortcut icon" href={`${publicUrl}favicon.ico`} />
+      <link rel="icon" href={`${publicUrl}favicon.ico`} />
       {assetPathsByType['css'].map(path => (
         <link nonce={nonce} rel="stylesheet" key={path} href={path} />
       ))}
@@ -14,6 +14,7 @@ export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, titl
       <link rel="search" href="/api/opensearch" type="application/opensearchdescription+xml" title={title} />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="theme-color" content="#000000" />
+      <meta name="description" content="website created using cra-all-the-things." />
       <meta name="generator" content="cra-all-the-things. https://github.com/mimecuvalo/all-the-things" />
       <OpenGraphMetadata title={title} req={req} />
       <StructuredMetaData nonce={nonce} title={title} req={req} />

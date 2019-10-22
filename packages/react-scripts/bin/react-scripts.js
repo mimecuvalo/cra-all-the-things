@@ -24,44 +24,38 @@ const scriptIndex = args.findIndex(
 const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
 const nodeArgs = scriptIndex > 0 ? args.slice(0, scriptIndex) : [];
 
-switch (script) {
-  case 'build':
-  case 'eject':
-  case 'serve-prod':
-  case 'serve-dev':
-  case 'test': {
-    // NOTE(all-the-things): Turn on debugging.
-    if (script == 'serve-dev') {
-      nodeArgs.push('--inspect');
-    }
-
-    const result = spawn.sync(
-      'node',
-      nodeArgs.concat(require.resolve('../scripts/' + script)).concat(args.slice(scriptIndex + 1)),
-      { stdio: 'inherit' }
-    );
-    if (result.signal) {
-      if (result.signal === 'SIGKILL') {
-        console.log(
-          'The build failed because the process exited too early. ' +
-            'This probably means the system ran out of memory or someone called ' +
-            '`kill -9` on the process.'
-        );
-      } else if (result.signal === 'SIGTERM') {
-        console.log(
-          'The build failed because the process exited too early. ' +
-            'Someone might have called `kill` or `killall`, or the system could ' +
-            'be shutting down.'
-        );
-      }
-      process.exit(1);
-    }
-    process.exit(result.status);
-    break;
+if (['build', 'eject', 'serve-prod', 'serve-dev', 'test'].includes(script)) {
+  // NOTE(all-the-things): Turn on debugging.
+  if (script == 'serve-dev') {
+    nodeArgs.push('--inspect');
   }
-  default:
-    console.log('Unknown script "' + script + '".');
-    console.log('Perhaps you need to update react-scripts?');
-    console.log('See: https://facebook.github.io/create-react-app/docs/updating-to-new-releases');
-    break;
+
+  const result = spawn.sync(
+    'node',
+    nodeArgs.concat(require.resolve('../scripts/' + script)).concat(args.slice(scriptIndex + 1)),
+    { stdio: 'inherit' }
+  );
+  if (result.signal) {
+    if (result.signal === 'SIGKILL') {
+      console.log(
+        'The build failed because the process exited too early. ' +
+          'This probably means the system ran out of memory or someone called ' +
+          '`kill -9` on the process.'
+      );
+    } else if (result.signal === 'SIGTERM') {
+      console.log(
+        'The build failed because the process exited too early. ' +
+          'Someone might have called `kill` or `killall`, or the system could ' +
+          'be shutting down.'
+      );
+    }
+    process.exit(1);
+  }
+  process.exit(result.status);
+} else {
+  console.log('Unknown script "' + script + '".');
+  console.log('Perhaps you need to update react-scripts?');
+  console.log(
+    'See: https://facebook.github.io/create-react-app/docs/updating-to-new-releases'
+  );
 }

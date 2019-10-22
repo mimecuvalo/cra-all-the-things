@@ -139,7 +139,6 @@ REACT_APP_SSR_PORT=3001
 
 ### p0 (high pri)
 
-- update cra and packages
 - more GraphQL examples:
   - fragments
   - local state (instead of redux, explain)
@@ -152,7 +151,7 @@ REACT_APP_SSR_PORT=3001
 - all-the-things apple-touch icon missing/android-chrome
 
 - setup docker to start with?
-- CI integration, for own repo and template
+- CI integration, for own repo and template, azure?
   - perhaps, Danger JS
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
