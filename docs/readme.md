@@ -51,6 +51,7 @@ In dev or prod you'll want to setup your environment as well. Check out the `.en
 To run in production (or better yet check out bin/flightplan.js)
 ```sh
 npm --production install
+npm run build
 npm run serve:prod
 ```
 
@@ -80,6 +81,12 @@ To run tests:
 
 ```sh
 yarn:test
+```
+
+To change port, in an `.env` change the values to what you desire:
+```sh
+PORT=3000
+REACT_APP_SSR_PORT=3001
 ```
 
 ## ⚡ Features
@@ -132,6 +139,9 @@ yarn:test
 
 ### p0 (high pri)
 
+- webpackbar
+
+- setup docker to start with?
 - CI integration, for own repo and template
   - perhaps, Danger JS
 - provide escape hatches, modularity
