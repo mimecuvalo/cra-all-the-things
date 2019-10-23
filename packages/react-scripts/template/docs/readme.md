@@ -27,6 +27,8 @@ Write your stunning description here.
 npm install
 ```
 
+_Prerequisites: Node 13+ if you want proper internationalization (i18n) support (via full-icu)._
+
 Then, to run your newly created server locally, **with** the Storybook styleguide server:
 
 ```sh
