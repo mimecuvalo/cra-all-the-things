@@ -1,3 +1,4 @@
+.DS_Store
 template/.env.development.local
 sessions/
 .cra-all-the-things-prod-git-info.json

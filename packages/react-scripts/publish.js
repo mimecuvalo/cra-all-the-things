@@ -53,7 +53,7 @@ function publishToNpm(version) {
 
 function updateExampleRepo(version) {
   console.log('Updating example repo...');
-  const cdCmd = 'cd ~/Dropbox/Sites/';
+  const cdCmd = 'cd ~/Sites/';
 
   console.log('Moving .git directory to a safe place...');
   execSync(`${cdCmd}; mv all-the-things-example/.git .`, execOptions);
@@ -72,7 +72,7 @@ function updateExampleRepo(version) {
   );
 
   console.log('Creating commit...');
-  const cdExampleCmd = 'cd ~/Dropbox/Sites/all-the-things-example';
+  const cdExampleCmd = 'cd ~/Sites/all-the-things-example';
   execSync(`${cdExampleCmd}; git add -A`, execOptions);
   execSync(`${cdExampleCmd}; git commit -am "Publish version: ${version}"`, execOptions);
   execSync(`${cdExampleCmd}; git push`, execOptions);
@@ -81,12 +81,12 @@ function updateExampleRepo(version) {
 function updateHelloworldRepo(version) {
   console.log('Updating helloworld repo...');
 
-  const packageJsonPath = '/Users/mime/Dropbox/Sites/helloworld/package.json';
+  const packageJsonPath = '/Users/mime/Sites/helloworld/package.json';
   const helloworldPackageJson = require(packageJsonPath);
   helloworldPackageJson['dependencies']['cra-all-the-things'] = version;
   fs.writeFileSync(packageJsonPath, JSON.stringify(helloworldPackageJson, null, 2));
 
-  const cdCmd = 'cd ~/Dropbox/Sites/helloworld';
+  const cdCmd = 'cd ~/Sites/helloworld';
   execSync(`${cdCmd}; npm update cra-all-the-things`, execOptions);
   execSync(`${cdCmd}; git add -A`, execOptions);
 
