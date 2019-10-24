@@ -129,6 +129,7 @@
     "webpack-dev-server": "3.9.0",
     "webpack-manifest-plugin": "2.2.0",
     "webpack-node-externals": "1.7.2",
+    "webpackbar": "4.0.0",
     "winston": "3.2.1",
     "winston-daily-rotate-file": "4.2.1",
     "workbox-webpack-plugin": "4.3.1"
@@ -152,8 +153,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-test-renderer": "16.10.2",
-    "source-map-explorer": "2.1.0",
-    "webpackbar": "4.0.0"
+    "source-map-explorer": "2.1.0"
   },
   "optionalDependencies": {
     "fsevents": "2.1.1"
