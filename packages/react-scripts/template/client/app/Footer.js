@@ -1,4 +1,3 @@
-import Debug from '../internal/Debug';
 //import { F } from '../../shared/i18n';
 import Help from './Help';
 import React, {
@@ -7,6 +6,11 @@ import React, {
   //lazy
 } from 'react';
 import styles from './Footer.module.css';
+
+let Debug = () => null;
+if (process.env.NODE_ENV === 'development') {
+  Debug = require('../internal/Debug').default;
+}
 
 export default class Footer extends PureComponent {
   renderDebugMenu() {
