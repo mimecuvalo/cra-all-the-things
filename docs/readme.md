@@ -140,14 +140,19 @@ REACT_APP_SSR_PORT=3001
 
 ### p0 (high pri)
 
+- add `rs` command to restart, make inspect an option, see
 - more GraphQL examples:
   - fragments
   - local state (instead of redux, explain)
   - subscriptions
   - check out dataloader: https://github.com/graphql/dataloader
   - generate automatically schemas/typedefs
+- sequelize associate = function(models) {
+    // associations can be defined here
+  }; somewhere?
 - graphql not logged in should be 401 not 500, AuthenticationError vs ForbiddenError
 - look at/switch over to React Hooks
+  - useIntl instead of injectIntl
 - add material-ui theme
 - all-the-things apple-touch icon missing/android-chrome
 
