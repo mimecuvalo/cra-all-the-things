@@ -39,6 +39,7 @@
   "types": "./lib/react-app.d.ts",
   "dependencies": {
     "@babel/core": "7.6.4",
+    "@babel/plugin-proposal-decorators": "7.6.0",
     "@babel/plugin-proposal-optional-chaining": "7.6.0",
     "@material-ui/core": "4.5.1",
     "@material-ui/icons": "4.5.1",
