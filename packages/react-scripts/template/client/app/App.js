@@ -2,7 +2,6 @@ import './App.css';
 import classNames from 'classnames';
 import clientHealthCheck from './client_health_check';
 import CloseIcon from '@material-ui/icons/Close';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { defineMessages, injectIntl } from '../../shared/i18n';
 import ErrorBoundary from '../error/ErrorBoundary';
 import Footer from './Footer';
@@ -56,7 +55,6 @@ class App extends Component {
         <SnackbarProvider action={closeAction}>
           <ErrorBoundary>
             <div className={classNames('App', { 'App-logged-in': this.props.user })} style={devOnlyHiddenOnLoadStyle}>
-              <CssBaseline />
               <Header />
               <main className="App-main">
                 <ScrollToTop>

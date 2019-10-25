@@ -9,6 +9,16 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body::backdrop {
+  background-color: #fafafa;
+}
+
+@media print {
+  body {
+    background-color: #fff;
+  }
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
