@@ -78,12 +78,27 @@ class Home extends PureComponent {
             }}
           />
         </p>
-        <F
-          msg="i18n pluralization test: {itemCount, plural, =0 {no items} one {# item} other {# items}}."
-          values={{
-            itemCount: 5000,
-          }}
-        />
+        <p>
+          <F
+            msg="i18n pluralization test: {itemCount, plural, =0 {no items} one {# item} other {# items}}."
+            values={{
+              itemCount: 5000,
+            }}
+          />
+        </p>
+        <p>
+          <F
+            msg="i18n html test: <a>visit our website</a> and <cta>see the world</cta>"
+            values={{
+              a: msg => (
+                <a class="external_link" target="_blank" rel="noopener noreferrer" href="https://www.example.com/">
+                  {msg}
+                </a>
+              ),
+              cta: msg => <strong class="important">{msg}</strong>,
+            }}
+          />
+        </p>
       </div>
     );
   }
