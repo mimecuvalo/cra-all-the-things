@@ -111,7 +111,6 @@ REACT_APP_SSR_PORT=3001
 - **error boundary**: adds a top-level one to the app. (see [doc](https://reactjs.org/docs/error-boundaries.html)).
 - **error pages**: [401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401), [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), [500](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500).
 - **error reporting**: listens to `window.onerror` and reports JS errors to the server for debugging.
-- **ES6: [decorators](https://babeljs.io/docs/en/babel-plugin-proposal-decorators) and [optional chaining](https://babeljs.io/docs/en/babel-plugin-proposal-optional-chaining)**: yes, they’re experimental and probably shouldn’t use but they’re sooo nice.
 - [**Flow**](https://flow.org): enable by default (off by default in CRA).
 - [**hot module replacement (HMR)**](https://webpack.js.org/concepts/hot-module-replacement/): enable by default (off by default in CRA).
 - [**humans.txt**](http://humanstxt.org/) **/** [**robots.txt**](http://www.robotstxt.org/): adds stubs of these files.
@@ -140,6 +139,11 @@ REACT_APP_SSR_PORT=3001
 
 ### p0 (high pri)
 
+- fix up tests
+  - test for example repo
+  - fix e2e-simple test
+  - re-enable travis test
+
 - more GraphQL examples:
   - fragments
   - local state (instead of redux, explain)
@@ -150,8 +154,6 @@ REACT_APP_SSR_PORT=3001
     // associations can be defined here
   }; somewhere?
 - graphql not logged in should be 401 not 500, AuthenticationError vs ForbiddenError
-- look at/switch over to React Hooks
-  - useIntl instead of injectIntl
 - add material-ui theme
 - all-the-things apple-touch icon missing/android-chrome
 
@@ -160,11 +162,6 @@ REACT_APP_SSR_PORT=3001
   - perhaps, Danger JS
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
-- fix up tests
-  - test for example repo
-  - need to fix up test to accept decorators
-  - fix e2e-simple test
-  - fix up npm run test
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
 - PWA, explore enabling by default (desktop PWA, too?) - but probably won't
   - https://hnpwa.com/
@@ -180,7 +177,7 @@ REACT_APP_SSR_PORT=3001
 
 - maybe SASS
 - maybe shared css/js constants file
-- maybe event listener decorator for events on an react component
+- maybe event listener hook for events on an react component
 - recommend better secrets service: https://www.thoughtworks.com/radar/techniques/secrets-as-a-service
 - look at persisting csurf across server restarts
 - go through Flow warnings / add type annotations

@@ -2,16 +2,16 @@ import './App.css';
 import classNames from 'classnames';
 import clientHealthCheck from './client_health_check';
 import CloseIcon from '@material-ui/icons/Close';
-import { defineMessages, injectIntl } from '../../shared/i18n';
+import { defineMessages, useIntl } from '../../shared/i18n';
 import ErrorBoundary from '../error/ErrorBoundary';
 import Footer from './Footer';
 import Header from './Header';
 import Home from '../home/Home';
 import IconButton from '@material-ui/core/IconButton';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import NotFound from '../error/404';
-import React, { Component, PureComponent } from 'react';
-import { SnackbarProvider, withSnackbar } from 'notistack';
+import React, { Component, useEffect, useRef } from 'react';
+import { SnackbarProvider, useSnackbar } from 'notistack';
 import UserContext from './User_Context';
 import YourFeature from '../your_feature/YourFeature';
 
@@ -74,39 +74,39 @@ class App extends Component {
   }
 }
 
-@injectIntl
-@withSnackbar
-class CloseButton extends PureComponent {
-  render() {
-    const closeAriaLabel = this.props.intl.formatMessage(messages.close);
-    return (
-      <IconButton
-        key="close"
-        onClick={() => {
-          this.props.closeSnackbar(this.props.snackKey);
-        }}
-        className="App-snackbar-icon"
-        color="inherit"
-        aria-label={closeAriaLabel}
-      >
-        <CloseIcon />
-      </IconButton>
-    );
-  }
+function CloseButton({ snackKey }) {
+  const intl = useIntl();
+  const snackbar = useSnackbar();
+
+  const closeAriaLabel = intl.formatMessage(messages.close);
+  return (
+    <IconButton
+      key="close"
+      onClick={() => {
+        snackbar.closeSnackbar(snackKey);
+      }}
+      className="App-snackbar-icon"
+      color="inherit"
+      aria-label={closeAriaLabel}
+    >
+      <CloseIcon />
+    </IconButton>
+  );
 }
 const closeAction = key => <CloseButton snackKey={key} />;
 
-@withRouter
-class ScrollToTop extends Component {
-  componentDidUpdate(prevProps) {
-    if (this.props.location.pathname !== prevProps.location.pathname) {
+function ScrollToTop({ children }) {
+  const location = useLocation();
+  const prevLocationPathname = useRef();
+
+  useEffect(() => {
+    if (location.pathname !== prevLocationPathname) {
       window.scrollTo(0, 0);
     }
-  }
+    prevLocationPathname.current = location.pathname;
+  });
 
-  render() {
-    return this.props.children;
-  }
+  return children;
 }
 
 export default App;
