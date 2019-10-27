@@ -91,11 +91,11 @@ class Home extends PureComponent {
             msg="i18n html test: <a>visit our website</a> and <cta>see the world</cta>"
             values={{
               a: msg => (
-                <a class="external_link" target="_blank" rel="noopener noreferrer" href="https://www.example.com/">
+                <a className="external-link" target="_blank" rel="noopener noreferrer" href="https://www.example.com/">
                   {msg}
                 </a>
               ),
-              cta: msg => <strong class="important">{msg}</strong>,
+              cta: msg => <strong>{msg}</strong>,
             }}
           />
         </p>

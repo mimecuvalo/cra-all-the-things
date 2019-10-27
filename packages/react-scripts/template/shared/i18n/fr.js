@@ -25,6 +25,8 @@ const translations = {
   Help: "L'assistance",
   Close: 'Fermer',
   GraphQL_variables_test__current_url_path____url_: 'Test de variables GraphQL',
+  i18n_html_test___a_visit_our_website__a__and__cta_see_the_world__cta_:
+    'test html: visitez <a>notre site web</a> et <cta>voyez le monde</cta>',
 };
 
 export default translations;

@@ -140,7 +140,6 @@ REACT_APP_SSR_PORT=3001
 
 ### p0 (high pri)
 
-- add `rs` command to restart, make inspect an option, see
 - more GraphQL examples:
   - fragments
   - local state (instead of redux, explain)
