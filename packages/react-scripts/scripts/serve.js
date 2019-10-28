@@ -95,6 +95,8 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
         const constructApps = getConstructApps();
         const productionAssetsByType = getProductionAssetsByType();
         const gitInfo = await getGitInfo();
+
+        // eslint-disable-next-line require-atomic-updates
         [app, dispose] = constructApps({ appName, productionAssetsByType, publicUrl, gitInfo });
       } catch (ex) {
         console.log(ex);
@@ -107,6 +109,8 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
         dispose && dispose(); // Cleanup previous instance.
         const constructApps = getConstructApps();
         const gitInfo = await getGitInfo();
+
+        // eslint-disable-next-line require-atomic-updates
         [app, dispose] = constructApps({ appName, publicUrl, gitInfo });
       } catch (ex) {
         console.log(ex);

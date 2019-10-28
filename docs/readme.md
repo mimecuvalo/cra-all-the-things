@@ -139,10 +139,10 @@ REACT_APP_SSR_PORT=3001
 
 ### p0 (high pri)
 
-- fix up tests
-  - test for example repo
-  - fix e2e-simple test
-  - re-enable travis test
+- test for example repo
+- test for hw repo
+- fix e2e-simple test
+- re-enable travis test
 
 - more GraphQL examples:
   - fragments
