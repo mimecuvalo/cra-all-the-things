@@ -2,7 +2,7 @@
 dist: xenial
 language: node_js
 node_js:
-  - 13
+  - 10
 cache:
   yarn: true
   directories:
@@ -28,7 +28,7 @@ env:
 matrix:
   include:
     - os: osx
-      node_js: 13
+      node_js: 10
       env: TEST_SUITE=behavior
     - node_js: 6
       env: TEST_SUITE=old-node
