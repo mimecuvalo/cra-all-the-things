@@ -3,8 +3,8 @@
 </h1>
 
 <p align="center">
-  <a href="https://travis-ci.org/mimecuvalo/all-the-things">
-    <img src="https://img.shields.io/travis/mimecuvalo/all-the-things.svg" alt="CI status" />
+  <a href="https://dev.azure.com/mimecuvalo/all-the-things/_build/latest?definitionId=1&branchName=master">
+    <img src="https://dev.azure.com/mimecuvalo/all-the-things/_apis/build/status/mimecuvalo.all-the-things?branchName=master" alt="CI status" />
   </a>
   <a href="https://github.com/prettier/prettier">
     <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="prettier status" />
