@@ -139,11 +139,6 @@ REACT_APP_SSR_PORT=3001
 
 ### p0 (high pri)
 
-- test for example repo
-- test for hw repo
-- fix e2e-simple test
-- re-enable travis test
-
 - more GraphQL examples:
   - fragments
   - local state (instead of redux, explain)
