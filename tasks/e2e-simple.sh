@@ -84,6 +84,11 @@ fi
 # Bootstrap monorepo
 yarn
 
+# TODO(mime) need to get rid of this npm command eventually - it's a crutch
+cd packages/react-scripts
+npm install
+cd ../../
+
 # Start the local NPM registry
 startLocalRegistry "$root_path"/tasks/verdaccio.yaml
 
@@ -136,7 +141,7 @@ CI=true yarn test
 # exists template/src/__snapshots__/App.test.js.snap
 
 # Test local start command
-yarn start --smoke-test
+yarn serve:dev --smoke-test
 
 # Publish the monorepo
 publishToLocalRegistry
