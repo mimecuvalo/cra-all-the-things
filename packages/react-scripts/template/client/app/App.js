@@ -20,7 +20,7 @@ const messages = defineMessages({
 });
 
 // This is the main entry point on the client-side.
-class App extends Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
 
@@ -52,7 +52,7 @@ class App extends Component {
 
     return (
       <UserContext.Provider value={this.state.userContext}>
-        <SnackbarProvider action={closeAction}>
+        <SnackbarProvider action={CloseButton}>
           <ErrorBoundary>
             <div className={classNames('App', { 'App-logged-in': this.props.user })} style={devOnlyHiddenOnLoadStyle}>
               <Header />
@@ -74,17 +74,15 @@ class App extends Component {
   }
 }
 
-function CloseButton({ snackKey }) {
+function CloseButton(snackKey) {
   const intl = useIntl();
   const snackbar = useSnackbar();
-
   const closeAriaLabel = intl.formatMessage(messages.close);
+
   return (
     <IconButton
       key="close"
-      onClick={() => {
-        snackbar.closeSnackbar(snackKey);
-      }}
+      onClick={() => snackbar.closeSnackbar(snackKey)}
       className="App-snackbar-icon"
       color="inherit"
       aria-label={closeAriaLabel}
@@ -93,20 +91,17 @@ function CloseButton({ snackKey }) {
     </IconButton>
   );
 }
-const closeAction = key => <CloseButton snackKey={key} />;
 
 function ScrollToTop({ children }) {
-  const location = useLocation();
+  const routerLocation = useLocation();
   const prevLocationPathname = useRef();
 
   useEffect(() => {
-    if (location.pathname !== prevLocationPathname) {
+    if (routerLocation.pathname !== prevLocationPathname) {
       window.scrollTo(0, 0);
     }
-    prevLocationPathname.current = location.pathname;
+    prevLocationPathname.current = routerLocation.pathname;
   });
 
   return children;
 }
-
-export default App;

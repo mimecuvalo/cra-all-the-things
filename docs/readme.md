@@ -3,15 +3,9 @@
 </h1>
 
 <p align="center">
-  <a href="https://dev.azure.com/mimecuvalo/all-the-things/_build/latest?definitionId=1&branchName=master">
-    <img src="https://dev.azure.com/mimecuvalo/all-the-things/_apis/build/status/mimecuvalo.all-the-things?branchName=master" alt="CI status" />
-  </a>
-  <a href="https://github.com/prettier/prettier">
-    <img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="prettier status" />
-  </a>
-  <a href="https://github.com/mimecuvalo/all-the-things/docs/license.md">
-    <img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license" />
-  </a>
+  <a href="https://dev.azure.com/mimecuvalo/all-the-things/_build/latest?definitionId=1&branchName=master"><img src="https://dev.azure.com/mimecuvalo/all-the-things/_apis/build/status/mimecuvalo.all-the-things?branchName=master" alt="CI status" /></a>
+  <a href="https://github.com/prettier/prettier"><img src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg" alt="prettier status" /></a>
+  <a href="https://github.com/mimecuvalo/all-the-things/docs/license.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="license" /></a>
 </p>
 
 <strong>NOTE: still under active development and I'm not currently providing backwards compatibility until things stabilize.</strong>
@@ -152,6 +146,7 @@ REACT_APP_SSR_PORT=3001
 - add material-ui theme
 - all-the-things apple-touch icon missing/android-chrome
 
+- update react-document-title
 - setup docker to start with?
 - CI integration, for own repo and template, azure?
   - perhaps, Danger JS
