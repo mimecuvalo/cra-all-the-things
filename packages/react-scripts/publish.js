@@ -26,6 +26,7 @@ function savePackageJson(version) {
   console.log('Saving to package.json...');
   allTheThingsPackageJson.version = version;
   fs.writeFileSync('package.json', JSON.stringify(allTheThingsPackageJson, null, 2));
+  execSync('npm install --package-lock-only', execOptions);
 }
 
 function pushToGitRepo(version) {
@@ -89,6 +90,7 @@ function updateHelloworldRepo(version) {
   const cdCmd = 'cd ~/Sites/helloworld';
   execSync(`${cdCmd}; npm update cra-all-the-things`, execOptions);
   execSync(`${cdCmd}; git add -A`, execOptions);
+  execSync(`${cdCmd}; npm install --package-lock-only`, execOptions);
 
   console.log('Finished!');
 }
