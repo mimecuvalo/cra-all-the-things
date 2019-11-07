@@ -13,4 +13,5 @@ module.exports = babelJest.createTransformer({
   presets: [require.resolve('babel-preset-react-app')],
   babelrc: false,
   configFile: false,
+  plugins: ['@babel/plugin-proposal-optional-chaining'],
 });
