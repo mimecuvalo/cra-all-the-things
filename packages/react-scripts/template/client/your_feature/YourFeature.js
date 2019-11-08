@@ -1,7 +1,7 @@
-import DocumentTitle from 'react-document-title';
 import { F } from '../../shared/i18n';
 import { Route, Link } from 'react-router-dom';
 import React, { PureComponent } from 'react';
+import useDocumentTitle from '../app/title';
 
 /**
  * Provides a simple React component as an example React component to manipulate out-of-the-box.
@@ -47,14 +47,12 @@ export default class YourFeature extends PureComponent {
   }
 }
 
-class Topic extends PureComponent {
-  render() {
-    return (
-      <DocumentTitle title={this.props.match.params.topicId}>
-        <div>
-          <h3>{this.props.match.params.topicId}</h3>
-        </div>
-      </DocumentTitle>
-    );
-  }
+function Topic() {
+  useDocumentTitle(this.props.match.params.topicId);
+
+  return (
+    <div>
+      <h3>{this.props.match.params.topicId}</h3>
+    </div>
+  );
 }
