@@ -10,7 +10,7 @@ import Home from '../home/Home';
 import IconButton from '@material-ui/core/IconButton';
 import { Route, Switch, useLocation } from 'react-router-dom';
 import NotFound from '../error/404';
-import React, { Component, useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 import UserContext from './User_Context';
 import YourFeature from '../your_feature/YourFeature';
@@ -20,19 +20,16 @@ const messages = defineMessages({
 });
 
 // This is the main entry point on the client-side.
-export default class App extends Component {
-  constructor(props) {
-    super(props);
+export default function App({ user }) {
+  const [userContext] = useState({ user });
+  const [devOnlyHiddenOnLoad, setDevOnlyHiddenOnLoad] = useState(process.env.NODE_ENV === 'development');
+  const [loaded, setLoaded] = useState(false);
 
-    this.state = {
-      userContext: {
-        user: props.user,
-      },
-      devOnlyHiddenOnLoad: process.env.NODE_ENV === 'development',
-    };
-  }
+  useEffect(() => {
+    if (loaded) {
+      return;
+    }
 
-  componentDidMount() {
     // Remove MaterialUI's SSR generated CSS.
     const jssStyles = document.getElementById('jss-ssr');
     if (jssStyles && jssStyles.parentNode) {
@@ -42,36 +39,35 @@ export default class App extends Component {
     // Upon starting the app, kick off a client health check which runs periodically.
     clientHealthCheck();
 
-    this.setState({ devOnlyHiddenOnLoad: false });
-  }
+    setDevOnlyHiddenOnLoad(false);
+    setLoaded(true);
+  }, [devOnlyHiddenOnLoad, loaded]);
 
-  render() {
-    // HACK(all-the-things): we can't get rid of FOUC in dev mode because we want hot reloading of CSS updates.
-    // This hides the unsightly unstyled app. However, in dev mode, it removes the perceived gain of SSR. :-/
-    const devOnlyHiddenOnLoadStyle = this.state.devOnlyHiddenOnLoad ? { opacity: 0 } : null;
+  // HACK(all-the-things): we can't get rid of FOUC in dev mode because we want hot reloading of CSS updates.
+  // This hides the unsightly unstyled app. However, in dev mode, it removes the perceived gain of SSR. :-/
+  const devOnlyHiddenOnLoadStyle = devOnlyHiddenOnLoad ? { opacity: 0 } : null;
 
-    return (
-      <UserContext.Provider value={this.state.userContext}>
-        <SnackbarProvider action={<CloseButton />}>
-          <ErrorBoundary>
-            <div className={classNames('App', { 'App-logged-in': this.props.user })} style={devOnlyHiddenOnLoadStyle}>
-              <Header />
-              <main className="App-main">
-                <ScrollToTop>
-                  <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/your-feature" component={YourFeature} />
-                    <Route component={NotFound} />
-                  </Switch>
-                </ScrollToTop>
-              </main>
-              <Footer />
-            </div>
-          </ErrorBoundary>
-        </SnackbarProvider>
-      </UserContext.Provider>
-    );
-  }
+  return (
+    <UserContext.Provider value={userContext}>
+      <SnackbarProvider action={<CloseButton />}>
+        <ErrorBoundary>
+          <div className={classNames('App', { 'App-logged-in': user })} style={devOnlyHiddenOnLoadStyle}>
+            <Header />
+            <main className="App-main">
+              <ScrollToTop>
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/your-feature" component={YourFeature} />
+                  <Route component={NotFound} />
+                </Switch>
+              </ScrollToTop>
+            </main>
+            <Footer />
+          </div>
+        </ErrorBoundary>
+      </SnackbarProvider>
+    </UserContext.Provider>
+  );
 }
 
 function CloseButton(snackKey) {

@@ -4,7 +4,7 @@ import { F } from '../../shared/i18n';
 import React, { useContext } from 'react';
 import UserContext from '../app/User_Context';
 
-export default function LoginLogoutButton() {
+export default function LoginLogoutButton({ className }) {
   const user = useContext(UserContext).user;
 
   const handleClick = () => {
@@ -16,8 +16,10 @@ export default function LoginLogoutButton() {
   };
 
   return (
-    <Button variant="contained" color="primary" onClick={handleClick}>
-      <UserContext.Consumer>{({ user }) => (user ? <F msg="Logout" /> : <F msg="Login" />)}</UserContext.Consumer>
-    </Button>
+    <span className={className}>
+      <Button variant="contained" color="primary" onClick={handleClick}>
+        <UserContext.Consumer>{({ user }) => (user ? <F msg="Logout" /> : <F msg="Login" />)}</UserContext.Consumer>
+      </Button>
+    </span>
   );
 }
