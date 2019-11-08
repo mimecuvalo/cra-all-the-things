@@ -217,6 +217,8 @@ REACT_APP_SSR_PORT=3001
 - re-evaluate CSS Modules
 - explore Koa
 - explore Next.js
+- js-event-bus (a la node's emit)?
+- concurrent mode?
 
 ## 📙 Learn More
 

@@ -92,5 +92,9 @@ function updateHelloworldRepo(version) {
   execSync(`${cdCmd}; git add -A`, execOptions);
   execSync(`${cdCmd}; npm install --package-lock-only`, execOptions);
 
+  // Ugh, this is so dumb.
+  execSync(`${cdCmd}; rm -rf node_modules`, execOptions);
+  execSync(`${cdCmd}; lerna bootstrap --hoist`, execOptions);
+
   console.log('Finished!');
 }
