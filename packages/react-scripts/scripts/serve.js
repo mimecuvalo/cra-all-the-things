@@ -151,10 +151,10 @@ function getProductionAssetsByType() {
 
   // XXX(mime): this can't be the correct of doing this... errr.
   const assetKeys = Object.keys(assetManifest);
-  const runtimeIndex = assetKeys.indexOf('runtime~main.js.map');
+  const runtimeIndex = assetKeys.indexOf('runtime-main.js.map');
   const bundleKey = assetKeys[runtimeIndex + 1];
 
-  const js = [assetManifest['runtime~main.js'], assetManifest[bundleKey], assetManifest['main.js']];
+  const js = [assetManifest['runtime-main.js'], assetManifest[bundleKey], assetManifest['main.js']];
   const css = [assetManifest['main.css']];
 
   return { css, js };

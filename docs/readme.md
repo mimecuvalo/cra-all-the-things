@@ -136,6 +136,9 @@ REACT_APP_SSR_PORT=3001
 - more GraphQL examples:
   - fragments
   - local state (instead of redux, explain)
+    - https://www.apollographql.com/docs/react/data/local-state/
+    - https://hackernoon.com/storing-local-state-in-react-with-apollo-link-state-738f6ca45569
+    - https://engineering.circle.com/https-medium-com-mattdionis-move-over-redux-apollo-client-as-a-state-management-solution-1f9325f96cdd
   - subscriptions
   - check out dataloader: https://github.com/graphql/dataloader
   - generate automatically schemas/typedefs
@@ -166,6 +169,7 @@ REACT_APP_SSR_PORT=3001
 ### p1 (medium pri)
 
 - maybe SASS
+- prepack? https://prepack.io/
 - maybe shared css/js constants file
 - maybe event listener hook for events on an react component
 - recommend better secrets service: https://www.thoughtworks.com/radar/techniques/secrets-as-a-service
@@ -188,6 +192,7 @@ REACT_APP_SSR_PORT=3001
   - message extractor
   - polyfill for `Intl` for older browsers
   - highlight missing translations
+  - have time sync somewhere
   - add fallback capability
   - RTL
 - experiments framework
@@ -219,6 +224,8 @@ REACT_APP_SSR_PORT=3001
 - explore Next.js
 - js-event-bus (a la node's emit)?
 - concurrent mode?
+- maybe rebound, https://github.com/facebook/rebound-js https://facebook.github.io/rebound-js/examples/
+- or react-spring https://www.react-spring.io/ https://codesandbox.io/s/ppxnl191zx
 
 ## 📙 Learn More
 
