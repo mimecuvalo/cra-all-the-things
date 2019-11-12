@@ -6,6 +6,7 @@ export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, titl
       <meta charSet="utf-8" />
       <link rel="author" href={`${publicUrl}humans.txt`} />
       <link rel="icon" href={`${publicUrl}favicon.ico`} />
+      <link rel="apple-touch-icon" href={`${publicUrl}favicon.ico`} />
       {assetPathsByType['css'].map(path => (
         <link nonce={nonce} rel="stylesheet" key={path} href={path} />
       ))}
