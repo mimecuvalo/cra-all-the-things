@@ -145,7 +145,6 @@ REACT_APP_SSR_PORT=3001
 - sequelize associate = function(models) {
     // associations can be defined here
   }; somewhere?
-- graphql not logged in should be 401 not 500, AuthenticationError vs ForbiddenError
 
 - setup docker to start with?
 - CI integration, for own repo and template, azure?
