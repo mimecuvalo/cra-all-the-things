@@ -84,6 +84,13 @@ PORT=3000
 REACT_APP_SSR_PORT=3001
 ```
 
+To run migrations:
+
+```sh
+npx sequelize db:migrate && npx sequelize db:seed:all
+```
+To learn more about Sequelize and migrations, read the docs [here](https://sequelize.org/master/manual/migrations.html).
+
 ## ⚡ Features
 
 - **accessibility (a11y) analyzer**: via [axe](https://www.google.com/search?q=axe-core&oq=axe-core&aqs=chrome..69i57.1485j0j7&sourceid=chrome&ie=UTF-8). in the bottom corner of CRA you’ll see a menu that will give you a list of items your site is violating in terms of a11y.
@@ -142,13 +149,9 @@ REACT_APP_SSR_PORT=3001
   - subscriptions
   - check out dataloader: https://github.com/graphql/dataloader
   - generate automatically schemas/typedefs
-- sequelize associate = function(models) {
-    // associations can be defined here
-  }; somewhere?
+- generator steps for Sequelize files
 
 - setup docker to start with?
-- CI integration, for own repo and template, azure?
-  - perhaps, Danger JS
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
@@ -160,7 +163,6 @@ REACT_APP_SSR_PORT=3001
   - https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker
   - https://developers.google.com/web/tools/workbox/
   - asset-manifest: https://github.com/facebook/create-react-app/issues/5513
-- generator steps for Sequelize files
 
 ### p1 (medium pri)
 
