@@ -89,6 +89,13 @@ To run migrations:
 ```sh
 npx sequelize db:migrate && npx sequelize db:seed:all
 ```
+
+To create a new migration:
+
+```sh
+npx sequelize migration:generate --name [migration_name]
+```
+
 To learn more about Sequelize and migrations, read the docs [here](https://sequelize.org/master/manual/migrations.html).
 
 ## ⚡ Features
@@ -148,8 +155,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
     - https://engineering.circle.com/https-medium-com-mattdionis-move-over-redux-apollo-client-as-a-state-management-solution-1f9325f96cdd
   - subscriptions
   - check out dataloader: https://github.com/graphql/dataloader
-  - generate automatically schemas/typedefs
-- generator steps for Sequelize files
 
 - setup docker to start with?
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
@@ -168,12 +173,8 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 
 - maybe SASS
 - prepack? https://prepack.io/
-- maybe shared css/js constants file
-- maybe event listener hook for events on an react component
 - recommend better secrets service: https://www.thoughtworks.com/radar/techniques/secrets-as-a-service
 - look at persisting csurf across server restarts
-- go through Flow warnings / add type annotations
-- common css mixins file needed still? e.g. ellipsize, and color palette
 - admin panel, separate webpack entry point/code split
   - REPL
   - exception collector
@@ -184,7 +185,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 - update createNonceAndSetCSP - probably have to intercept entry file and add nonce manually for webpack dynamically loaded js, then might not need csp at nginx layer
 - finish up ‘configuration.js’ - should be usable server-side
 - create staticUrl function for cache busting upon new versions (using git hash, images and other static files)
-- create buildUrl functionality (copy over from helloworld project)
 - i18n features
   - package name to avoid conflicts
   - message extractor
@@ -196,12 +196,10 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 - experiments framework
 - make source-map-explorer script work on arbitrary files in webpack
 - add "test:debug" to scripts for [chrome testing](https://facebook.github.io/create-react-app/docs/debugging-tests)
-- more tests and https://coveralls.io
 - background tasks (if anything, at least via cron)
 - bundle analyzers (bundlesize, webpack-bundle-analyzer, webpack-dashboard)
 - ability to config repo (add name/email to Markdown docs at least)
 - GitHub PR request, show infobar of impact of PR
-- different DB? maybe mongodb?
 - web components? (e.g. check out youtube.com)
 - update `npm eject`
 - development of this repo: shouldn’t need to do yarn and then npm install in react-scripts
