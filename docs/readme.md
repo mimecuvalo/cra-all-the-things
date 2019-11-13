@@ -153,7 +153,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
     - https://www.apollographql.com/docs/react/data/local-state/
     - https://hackernoon.com/storing-local-state-in-react-with-apollo-link-state-738f6ca45569
     - https://engineering.circle.com/https-medium-com-mattdionis-move-over-redux-apollo-client-as-a-state-management-solution-1f9325f96cdd
-  - subscriptions
   - check out dataloader: https://github.com/graphql/dataloader
 
 - setup docker to start with?
