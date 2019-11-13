@@ -147,14 +147,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 
 ### p0 (high pri)
 
-- more GraphQL examples:
-  - fragments
-  - local state (instead of redux, explain)
-    - https://www.apollographql.com/docs/react/data/local-state/
-    - https://hackernoon.com/storing-local-state-in-react-with-apollo-link-state-738f6ca45569
-    - https://engineering.circle.com/https-medium-com-mattdionis-move-over-redux-apollo-client-as-a-state-management-solution-1f9325f96cdd
-  - check out dataloader: https://github.com/graphql/dataloader
-
 - setup docker to start with?
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
@@ -209,7 +201,7 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 - dev mode, sqllite
 - staging / canary server flags
 - Redis
-- immutability, via immutable.js / immer
+- immutability, via immutable.js / immer, graphql: `freezeResults: true` and `assumeImmutableResults: true`
 - serve.js currently uses a bundle.js server-side which gives crap stack traces. some beautiful day we wouldn't need to use webpack basically when we just went to be able to require the constructApps function directly!
 
 ### 🔭 Things to explore (experimental roadmap)

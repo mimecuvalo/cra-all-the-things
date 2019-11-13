@@ -4,6 +4,7 @@ import createApolloClient from '../data/apollo_client';
 import { DEFAULT_LOCALE, getLocale } from './locale';
 import { getDataFromTree } from '@apollo/react-ssr';
 import HTMLBase from './HTMLBase';
+import { initializeCurrentUser } from '../../shared/data/local_state';
 import { IntlProvider } from 'react-intl';
 import * as languages from '../../shared/i18n/languages';
 import React from 'react';
@@ -14,6 +15,7 @@ import theme from '../../shared/theme';
 import uuid from 'uuid';
 
 export default async function render({ req, res, next, assetPathsByType, appName, publicUrl, gitInfo }) {
+  initializeCurrentUser(req.session.user);
   const apolloClient = createApolloClient(req);
   const context = {};
   const nonce = createNonceAndSetCSP(res);
@@ -24,7 +26,7 @@ export default async function render({ req, res, next, assetPathsByType, appName
   // For Material UI setup.
   const sheets = new ServerStyleSheets();
 
-  const coreApp = <App user={req.session.user} />;
+  const coreApp = <App />;
   // We need to set leave out Material-UI classname generation when traversing the React tree for
   // Apollo data. a) it speeds things up, but b) if we didn't do this, on prod, it can cause
   // classname hydration mismatches.

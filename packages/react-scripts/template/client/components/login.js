@@ -1,11 +1,23 @@
 import Button from '@material-ui/core/Button';
 import { createLock, setUser } from '../app/auth';
 import { F } from '../../shared/i18n';
-import React, { useContext } from 'react';
-import UserContext from '../app/User_Context';
+import gql from 'graphql-tag';
+import React from 'react';
+import { useQuery } from '@apollo/react-hooks';
+
+const USER_QUERY = gql`
+  {
+    user @client {
+      oauth {
+        email
+      }
+    }
+  }
+`;
 
 export default function LoginLogoutButton({ className }) {
-  const user = useContext(UserContext).user;
+  const { data } = useQuery(USER_QUERY);
+  const user = data?.user;
 
   const handleClick = () => {
     if (user) {
@@ -18,7 +30,7 @@ export default function LoginLogoutButton({ className }) {
   return (
     <span className={className}>
       <Button variant="contained" color="primary" onClick={handleClick}>
-        <UserContext.Consumer>{({ user }) => (user ? <F msg="Logout" /> : <F msg="Login" />)}</UserContext.Consumer>
+        {user ? <F msg="Logout" /> : <F msg="Login" />}
       </Button>
     </span>
   );

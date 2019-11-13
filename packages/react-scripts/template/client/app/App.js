@@ -12,7 +12,6 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 import NotFound from '../error/404';
 import React, { useEffect, useRef, useState } from 'react';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import UserContext from './User_Context';
 import YourFeature from '../your_feature/YourFeature';
 
 const messages = defineMessages({
@@ -20,8 +19,7 @@ const messages = defineMessages({
 });
 
 // This is the main entry point on the client-side.
-export default function App({ user }) {
-  const [userContext] = useState({ user });
+export default function App() {
   const [devOnlyHiddenOnLoad, setDevOnlyHiddenOnLoad] = useState(process.env.NODE_ENV === 'development');
   const [loaded, setLoaded] = useState(false);
 
@@ -48,25 +46,23 @@ export default function App({ user }) {
   const devOnlyHiddenOnLoadStyle = devOnlyHiddenOnLoad ? { opacity: 0 } : null;
 
   return (
-    <UserContext.Provider value={userContext}>
-      <SnackbarProvider action={<CloseButton />}>
-        <ErrorBoundary>
-          <div className={classNames('App', { 'App-logged-in': user })} style={devOnlyHiddenOnLoadStyle}>
-            <Header />
-            <main className="App-main">
-              <ScrollToTop>
-                <Switch>
-                  <Route exact path="/" component={Home} />
-                  <Route path="/your-feature" component={YourFeature} />
-                  <Route component={NotFound} />
-                </Switch>
-              </ScrollToTop>
-            </main>
-            <Footer />
-          </div>
-        </ErrorBoundary>
-      </SnackbarProvider>
-    </UserContext.Provider>
+    <SnackbarProvider action={<CloseButton />}>
+      <ErrorBoundary>
+        <div className={classNames('App', { 'App-logged-in': true })} style={devOnlyHiddenOnLoadStyle}>
+          <Header />
+          <main className="App-main">
+            <ScrollToTop>
+              <Switch>
+                <Route exact path="/" component={Home} />
+                <Route path="/your-feature" component={YourFeature} />
+                <Route component={NotFound} />
+              </Switch>
+            </ScrollToTop>
+          </main>
+          <Footer />
+        </div>
+      </ErrorBoundary>
+    </SnackbarProvider>
   );
 }
 
