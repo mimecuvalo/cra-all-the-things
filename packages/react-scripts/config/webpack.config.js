@@ -560,8 +560,8 @@ module.exports = function(webpackEnv, isSSR) {
     },
     plugins: [
       // Generates an `index.html` file with the <script> injected.
-      // NOTE(all-the-things): disabled.
-      false &&
+      // NOTE(all-the-things): only used for service-worker.
+      isEnvProductionButNotSSR &&
         new HtmlWebpackPlugin(
           Object.assign(
             {},
@@ -590,8 +590,8 @@ module.exports = function(webpackEnv, isSSR) {
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
       // https://github.com/facebook/create-react-app/issues/5358
-      // NOTE(all-the-things): disabled.
-      false &&
+      // NOTE(all-the-things): only used for service-worker.
+      isEnvProductionButNotSSR &&
         isEnvProduction &&
         shouldInlineRuntimeChunk &&
         new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime-.+[.]js/]),
@@ -601,8 +601,9 @@ module.exports = function(webpackEnv, isSSR) {
       // In production, it will be an empty string unless you specify "homepage"
       // in `package.json`, in which case it will be the pathname of that URL.
       // In development, this will be an empty string.
-      // NOTE(all-the-things): disabled.
-      false && new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      // NOTE(all-the-things): only used for service-worker.
+      isEnvProductionButNotSSR &&
+        new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
       // This gives some necessary context to module not found errors, such as
       // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),

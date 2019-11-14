@@ -1,5 +1,6 @@
 import React from 'react';
 
+// NOTE: Keep in sync with index.html for service workers!
 export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, title }) {
   return (
     <head>

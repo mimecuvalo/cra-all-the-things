@@ -126,6 +126,7 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 - **i18n**: via [react-intl](https://github.com/yahoo/react-intl/wiki#getting-started).
 - **kill switch**: runs a client health check every 5 minutes to see if the client is still valid.
 - **libraries**: adds [lodash](https://lodash.com) by default.
+- **local state**: adds [Apollo's Local State](https://www.apollographql.com/docs/react/data/local-state/).
 - **logger**: via [winston](https://github.com/winstonjs/winston).
 - **node inspection**: adds `--inspect` for development mode.
 - [**Open Graph**](http://ogp.me/): adds stub for social media embedding.
@@ -151,14 +152,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
-- PWA, explore enabling by default (desktop PWA, too?) - but probably won't
-  - https://hnpwa.com/
-  - https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-  - https://developers.google.com/web/fundamentals/performance/prpl-pattern/
-  - https://developers.google.com/web/updates/2018/07/pwacompat
-  - https://developers.google.com/web/ilt/pwa/caching-files-with-service-worker
-  - https://developers.google.com/web/tools/workbox/
-  - asset-manifest: https://github.com/facebook/create-react-app/issues/5513
 
 ### p1 (medium pri)
 
