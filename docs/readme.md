@@ -148,26 +148,20 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 
 ### p0 (high pri)
 
-- setup docker to start with?
+- setup docker to start with? maybe redis with it
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
 
 ### p1 (medium pri)
 
-- maybe SASS
-- prepack? https://prepack.io/
-- recommend better secrets service: https://www.thoughtworks.com/radar/techniques/secrets-as-a-service
-- look at persisting csurf across server restarts
 - admin panel, separate webpack entry point/code split
   - REPL
   - exception collector
   - system info
-  - add docusaurus / read the docs (for this repo and template)
+- add docusaurus / read the docs (for this repo and template)
 - authentication - add ability to refresh tokens (auth0)
-- keygrip for signing cookies
 - update createNonceAndSetCSP - probably have to intercept entry file and add nonce manually for webpack dynamically loaded js, then might not need csp at nginx layer
-- finish up ‘configuration.js’ - should be usable server-side
 - create staticUrl function for cache busting upon new versions (using git hash, images and other static files)
 - i18n features
   - package name to avoid conflicts
@@ -187,19 +181,13 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 - web components? (e.g. check out youtube.com)
 - update `npm eject`
 - development of this repo: shouldn’t need to do yarn and then npm install in react-scripts
-- getCSSModuleLocalIdent causes problems with flightplan.js, should be able to build first and *then* link over new prod build but currently doing vice-versa unfortunately.
 
 ### p2 (ideas)
 
 - dev mode, sqllite
 - staging / canary server flags
-- Redis
 - immutability, via immutable.js / immer, graphql: `freezeResults: true` and `assumeImmutableResults: true`
 - serve.js currently uses a bundle.js server-side which gives crap stack traces. some beautiful day we wouldn't need to use webpack basically when we just went to be able to require the constructApps function directly!
-
-### 🔭 Things to explore (experimental roadmap)
-
-- re-evaluate CSS Modules
 - explore Koa
 - explore Next.js
 - js-event-bus (a la node's emit)?
