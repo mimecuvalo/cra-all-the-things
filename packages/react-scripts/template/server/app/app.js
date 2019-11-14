@@ -6,6 +6,7 @@ import { getDataFromTree } from '@apollo/react-ssr';
 import HTMLBase from './HTMLBase';
 import { initializeCurrentUser } from '../../shared/data/local_state';
 import { IntlProvider } from 'react-intl';
+import { JssProvider, SheetsRegistry, createGenerateId } from 'react-jss';
 import * as languages from '../../shared/i18n/languages';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -25,6 +26,8 @@ export default async function render({ req, res, next, assetPathsByType, appName
 
   // For Material UI setup.
   const sheets = new ServerStyleSheets();
+  const sheetsNonMaterialUI = new SheetsRegistry();
+  const generateId = createGenerateId();
 
   const coreApp = <App />;
   // We need to set leave out Material-UI classname generation when traversing the React tree for
@@ -48,7 +51,13 @@ export default async function render({ req, res, next, assetPathsByType, appName
       >
         <ApolloProvider client={apolloClient}>
           <StaticRouter location={req.url} context={context}>
-            {!isApolloTraversal ? sheets.collect(<ThemeProvider theme={theme}>{coreApp}</ThemeProvider>) : coreApp}
+            {!isApolloTraversal
+              ? sheets.collect(
+                  <JssProvider registry={sheetsNonMaterialUI} generateId={generateId}>
+                    <ThemeProvider theme={theme}>{coreApp}</ThemeProvider>
+                  </JssProvider>
+                )
+              : coreApp}
           </StaticRouter>
         </ApolloProvider>
       </HTMLBase>
@@ -70,17 +79,18 @@ export default async function render({ req, res, next, assetPathsByType, appName
   }
 
   const materialUICSS = sheets.toString();
+  const nonMaterialCSS = sheetsNonMaterialUI.toString();
 
   /*
-    XXX(mime): Material UI's server-side rendering for CSS doesn't allow for inserting CSS the same way we do
+    XXX(mime): Server-side rendering for CSS doesn't allow for inserting CSS the same way we do
     Apollo's data (see apolloStateFn in HTMLBase). So for now, we just do a string replace, sigh.
     See related hacky code in server/app/HTMLHead.js
   */
-  const renderedAppWithMaterialUICSS = renderedApp.replace(`<!--MATERIAL-UI-CSS-SSR-REPLACE-->`, materialUICSS);
+  const renderedAppWithCSS = renderedApp.replace(`<!--CSS-SSR-REPLACE-->`, materialUICSS + '\n' + nonMaterialCSS);
 
   res.type('html');
   res.write('<!doctype html>');
-  res.write(renderedAppWithMaterialUICSS);
+  res.write(renderedAppWithCSS);
   res.end();
 }
 

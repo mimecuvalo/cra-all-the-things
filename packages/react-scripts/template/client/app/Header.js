@@ -1,10 +1,26 @@
+import { createUseStyles } from 'react-jss';
 import { F } from '../../shared/i18n';
 import { Link } from 'react-router-dom';
 import LoginLogoutButton from '../components/login';
 import React from 'react';
-import styles from './Header.module.css';
+
+const useStyles = createUseStyles({
+  menu: {
+    position: 'fixed',
+    top: '10px',
+    left: '10px',
+  },
+  login: {
+    display: 'block',
+    position: 'fixed',
+    top: '10px',
+    right: '10px',
+  },
+});
 
 export default function Header() {
+  const styles = useStyles();
+
   return (
     <header className="App-header">
       <nav>

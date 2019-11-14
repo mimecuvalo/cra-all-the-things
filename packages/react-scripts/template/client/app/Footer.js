@@ -1,17 +1,30 @@
+import { createUseStyles } from 'react-jss';
 //import { F } from '../../shared/i18n';
 import Help from './Help';
-import React, {
-  //Suspense,
-  //lazy
-} from 'react';
-import styles from './Footer.module.css';
+import React from //Suspense,
+//lazy
+'react';
 
 let Debug = () => null;
 if (process.env.NODE_ENV === 'development') {
   Debug = require('../internal/Debug').default;
 }
 
+const useStyles = createUseStyles({
+  footer: {
+    position: 'fixed',
+    bottom: '0',
+    right: '0',
+  },
+
+  'footer button': {
+    marginLeft: '10px',
+  },
+});
+
 export default function Footer() {
+  const styles = useStyles();
+
   function renderDebugMenu() {
     // Conditionally compile this code. Should not appear in production.
     if (process.env.NODE_ENV === 'development') {
