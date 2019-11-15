@@ -172,7 +172,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
   - add fallback capability
   - RTL
 - experiments framework
-- add "test:debug" to scripts for [chrome testing](https://facebook.github.io/create-react-app/docs/debugging-tests)
 - background tasks (if anything, at least via cron)
 - bundle analyzers (bundlesize, webpack-bundle-analyzer, webpack-dashboard)
 - ability to config repo (add name/email to Markdown docs at least)

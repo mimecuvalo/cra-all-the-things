@@ -91,6 +91,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     'serve:prod': 'react-scripts serve-prod',
     build: 'react-scripts build',
     test: 'react-scripts test',
+    'test:debug': 'react-scripts --inspect-brk test --runInBand --no-cache',
     eject: 'react-scripts eject',
     analyze: 'source-map-explorer build/static/js/*.chunk.js',
     flow: 'flow',
