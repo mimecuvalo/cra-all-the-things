@@ -172,7 +172,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
   - add fallback capability
   - RTL
 - experiments framework
-- make source-map-explorer script work on arbitrary files in webpack
 - add "test:debug" to scripts for [chrome testing](https://facebook.github.io/create-react-app/docs/debugging-tests)
 - background tasks (if anything, at least via cron)
 - bundle analyzers (bundlesize, webpack-bundle-analyzer, webpack-dashboard)
@@ -181,6 +180,7 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 - web components? (e.g. check out youtube.com)
 - update `npm eject`
 - development of this repo: shouldn’t need to do yarn and then npm install in react-scripts
+- migrate configuration to local_state?
 
 ### p2 (ideas)
 

@@ -92,7 +92,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     build: 'react-scripts build',
     test: 'react-scripts test',
     eject: 'react-scripts eject',
-    analyze: 'source-map-explorer build/static/js/main.*',
+    analyze: 'source-map-explorer build/static/js/*.chunk.js',
     flow: 'flow',
     postinstall: 'if test "$NODE_ENV" = "development" ; then flow-typed install; fi',
     'build-storybook': 'build-storybook -s public',
