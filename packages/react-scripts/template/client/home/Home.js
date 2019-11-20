@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import logo from './logo.svg';
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
+import { useSpring, animated } from 'react-spring';
 
 const messages = defineMessages({
   greeting: { msg: 'logo' },
@@ -23,6 +24,8 @@ const HELLO_AND_ECHO_QUERY = gql`
 
 export default function Home({ match: { url } }) {
   const intl = useIntl();
+  const springProps = useSpring({ opacity: 1, top: 0, from: { opacity: 0, top: 50 } });
+
   const { loading, data } = useQuery(HELLO_AND_ECHO_QUERY, {
     variables: { str: url },
   });
@@ -39,7 +42,9 @@ export default function Home({ match: { url } }) {
 
   return (
     <div>
-      <img src={logo} className="App-logo" alt={logoAltText} />
+      <animated.div style={{ position: 'relative', ...springProps }}>
+        <img src={logo} className="App-logo" alt={logoAltText} />
+      </animated.div>
       <p>
         <F
           msg="Edit {code} and save to reload."

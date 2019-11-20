@@ -19,7 +19,7 @@ This package includes scripts and configuration used by [Create React App](https
 - **accessibility (a11y) analyzer**: via [axe](https://www.google.com/search?q=axe-core&oq=axe-core&aqs=chrome..69i57.1485j0j7&sourceid=chrome&ie=UTF-8). in the bottom corner of CRA you’ll see a menu that will give you a list of items your site is violating in terms of a11y.
 - **authentication**: via [Auth0](https://auth0.com/). gives you the ability to login using Google/Facebook.
 - **bundle size analyzer**: à la [CRA’s docs](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size) and [source-map-explorer](https://www.npmjs.com/package/source-map-explorer). do `npm run analyze` after creating a build.
-- **component Libary (UI)**: via [Material-UI](https://material-ui.com/).
+- **component Libary (UI)**: via [Material-UI](https://material-ui.com/). ([Semantic UI](https://react.semantic-ui.com/) is a good alternative, too.)
 - **cron**: via [node-schedule](https://github.com/node-schedule/node-schedule).
 - **CSP nonce**: adds example code in `server/app/app.js` (not enabled though).
 - **documentation**: adds some standard and GitHub-specific Markdown files using best practices. files include:
