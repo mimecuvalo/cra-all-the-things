@@ -20,6 +20,7 @@ This package includes scripts and configuration used by [Create React App](https
 - **authentication**: via [Auth0](https://auth0.com/). gives you the ability to login using Google/Facebook.
 - **bundle size analyzer**: à la [CRA’s docs](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size) and [source-map-explorer](https://www.npmjs.com/package/source-map-explorer). do `npm run analyze` after creating a build.
 - **component Libary (UI)**: via [Material-UI](https://material-ui.com/).
+- **cron**: via [node-schedule](https://github.com/node-schedule/node-schedule).
 - **CSP nonce**: adds example code in `server/app/app.js` (not enabled though).
 - **documentation**: adds some standard and GitHub-specific Markdown files using best practices. files include:
   - [changelog](https://keepachangelog.com)
@@ -51,6 +52,7 @@ This package includes scripts and configuration used by [Create React App](https
 - **perf indicator**: in the bottom corner of the app, it will display render times.
 - [**Prettier**](https://prettier.io): adds linting upon commit.
 - [**React Router**](https://reacttraining.com/react-router/): adds AJAX-navigation, and code splitting via React.lazy and Suspense.
+- [**Sentry**](https://sentry.io/): exception collection and analysis.
 - **server**: i know, heresy!
   - adds [Express](https://expressjs.com/).
   - adds Server-side rendering (SSR).
@@ -166,7 +168,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
   - add fallback capability
   - RTL
 - experiments framework
-- background tasks (if anything, at least via cron)
 - ability to config repo (add name/email to Markdown docs at least)
 
 ### p2 (ideas)
