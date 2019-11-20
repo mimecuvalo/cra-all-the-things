@@ -15,6 +15,7 @@ const resolve = require('resolve');
 const PnpWebpackPlugin = require('pnp-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
+const CircularDependencyPlugin = require('circular-dependency-plugin');
 const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -602,8 +603,7 @@ module.exports = function(webpackEnv, isSSR) {
       // in `package.json`, in which case it will be the pathname of that URL.
       // In development, this will be an empty string.
       // NOTE(all-the-things): only used for service-worker.
-      isEnvProductionButNotSSR &&
-        new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      isEnvProductionButNotSSR && new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
       // This gives some necessary context to module not found errors, such as
       // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),
@@ -704,6 +704,20 @@ module.exports = function(webpackEnv, isSSR) {
         new WebpackBar({
           color: isSSR ? '#fa0' : '#0cf',
           name: isSSR ? 'server' : 'client',
+        }),
+      isEnvDevelopment &&
+        new CircularDependencyPlugin({
+          // exclude detection of files based on a RegExp
+          exclude: /node_modules/,
+          // include specific files based on a RegExp
+          include: /client|server|shared/,
+          // add errors to webpack instead of warnings
+          failOnError: true,
+          // allow import cycles that include an asyncronous import,
+          // e.g. via import(/* webpackMode: "weak" */ './file.js')
+          allowAsyncCycles: false,
+          // set the current working directory for displaying module paths
+          cwd: process.cwd(),
         }),
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
