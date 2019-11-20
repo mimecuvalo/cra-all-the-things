@@ -12,11 +12,53 @@
 
 ## 📯 Description
 
-This package includes scripts and configuration used by [Create React App](https://github.com/facebook/create-react-app).<br>
-Please refer to its documentation:
+This package includes scripts and configuration used by [Create React App](https://github.com/facebook/create-react-app) but with LOTS more bells 🔔 and whistles 😗.
 
-- [Getting Started](https://github.com/facebook/create-react-app/blob/master/README.md#getting-started) – How to create a new app.
-- [User Guide](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with Create React App.
+## ⚡ Features
+
+- **accessibility (a11y) analyzer**: via [axe](https://www.google.com/search?q=axe-core&oq=axe-core&aqs=chrome..69i57.1485j0j7&sourceid=chrome&ie=UTF-8). in the bottom corner of CRA you’ll see a menu that will give you a list of items your site is violating in terms of a11y.
+- **authentication**: via [Auth0](https://auth0.com/). gives you the ability to login using Google/Facebook.
+- **bundle size analyzer**: à la [CRA’s docs](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size) and [source-map-explorer](https://www.npmjs.com/package/source-map-explorer). do `npm run analyze` after creating a build.
+- **component Libary (UI)**: via [Material-UI](https://material-ui.com/).
+- **CSP nonce**: adds example code in `server/app/app.js` (not enabled though).
+- **documentation**: adds some standard and GitHub-specific Markdown files using best practices. files include:
+  - [changelog](https://keepachangelog.com)
+  - [code of conduct](https://www.contributor-covenant.org)
+  - [code owners](https://help.github.com/articles/about-code-owners/) (GitHub-specific)
+  - contributing: based off of [Atom’s](https://github.com/atom/atom/blob/master/CONTRIBUTING.md).
+  - contributors
+  - [issue template](https://help.github.com/articles/about-issue-and-pull-request-templates/) (GitHub-specific)
+  - license
+  - [pull request template](https://help.github.com/articles/about-issue-and-pull-request-templates/) (GitHub-specific)
+  - [readme](https://www.makeareadme.com/)
+  - [support](https://help.github.com/articles/adding-support-resources-to-your-project/) (GitHub-specific)
+- **error boundary**: adds a top-level one to the app. (see [doc](https://reactjs.org/docs/error-boundaries.html)).
+- **error pages**: [401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401), [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), [500](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500).
+- **error reporting**: listens to `window.onerror` and reports JS errors to the server for debugging.
+- [**Flow**](https://flow.org): enable by default (off by default in CRA).
+- [**hot module replacement (HMR)**](https://webpack.js.org/concepts/hot-module-replacement/): enable by default (off by default in CRA).
+- [**humans.txt**](http://humanstxt.org/) **/** [**robots.txt**](http://www.robotstxt.org/): adds stubs of these files.
+- [**Jest**](https://jestjs.io/): installs [Enzyme](https://airbnb.io/enzyme/) into the mix by default.
+- **i18n**: via [react-intl](https://github.com/yahoo/react-intl/wiki#getting-started).
+- **kill switch**: runs a client health check every 5 minutes to see if the client is still valid.
+- **libraries**: adds [lodash](https://lodash.com) by default.
+- **local state**: adds [Apollo's Local State](https://www.apollographql.com/docs/react/data/local-state/).
+- **logger**: via [winston](https://github.com/winstonjs/winston).
+- **node inspection**: adds `--inspect` for development mode.
+- [**Open Graph**](http://ogp.me/): adds stub for social media embedding.
+- [**OpenSearch**](http://www.opensearch.org/Home): adds stub file so that you can add search queries to your site later.
+- **ORM**: via [sequelize](http://docs.sequelizejs.com/).
+- **perf indicator**: in the bottom corner of the app, it will display render times.
+- [**Prettier**](https://prettier.io): adds linting upon commit.
+- [**React Router**](https://reacttraining.com/react-router/): adds AJAX-navigation, and code splitting via React.lazy and Suspense.
+- **server**: i know, heresy!
+  - adds [Express](https://expressjs.com/).
+  - adds Server-side rendering (SSR).
+  - adds [GraphQL](https://graphql.org) and [Apollo](https://apollographql.com).
+  - stubs out an API server.
+- **structured data**: via [JSON-LD](https://developers.google.com/search/docs/guides/intro-structured-data).
+- **styleguide**: via [Storybook](https://storybook.js.org).
+- **xsrf/csrf protection**: via [csurf](https://github.com/expressjs/csurf).
 
 ## 💾 Install
 
@@ -98,59 +140,13 @@ npx sequelize migration:generate --name [migration_name]
 
 To learn more about Sequelize and migrations, read the docs [here](https://sequelize.org/master/manual/migrations.html).
 
-## ⚡ Features
-
-- **accessibility (a11y) analyzer**: via [axe](https://www.google.com/search?q=axe-core&oq=axe-core&aqs=chrome..69i57.1485j0j7&sourceid=chrome&ie=UTF-8). in the bottom corner of CRA you’ll see a menu that will give you a list of items your site is violating in terms of a11y.
-- **authentication**: via [Auth0](https://auth0.com/). gives you the ability to login using Google/Facebook.
-- **bundle size analyzer**: à la [CRA’s docs](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size) and [source-map-explorer](https://www.npmjs.com/package/source-map-explorer). do `npm run analyze` after creating a build.
-- **component Libary (UI)**: via [Material-UI](https://material-ui.com/).
-- **CSP nonce**: adds example code in `server/app/app.js` (not enabled though).
-- **documentation**: adds some standard and GitHub-specific Markdown files using best practices. files include:
-  - [changelog](https://keepachangelog.com)
-  - [code of conduct](https://www.contributor-covenant.org)
-  - [code owners](https://help.github.com/articles/about-code-owners/) (GitHub-specific)
-  - contributing: based off of [Atom’s](https://github.com/atom/atom/blob/master/CONTRIBUTING.md).
-  - contributors
-  - [issue template](https://help.github.com/articles/about-issue-and-pull-request-templates/) (GitHub-specific)
-  - license
-  - [pull request template](https://help.github.com/articles/about-issue-and-pull-request-templates/) (GitHub-specific)
-  - [readme](https://www.makeareadme.com/)
-  - [support](https://help.github.com/articles/adding-support-resources-to-your-project/) (GitHub-specific)
-- **error boundary**: adds a top-level one to the app. (see [doc](https://reactjs.org/docs/error-boundaries.html)).
-- **error pages**: [401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401), [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), [500](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500).
-- **error reporting**: listens to `window.onerror` and reports JS errors to the server for debugging.
-- [**Flow**](https://flow.org): enable by default (off by default in CRA).
-- [**hot module replacement (HMR)**](https://webpack.js.org/concepts/hot-module-replacement/): enable by default (off by default in CRA).
-- [**humans.txt**](http://humanstxt.org/) **/** [**robots.txt**](http://www.robotstxt.org/): adds stubs of these files.
-- [**Jest**](https://jestjs.io/): installs [Enzyme](https://airbnb.io/enzyme/) into the mix by default.
-- **i18n**: via [react-intl](https://github.com/yahoo/react-intl/wiki#getting-started).
-- **kill switch**: runs a client health check every 5 minutes to see if the client is still valid.
-- **libraries**: adds [lodash](https://lodash.com) by default.
-- **local state**: adds [Apollo's Local State](https://www.apollographql.com/docs/react/data/local-state/).
-- **logger**: via [winston](https://github.com/winstonjs/winston).
-- **node inspection**: adds `--inspect` for development mode.
-- [**Open Graph**](http://ogp.me/): adds stub for social media embedding.
-- [**OpenSearch**](http://www.opensearch.org/Home): adds stub file so that you can add search queries to your site later.
-- **ORM**: via [sequelize](http://docs.sequelizejs.com/).
-- **perf indicator**: in the bottom corner of the app, it will display render times.
-- [**Prettier**](https://prettier.io): adds linting upon commit.
-- [**React Router**](https://reacttraining.com/react-router/): adds AJAX-navigation, and code splitting via React.lazy and Suspense.
-- **server**: i know, heresy!
-  - adds [Express](https://expressjs.com/).
-  - adds Server-side rendering (SSR).
-  - adds [GraphQL](https://graphql.org) and [Apollo](https://apollographql.com).
-  - stubs out an API server.
-- **structured data**: via [JSON-LD](https://developers.google.com/search/docs/guides/intro-structured-data).
-- **styleguide**: via [Storybook](https://storybook.js.org).
-- **xsrf/csrf protection**: via [csurf](https://github.com/expressjs/csurf).
 
 ## 🗺️ Roadmap
 
 ### p0 (high pri)
 
-- setup docker to start with? maybe redis with it
+- setup docker to start with? maybe redis with it and maybe sqllite
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
-- what learnings from react-server, next.js, razzle, suicrux, react-redux-universal-hot-example, and others https://reactjs.org/community/starter-kits.html?
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
 
 ### p1 (medium pri)
@@ -160,39 +156,27 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
   - exception collector
   - system info
 - add docusaurus / read the docs (for this repo and template)
-- authentication - add ability to refresh tokens (auth0)
 - update createNonceAndSetCSP - probably have to intercept entry file and add nonce manually for webpack dynamically loaded js, then might not need csp at nginx layer
-- create staticUrl function for cache busting upon new versions (using git hash, images and other static files)
 - i18n features
   - package name to avoid conflicts
   - message extractor
   - polyfill for `Intl` for older browsers
-  - highlight missing translations
+  - highlight missing translations  
   - have time sync somewhere
   - add fallback capability
   - RTL
 - experiments framework
 - background tasks (if anything, at least via cron)
-- bundle analyzers (bundlesize, webpack-bundle-analyzer, webpack-dashboard)
 - ability to config repo (add name/email to Markdown docs at least)
-- GitHub PR request, show infobar of impact of PR
-- web components? (e.g. check out youtube.com)
-- update `npm eject`
-- development of this repo: shouldn’t need to do yarn and then npm install in react-scripts
-- migrate configuration to local_state?
 
 ### p2 (ideas)
 
-- dev mode, sqllite
-- staging / canary server flags
-- immutability, via immutable.js / immer, graphql: `freezeResults: true` and `assumeImmutableResults: true`
-- serve.js currently uses a bundle.js server-side which gives crap stack traces. some beautiful day we wouldn't need to use webpack basically when we just went to be able to require the constructApps function directly!
-- explore Koa
-- explore Next.js
-- js-event-bus (a la node's emit)?
-- concurrent mode?
-- maybe rebound, https://github.com/facebook/rebound-js https://facebook.github.io/rebound-js/examples/
-- or react-spring https://www.react-spring.io/ https://codesandbox.io/s/ppxnl191zx
+- update `npm eject`
+- Apollo Client 3.0 will have freezeResults and assumeImmutableResults true by default, check post 3.0.
+- serve.js currently uses a bundle.js SSR which gives crap stack traces. can we require constructApps function directly?
+- React Concurrent mode in the future, still experimental
+- development of this repo: shouldn’t need to do yarn and then npm install in react-scripts
+- migrate configuration/configuration.locale to local_state?
 
 ## 📙 Learn More
 
