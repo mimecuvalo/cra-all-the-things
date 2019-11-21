@@ -23,8 +23,9 @@ rl.question('Name: ', answer => {
 });
 
 function configRepo() {
-  console.log(name, githubUsername, email);
+  name = name.replace(/ /, '\\ ');
   execSync(`grep fullname * -rsiIl --include="*.md" | xargs sed -i '' s/fullname/${name}/g`);
   execSync(`grep githubusername * -rsiIl --include="*.md" | xargs sed -i '' s/githubusername/${githubUsername}/g`);
   execSync(`grep email@gmail.com * -rsiIl --include="*.md" | xargs sed -i '' s/email@gmail.com/${email}/g`);
+  execSync(`grep year * -rsiIl --include="*.md" | xargs sed -i '' s/year/${new Date().getFullYear()}/g`);
 }
