@@ -94,6 +94,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     'test:debug': 'react-scripts --inspect-brk test --runInBand --no-cache',
     eject: 'react-scripts eject',
     analyze: 'source-map-explorer build/static/js/*.chunk.js',
+    config: 'node bin/config.js',
     flow: 'flow',
     postinstall: 'if test "$NODE_ENV" = "development" ; then flow-typed install; fi',
     'build-storybook': 'build-storybook -s public',

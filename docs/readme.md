@@ -143,6 +143,11 @@ npx sequelize migration:generate --name [migration_name]
 
 To learn more about Sequelize and migrations, read the docs [here](https://sequelize.org/master/manual/migrations.html).
 
+To add your name/email to relevant files:
+
+```sh
+npm run config
+```
 
 ## 🗺️ Roadmap
 
@@ -168,7 +173,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
   - add fallback capability
   - RTL
 - experiments framework
-- ability to config repo (add name/email to Markdown docs at least)
 
 ### p2 (ideas)
 
