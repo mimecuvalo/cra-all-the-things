@@ -7,10 +7,12 @@ import cookieParser from 'cookie-parser';
 import * as cron from './cron';
 import csurf from 'csurf';
 import express from 'express';
+import helmet from 'helmet';
 import path from 'path';
 import * as Sentry from '@sentry/node';
 import session from 'express-session';
 import sessionFileStore from 'session-file-store';
+import uuid from 'uuid';
 import winston from 'winston';
 import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
@@ -26,8 +28,43 @@ export default function constructApps({ appName, productionAssetsByType, publicU
   // Add basics: gzip, body parsing, cookie parsing.
   app.use(compression());
   app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(bodyParser.json({ type: ['json', 'application/csp-report'] }));
   app.use(cookieParser());
+
+  // Helmet sets security headers via HTTP headers.
+  // Learn more here: https://helmetjs.github.io/docs/
+  app.use(function(req, res, next) {
+    res.locals.nonce = uuid.v4();
+    next();
+  });
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          connectSrc: [process.env.NODE_ENV === 'development' ? '*' : "'self'"],
+          defaultSrc: ["'none'"],
+          fontSrc: ["'self'", 'https:'],
+          frameAncestors: ["'self'"],
+          frameSrc: ["'self'", 'http:', 'https:'],
+          imgSrc: ['data:', 'http:', 'https:'],
+          manifestSrc: ["'self'"],
+          mediaSrc: ["'self'", 'blob:'],
+          objectSrc: ["'self'"],
+          reportUri: '/api/report-violation',
+          scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
+          upgradeInsecureRequests: true,
+
+          // XXX(mime): we have inline styles around - can we pass nonce around the app properly?
+          styleSrc: ["'self'", 'https:', "'unsafe-inline'"], //(req, res) => `'nonce-${res.locals.nonce}'`],
+        },
+        reportOnly: process.env.NODE_ENV === 'development',
+      },
+    })
+  );
+  app.post('/api/report-violation', (req, res) => {
+    console.log('CSP Violation: ', req.body || 'No data received!');
+    res.status(204).end();
+  });
 
   // Session store.
   // NOTE! We use a file storage mechanism which keeps things simple for purposes of ubiquity of this CRA package.
@@ -95,7 +132,8 @@ export default function constructApps({ appName, productionAssetsByType, publicU
     logRequest(appLogger, req, req.info || req.connection);
     const assetPathsByType =
       process.env.NODE_ENV === 'development' ? processAssetsFromWebpackStats(res) : productionAssetsByType;
-    appServer({ req, res, next, assetPathsByType, appName, publicUrl, gitInfo });
+    const nonce = res.locals.nonce;
+    appServer({ req, res, next, assetPathsByType, appName, nonce, publicUrl, gitInfo });
   });
 
   return [app, dispose];

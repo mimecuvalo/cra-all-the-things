@@ -91,6 +91,7 @@
     "graphql-resolvers": "0.3.3",
     "graphql-tag": "2.10.1",
     "graphql-tools": "4.0.5",
+    "helmet": "3.21.2",
     "html-webpack-plugin": "4.0.0-beta.8",
     "identity-obj-proxy": "3.0.0",
     "jest": "24.9.0",

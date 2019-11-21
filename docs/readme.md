@@ -52,6 +52,7 @@ This package includes scripts and configuration used by [Create React App](https
 - **perf indicator**: in the bottom corner of the app, it will display render times.
 - [**Prettier**](https://prettier.io): adds linting upon commit.
 - [**React Router**](https://reacttraining.com/react-router/): adds AJAX-navigation, and code splitting via React.lazy and Suspense.
+- [**React Spring**](https://www.react-spring.io/): for great animation using React hooks.
 - [**Sentry**](https://sentry.io/): exception collection and analysis.
 - **server**: i know, heresy!
   - adds [Express](https://expressjs.com/).
@@ -158,7 +159,6 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
   - exception collector
   - system info
 - add docusaurus / read the docs (for this repo and template)
-- update createNonceAndSetCSP - probably have to intercept entry file and add nonce manually for webpack dynamically loaded js, then might not need csp at nginx layer
 - i18n features
   - package name to avoid conflicts
   - message extractor
@@ -172,6 +172,7 @@ To learn more about Sequelize and migrations, read the docs [here](https://seque
 
 ### p2 (ideas)
 
+- possible to remove unsafe-inline for CSS? (and then devOnlyHiddenOnLoad)
 - update `npm eject`
 - Apollo Client 3.0 will have freezeResults and assumeImmutableResults true by default, check post 3.0.
 - serve.js currently uses a bundle.js SSR which gives crap stack traces. can we require constructApps function directly?

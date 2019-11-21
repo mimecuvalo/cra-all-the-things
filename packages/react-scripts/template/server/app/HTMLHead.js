@@ -18,6 +18,13 @@ export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, titl
       <meta name="theme-color" content="#000000" />
       <meta name="description" content="website created using cra-all-the-things." />
       <meta name="generator" content="cra-all-the-things. https://github.com/mimecuvalo/all-the-things" />
+      <meta property="csp-nonce" content={nonce} />
+      <script
+        nonce={nonce}
+        dangerouslySetInnerHTML={{
+          __html: `__webpack_nonce__ = '${nonce}'`,
+        }}
+      />
       <OpenGraphMetadata title={title} req={req} />
       <StructuredMetaData nonce={nonce} title={title} req={req} />
       {/*
@@ -40,7 +47,7 @@ export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, titl
         Apollo's data (see apolloStateFn in HTMLBase). So for now, we just do a string replace, sigh.
         See related hacky code in server/app/app.js
       */}
-      <style id="jss-ssr" dangerouslySetInnerHTML={{ __html: `<!--CSS-SSR-REPLACE-->` }} />
+      <style id="jss-ssr" nonce={nonce} dangerouslySetInnerHTML={{ __html: `<!--CSS-SSR-REPLACE-->` }} />
     </head>
   );
 }

@@ -24,6 +24,9 @@ const HELLO_AND_ECHO_QUERY = gql`
 
 export default function Home({ match: { url } }) {
   const intl = useIntl();
+
+  // This uses React Spring: https://www.react-spring.io/
+  // Gives you some great animation easily for your app.
   const springProps = useSpring({ opacity: 1, top: 0, from: { opacity: 0, top: 50 } });
 
   const { loading, data } = useQuery(HELLO_AND_ECHO_QUERY, {

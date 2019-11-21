@@ -1,8 +1,7 @@
 import { createUseStyles } from 'react-jss';
 //import { F } from '../../shared/i18n';
 import Help from './Help';
-import React from //Suspense,
-//lazy
+import React from //lazy //Suspense,
 'react';
 
 let Debug = () => null;
@@ -15,10 +14,9 @@ const useStyles = createUseStyles({
     position: 'fixed',
     bottom: '0',
     right: '0',
-  },
-
-  'footer button': {
-    marginLeft: '10px',
+    '& button': {
+      marginLeft: '10px',
+    },
   },
 });
 
