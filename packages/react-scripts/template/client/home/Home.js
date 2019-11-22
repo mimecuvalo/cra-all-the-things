@@ -8,6 +8,7 @@ import { useSpring, animated } from 'react-spring';
 
 const messages = defineMessages({
   greeting: { msg: 'logo' },
+  fallback: { msg: 'logo2' },
 });
 
 // This is an GraphQL query for the Home component which passes the query result to the props.
@@ -41,7 +42,7 @@ export default function Home({ match: { url } }) {
     return <div>Running offline with service worker.</div>;
   }
 
-  const logoAltText = intl.formatMessage(messages.greeting);
+  const logoAltText = intl.formatMessage(messages.greeting, undefined /* values */, messages.fallback);
 
   return (
     <div>
@@ -73,6 +74,14 @@ export default function Home({ match: { url } }) {
           values={{
             url: data.echoExample.exampleField,
           }}
+          fallback={
+            <F
+              msg="GraphQL variables test (current url path): {url} (using i18n fallback)"
+              values={{
+                url: data.echoExample.exampleField,
+              }}
+            />
+          }
         />
       </p>
       <p>

@@ -156,23 +156,15 @@ npm run config
 - setup docker to start with? maybe redis with it and maybe sqllite
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
-
-### p1 (medium pri)
-
 - admin panel, separate webpack entry point/code split
   - REPL
   - exception collector
   - system info
 - add docusaurus / read the docs (for this repo and template)
-- i18n feature
-  - message extractor
-  - highlight missing translations  
-  - have time sync somewhere
-  - add fallback capability
-  - RTL
+- i18n: message extractor
 - experiments framework
 
-### p2 (ideas)
+### p1 (ideas)
 
 - possible to remove unsafe-inline for CSS? (and then devOnlyHiddenOnLoad)
 - update `npm eject`

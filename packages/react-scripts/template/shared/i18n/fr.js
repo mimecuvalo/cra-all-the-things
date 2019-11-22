@@ -3,7 +3,6 @@ const translations = {
   Edit__code__and_save_to_reload_: 'Modifier {code} et enregistrer pour recharger.',
   i18n_pluralization_test___itemCount__plural___0__no_items__one____item__other____items___:
     "test du numéro de traduction: {itemCount, plural, =0 {pas d'articles} one {# article} other {# articles}}.",
-  logo: 'le logo :)',
   Learn_React: 'Apprendre React',
   Learn__data_: 'Apprendre {data}',
   Your_Feature: 'Votre Fonctionnalité',
@@ -24,9 +23,15 @@ const translations = {
   Something_went_wrong_: "Quelque chose s'est mal passé.",
   Help: "L'assistance",
   Close: 'Fermer',
-  GraphQL_variables_test__current_url_path____url_: 'Test de variables GraphQL',
   i18n_html_test___a_visit_our_website__a__and__cta_see_the_world__cta_:
     'test html: visitez <a>notre site web</a> et <cta>voyez le monde</cta>',
+
+  // Fallback test.
+  // logo: 'le logó',
+  logo2: 'le logo :)',
+  // GraphQL_variables_test__current_url_path____url_: 'Test de variables GraphQL',
+  GraphQL_variables_test__current_url_path____url___using_i18n_fallback_:
+    'Test de variables GraphQL (using i18n fallback)',
 };
 
 export default translations;
