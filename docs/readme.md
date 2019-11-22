@@ -164,10 +164,8 @@ npm run config
   - exception collector
   - system info
 - add docusaurus / read the docs (for this repo and template)
-- i18n features
-  - package name to avoid conflicts
+- i18n feature
   - message extractor
-  - polyfill for `Intl` for older browsers
   - highlight missing translations  
   - have time sync somewhere
   - add fallback capability

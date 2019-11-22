@@ -39,6 +39,16 @@ html .App-snackbar-icon {
   padding: 5px;
 }
 
+/* In development, highlight untranslated strings. */
+.App-is-development * {
+  text-shadow: 3px 3px red;
+}
+
+.App-is-development .i18n-msg,
+.App-is-development .i18n-msg * {
+  text-shadow: none;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

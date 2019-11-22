@@ -48,7 +48,13 @@ export default function App() {
   return (
     <SnackbarProvider action={<CloseButton />}>
       <ErrorBoundary>
-        <div className={classNames('App', { 'App-logged-in': true })} style={devOnlyHiddenOnLoadStyle}>
+        <div
+          className={classNames('App', {
+            'App-logged-in': true,
+            'App-is-development': process.env.NODE_ENV === 'development',
+          })}
+          style={devOnlyHiddenOnLoadStyle}
+        >
           <Header />
           <main className="App-main">
             <ScrollToTop>
