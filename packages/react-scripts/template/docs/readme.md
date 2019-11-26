@@ -62,6 +62,32 @@ PORT=3000
 REACT_APP_SSR_PORT=3001
 ```
 
+To run migrations:
+
+```sh
+npx sequelize db:migrate && npx sequelize db:seed:all
+```
+
+To create a new migration:
+
+```sh
+npx sequelize migration:generate --name [migration_name]
+```
+
+To learn more about Sequelize and migrations, read the docs [here](https://sequelize.org/master/manual/migrations.html).
+
+To add your name/email to relevant files:
+
+```sh
+npm run config
+```
+
+To extract i18n messages (they go into the folder `build/messages`):
+
+```sh
+npm run extract-messages
+```
+
 ## 📙 Learn More
 
 ### [Changelog](changelog.md)

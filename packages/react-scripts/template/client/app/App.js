@@ -2,7 +2,7 @@ import './App.css';
 import classNames from 'classnames';
 import clientHealthCheck from './client_health_check';
 import CloseIcon from '@material-ui/icons/Close';
-import { defineMessages, useIntl } from '../../shared/i18n';
+import { defineMessages, useIntl } from 'react-intl-wrapper';
 import ErrorBoundary from '../error/ErrorBoundary';
 import Footer from './Footer';
 import Header from './Header';

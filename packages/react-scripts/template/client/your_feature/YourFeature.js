@@ -1,4 +1,4 @@
-import { F } from '../../shared/i18n';
+import { F } from 'react-intl-wrapper';
 import { Route, Link } from 'react-router-dom';
 import React from 'react';
 import useDocumentTitle from '../app/title';

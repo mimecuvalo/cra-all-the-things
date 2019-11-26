@@ -145,6 +145,18 @@ npx sequelize migration:generate --name [migration_name]
 
 To learn more about Sequelize and migrations, read the docs [here](https://sequelize.org/master/manual/migrations.html).
 
+To add your name/email to relevant files:
+
+```sh
+npm run config
+```
+
+To extract i18n messages (they go into the folder `build/messages`):
+
+```sh
+npm run extract-messages
+```
+
 ## 👉 See main [README.md](https://github.com/mimecuvalo/all-the-things) for roadmap and more details! 👈
 
 ## 📜 License

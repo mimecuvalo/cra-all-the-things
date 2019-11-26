@@ -99,6 +99,8 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     postinstall: 'if test "$NODE_ENV" = "development" ; then flow-typed install; fi',
     'build-storybook': 'build-storybook -s public',
     styleguide: 'start-storybook -p 9001 -c .storybook --ci --quiet',
+    'extract-messages':
+      "NODE_ENV=development extract-messages -l=en -o build/messages --flat --moduleSourceName react-intl-wrapper --additionalComponentNames F 'template/**/!(*.test).js'",
   };
 
   // Copy over some of the devDependencies

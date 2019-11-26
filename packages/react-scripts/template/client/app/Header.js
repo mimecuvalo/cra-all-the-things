@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss';
-import { F } from '../../shared/i18n';
+import { F } from 'react-intl-wrapper';
 import { Link } from 'react-router-dom';
 import LoginLogoutButton from '../components/login';
 import React from 'react';

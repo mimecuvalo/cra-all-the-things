@@ -149,6 +149,12 @@ To add your name/email to relevant files:
 npm run config
 ```
 
+To extract i18n messages (they go into the folder `build/messages`):
+
+```sh
+npm run extract-messages
+```
+
 ## 🗺️ Roadmap
 
 ### p0 (high pri)
@@ -161,7 +167,6 @@ npm run config
   - exception collector
   - system info
 - add docusaurus / read the docs (for this repo and template)
-- i18n: message extractor
 - experiments framework
 
 ### p1 (ideas)

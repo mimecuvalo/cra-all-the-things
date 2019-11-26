@@ -5,7 +5,7 @@ import { DEFAULT_LOCALE, getLocale } from '../../shared/i18n/locale';
 import { getDataFromTree } from '@apollo/react-ssr';
 import HTMLBase from './HTMLBase';
 import { initializeCurrentUser } from '../../shared/data/local_state';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider } from 'react-intl-wrapper';
 import { JssProvider, SheetsRegistry, createGenerateId } from 'react-jss';
 import * as languages from '../../shared/i18n/languages';
 import React from 'react';

@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import { createLock, setUser } from '../app/auth';
-import { F } from '../../shared/i18n';
+import { F } from 'react-intl-wrapper';
 import gql from 'graphql-tag';
 import React from 'react';
 import { useQuery } from '@apollo/react-hooks';

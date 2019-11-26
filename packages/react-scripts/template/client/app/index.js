@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import configuration from '../app/configuration';
 import createApolloClient from './apollo';
 import './index.css';
-import { IntlProvider } from 'react-intl';
+import { IntlProvider } from 'react-intl-wrapper';
 import { isInternalLocale } from '../../shared/i18n/locale';
 import React from 'react';
 import ReactDOM from 'react-dom';
