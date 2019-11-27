@@ -1,5 +1,4 @@
 import { ApolloProvider } from '@apollo/react-hooks';
-import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configuration from '../app/configuration';
 import createApolloClient from './apollo';
@@ -12,7 +11,7 @@ import * as serviceWorker from './serviceWorker';
 import theme from '../../shared/theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 
-async function renderAppTree(app) {
+async function renderAppTree(App) {
   const client = createApolloClient();
 
   let translations = {};
@@ -20,11 +19,17 @@ async function renderAppTree(app) {
     translations = (await import(`../../shared/i18n/${configuration.locale}`)).default;
   }
 
+  // Dynamically splits webpack code based on apps.
+  const runningAppName = process.env.REACT_APP_APPLICATION || 'main';
+  const RunningApp = (await import(`../apps/${runningAppName}`)).default;
+
   return (
     <IntlProvider defaultLocale={configuration.locale} locale={configuration.locale} messages={translations}>
       <ApolloProvider client={client}>
         <Router>
-          <ThemeProvider theme={theme}>{app}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <RunningApp />
+          </ThemeProvider>
         </Router>
       </ApolloProvider>
     </IntlProvider>
@@ -33,7 +38,7 @@ async function renderAppTree(app) {
 
 // We use `hydrate` here so that we attach to our server-side rendered React components.
 async function render() {
-  const appTree = await renderAppTree(<App />);
+  const appTree = await renderAppTree();
   ReactDOM.hydrate(appTree, document.getElementById('root'));
 }
 render();
@@ -41,11 +46,10 @@ render();
 // This enables hot module reloading for JS (HMR).
 if (module.hot) {
   async function hotModuleRender() {
-    const NextApp = require('./App').default;
-    const appTree = await renderAppTree(<NextApp />);
+    const appTree = await renderAppTree();
     ReactDOM.render(appTree, document.getElementById('root'));
   }
-  module.hot.accept('./App', hotModuleRender);
+  module.hot.accept(`../apps/${process.env.REACT_APP_APPLICATION}`, hotModuleRender);
 }
 
 // If you want your app to work offline and load faster, you can change

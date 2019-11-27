@@ -162,11 +162,6 @@ npm run extract-messages
 - setup docker to start with? maybe redis with it and maybe sqllite
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
-- admin panel, separate webpack entry point/code split
-  - REPL
-  - exception collector
-  - system info
-- add docusaurus / read the docs (for this repo and template)
 - experiments framework
 
 ### p1 (ideas)
@@ -175,6 +170,7 @@ npm run extract-messages
 - update `npm eject`
 - Apollo Client 3.0 will have freezeResults and assumeImmutableResults true by default, check post 3.0.
 - serve.js currently uses a bundle.js SSR which gives crap stack traces. can we require constructApps function directly?
+  - also, REPL would be much more useful after that.
 - React Concurrent mode in the future, still experimental
 - development of this repo: shouldn’t need to do yarn and then npm install in react-scripts
 - migrate configuration/configuration.locale to local_state?

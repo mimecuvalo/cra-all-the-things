@@ -27,3 +27,5 @@ async function runCheck() {
 export default function clientHealthCheck() {
   setInterval(runCheck, 5 * 60 * 1000 /* every 5 min */);
 }
+
+export const c = 3;
