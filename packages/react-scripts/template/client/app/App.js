@@ -1,3 +1,4 @@
+import AdminApp from '../admin';
 import './App.css';
 import classNames from 'classnames';
 import clientHealthCheck from './client_health_check';
@@ -5,16 +6,17 @@ import CloseIcon from '@material-ui/icons/Close';
 import { defineMessages, useIntl } from 'react-intl-wrapper';
 import ErrorBoundary from '../error/ErrorBoundary';
 import IconButton from '@material-ui/core/IconButton';
-import React, { useEffect, useRef, useState } from 'react';
+import MainApp from './Main';
+import { Route, Switch } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import { SnackbarProvider, useSnackbar } from 'notistack';
-import { useLocation } from 'react-router-dom';
 
 const messages = defineMessages({
   close: { msg: 'Close' },
 });
 
 // This is the main entry point on the client-side.
-export default function App(props) {
+export default function App() {
   const [devOnlyHiddenOnLoad, setDevOnlyHiddenOnLoad] = useState(process.env.NODE_ENV === 'development');
   const [loaded, setLoaded] = useState(false);
 
@@ -50,7 +52,10 @@ export default function App(props) {
           })}
           style={devOnlyHiddenOnLoadStyle}
         >
-          {props.children}
+          <Switch>
+            <Route path="/admin" component={AdminApp} />
+            <Route component={MainApp} />
+          </Switch>
         </div>
       </ErrorBoundary>
     </SnackbarProvider>
@@ -73,18 +78,4 @@ function CloseButton(snackKey) {
       <CloseIcon />
     </IconButton>
   );
-}
-
-export function ScrollToTop({ children }) {
-  const routerLocation = useLocation();
-  const prevLocationPathname = useRef();
-
-  useEffect(() => {
-    if (routerLocation.pathname !== prevLocationPathname) {
-      window.scrollTo(0, 0);
-    }
-    prevLocationPathname.current = routerLocation.pathname;
-  });
-
-  return children;
 }

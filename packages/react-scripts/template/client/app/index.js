@@ -1,4 +1,5 @@
 import { ApolloProvider } from '@apollo/react-hooks';
+import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import configuration from '../app/configuration';
 import createApolloClient from './apollo';
@@ -11,7 +12,7 @@ import * as serviceWorker from './serviceWorker';
 import theme from '../../shared/theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 
-async function renderAppTree(App) {
+async function renderAppTree(app) {
   const client = createApolloClient();
 
   let translations = {};
@@ -19,18 +20,11 @@ async function renderAppTree(App) {
     translations = (await import(`../../shared/i18n/${configuration.locale}`)).default;
   }
 
-  // Dynamically splits webpack code based on apps.
-  const RunningApp = (await import(
-    process.env.REACT_APP_APPLICATION ? `../${process.env.REACT_APP_APPLICATION}` : './Main'
-  )).default;
-
   return (
     <IntlProvider defaultLocale={configuration.locale} locale={configuration.locale} messages={translations}>
       <ApolloProvider client={client}>
         <Router>
-          <ThemeProvider theme={theme}>
-            <RunningApp />
-          </ThemeProvider>
+          <ThemeProvider theme={theme}>{app}</ThemeProvider>
         </Router>
       </ApolloProvider>
     </IntlProvider>
@@ -39,7 +33,7 @@ async function renderAppTree(App) {
 
 // We use `hydrate` here so that we attach to our server-side rendered React components.
 async function render() {
-  const appTree = await renderAppTree();
+  const appTree = await renderAppTree(<App />);
   ReactDOM.hydrate(appTree, document.getElementById('root'));
 }
 render();
@@ -47,13 +41,11 @@ render();
 // This enables hot module reloading for JS (HMR).
 if (module.hot) {
   async function hotModuleRender() {
-    const appTree = await renderAppTree();
+    const NextApp = require('./App').default;
+    const appTree = await renderAppTree(<NextApp />);
     ReactDOM.render(appTree, document.getElementById('root'));
   }
-  module.hot.accept(
-    process.env.REACT_APP_APPLICATION ? `../${process.env.REACT_APP_APPLICATION}` : './Main',
-    hotModuleRender
-  );
+  module.hot.accept('./App', hotModuleRender);
 }
 
 // If you want your app to work offline and load faster, you can change

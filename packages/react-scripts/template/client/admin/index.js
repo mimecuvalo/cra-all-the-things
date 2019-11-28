@@ -1,13 +1,17 @@
-import App, { ScrollToTop } from '../app/App';
 import { AppBar, Drawer, List, ListItem, ListItemText, Toolbar, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import Exceptions from './Exceptions';
+import Forbidden from '../error/403';
+import gql from 'graphql-tag';
 import { Link, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import NotFound from '../error/404';
 import React from 'react';
 import REPL from './REPL';
+import ScrollToTop from '../app/ScrollToTop';
 import SystemInfo from './SystemInfo';
+import Unauthorized from '../error/401';
+import { useQuery } from '@apollo/react-hooks';
 
 const drawerWidth = 240;
 
@@ -35,11 +39,36 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function AdminApp(props) {
+const USER_QUERY = gql`
+  {
+    user @client {
+      oauth {
+        email
+      }
+    }
+  }
+`;
+
+export default function Admin() {
+  const { data } = useQuery(USER_QUERY);
+  const user = data?.user;
+
+  if (!user) {
+    return <Unauthorized />;
+  }
+
+  if (!user?.model?.superuser) {
+    return <Forbidden />;
+  }
+
+  return <AdminApp />;
+}
+
+function AdminApp() {
   const classes = useStyles();
 
   return (
-    <App>
+    <>
       <div className={classNames('notranslate', classes.root)}>
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
@@ -58,13 +87,13 @@ export default function AdminApp(props) {
         >
           <div className={classes.toolbar} />
           <List>
-            <ListItem button component={Link} to="/">
+            <ListItem button component={Link} to="/admin">
               <ListItemText primary={'System Info'} />
             </ListItem>
-            <ListItem button component={Link} to="/exceptions">
+            <ListItem button component={Link} to="/admin/exceptions">
               <ListItemText primary={'Exceptions'} />
             </ListItem>
-            <ListItem button component={Link} to="/repl">
+            <ListItem button component={Link} to="/admin/repl">
               <ListItemText primary={'REPL'} />
             </ListItem>
           </List>
@@ -73,7 +102,7 @@ export default function AdminApp(props) {
           <div className={classes.toolbar} />
           <ScrollToTop>
             <Switch>
-              <Route exact path="/" component={SystemInfo} />
+              <Route path="/" component={SystemInfo} />
               <Route path="/exceptions" component={Exceptions} />
               <Route path="/repl" component={REPL} />
               <Route component={NotFound} />
@@ -81,6 +110,6 @@ export default function AdminApp(props) {
           </ScrollToTop>
         </main>
       </div>
-    </App>
+    </>
   );
 }
