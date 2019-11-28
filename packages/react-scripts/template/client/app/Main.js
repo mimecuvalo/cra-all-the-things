@@ -1,6 +1,6 @@
-import App, { ScrollToTop } from '../app/App';
-import Footer from '../app/Footer';
-import Header from '../app/Header';
+import App, { ScrollToTop } from './App';
+import Footer from './Footer';
+import Header from './Header';
 import Home from '../home/Home';
 import { Route, Switch } from 'react-router-dom';
 import NotFound from '../error/404';

@@ -1,13 +1,13 @@
 import App, { ScrollToTop } from '../app/App';
 import { AppBar, Drawer, List, ListItem, ListItemText, Toolbar, Typography } from '@material-ui/core';
 import classNames from 'classnames';
-import Exceptions from '../admin/Exceptions';
+import Exceptions from './Exceptions';
 import { Link, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import NotFound from '../error/404';
 import React from 'react';
-import REPL from '../admin/REPL';
-import SystemInfo from '../admin/SystemInfo';
+import REPL from './REPL';
+import SystemInfo from './SystemInfo';
 
 const drawerWidth = 240;
 

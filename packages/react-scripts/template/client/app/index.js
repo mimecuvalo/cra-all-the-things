@@ -20,8 +20,9 @@ async function renderAppTree(App) {
   }
 
   // Dynamically splits webpack code based on apps.
-  const runningAppName = process.env.REACT_APP_APPLICATION || 'main';
-  const RunningApp = (await import(`../apps/${runningAppName}`)).default;
+  const RunningApp = (await import(
+    process.env.REACT_APP_APPLICATION ? `../${process.env.REACT_APP_APPLICATION}` : './Main'
+  )).default;
 
   return (
     <IntlProvider defaultLocale={configuration.locale} locale={configuration.locale} messages={translations}>
@@ -49,7 +50,10 @@ if (module.hot) {
     const appTree = await renderAppTree();
     ReactDOM.render(appTree, document.getElementById('root'));
   }
-  module.hot.accept(`../apps/${process.env.REACT_APP_APPLICATION}`, hotModuleRender);
+  module.hot.accept(
+    process.env.REACT_APP_APPLICATION ? `../${process.env.REACT_APP_APPLICATION}` : './Main',
+    hotModuleRender
+  );
 }
 
 // If you want your app to work offline and load faster, you can change
