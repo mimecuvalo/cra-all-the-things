@@ -101,6 +101,7 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     styleguide: 'start-storybook -p 9001 -c .storybook --ci --quiet',
     'extract-messages':
       "NODE_ENV=development extract-messages -l=en -o build/messages --flat --moduleSourceName react-intl-wrapper --additionalComponentNames F 'template/**/!(*.test).js'",
+    dev: 'npm install && docker-compose up -d && npx sequelize db:migrate && npx sequelize db:seed:all',
   };
 
   // Copy over some of the devDependencies

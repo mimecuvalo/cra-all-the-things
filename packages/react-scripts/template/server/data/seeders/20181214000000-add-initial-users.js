@@ -1,8 +1,6 @@
 'use strict';
 
-const USERS = [
-  {},
-];
+const USERS = [{ username: 'admin', email: 'email@gmail.com' }];
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
