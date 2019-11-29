@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Exceptions from './Exceptions';
 import Forbidden from '../error/403';
 import gql from 'graphql-tag';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import NotFound from '../error/404';
 import React from 'react';
@@ -64,8 +64,16 @@ export default function Admin() {
   return <AdminApp />;
 }
 
+const ROUTE_TITLES = {
+  '/': 'Admin',
+  '/exceptions': 'Exceptions',
+  '/repl': 'REPL',
+};
+
 function AdminApp() {
   const classes = useStyles();
+  const { path, url } = useRouteMatch();
+  const pathname = useLocation().pathname;
 
   return (
     <>
@@ -73,7 +81,7 @@ function AdminApp() {
         <AppBar position="fixed" className={classes.appBar}>
           <Toolbar>
             <Typography variant="h6" noWrap>
-              Admin
+              {ROUTE_TITLES[pathname.replace(/^\/admin\/?/, '/')]}
             </Typography>
           </Toolbar>
         </AppBar>
@@ -87,13 +95,13 @@ function AdminApp() {
         >
           <div className={classes.toolbar} />
           <List>
-            <ListItem button component={Link} to="/admin">
+            <ListItem button component={Link} to={`${url}`} selected={pathname === url}>
               <ListItemText primary={'System Info'} />
             </ListItem>
-            <ListItem button component={Link} to="/admin/exceptions">
+            <ListItem button component={Link} to={`${url}/exceptions`} selected={pathname === `${url}/exceptions`}>
               <ListItemText primary={'Exceptions'} />
             </ListItem>
-            <ListItem button component={Link} to="/admin/repl">
+            <ListItem button component={Link} to={`${url}/repl`} selected={pathname === `${url}/repl`}>
               <ListItemText primary={'REPL'} />
             </ListItem>
           </List>
@@ -102,9 +110,9 @@ function AdminApp() {
           <div className={classes.toolbar} />
           <ScrollToTop>
             <Switch>
-              <Route path="/" component={SystemInfo} />
-              <Route path="/exceptions" component={Exceptions} />
-              <Route path="/repl" component={REPL} />
+              <Route path={`${path}/exceptions`} component={Exceptions} />
+              <Route path={`${path}/repl`} component={REPL} />
+              <Route path={`${path}`} component={SystemInfo} />
               <Route component={NotFound} />
             </Switch>
           </ScrollToTop>

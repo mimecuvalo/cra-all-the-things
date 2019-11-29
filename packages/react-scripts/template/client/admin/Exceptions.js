@@ -43,20 +43,28 @@ export default function Exceptions() {
   return (
     <div className={styles.root}>
       <h1>Client Exceptions (today's)</h1>
-      {sortedMessages.map((msg, idx) => (
-        <ExpansionPanel key={idx}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls={`${idx}-content`} id={`${idx}-header`}>
-            <Typography>
-              <strong>{clientExceptions[msg].length}</strong>: {msg}
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <pre className={styles.pre}>
-              {JSON.stringify(clientExceptions[msg], undefined, 2).replace(/\\n/g, '\n')}
-            </pre>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      ))}
+      {sortedMessages.length ? (
+        sortedMessages.map((msg, idx) => (
+          <ExpansionPanel key={idx}>
+            <ExpansionPanelSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls={`${idx}-content`}
+              id={`${idx}-header`}
+            >
+              <Typography>
+                <strong>{clientExceptions[msg].length}</strong>: {msg}
+              </Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+              <pre className={styles.pre}>
+                {JSON.stringify(clientExceptions[msg], undefined, 2).replace(/\\n/g, '\n')}
+              </pre>
+            </ExpansionPanelDetails>
+          </ExpansionPanel>
+        ))
+      ) : (
+        <div>No exceptions today (yet).</div>
+      )}
 
       <h1>Server Exceptions</h1>
       {process.env.REACT_APP_SENTRY_DSN ? (
