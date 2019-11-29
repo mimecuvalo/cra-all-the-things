@@ -13,6 +13,7 @@ export default function HTMLBase({
   children,
   csrfToken,
   defaultLocale,
+  experiments,
   locale,
   nonce,
   publicUrl,
@@ -30,6 +31,7 @@ export default function HTMLBase({
           appVersion={appVersion}
           csrfToken={csrfToken}
           defaultLocale={defaultLocale}
+          experiments={experiments}
           locale={locale}
           nonce={nonce}
           user={user}
@@ -67,7 +69,7 @@ export default function HTMLBase({
 }
 
 // Passes key initial, bootstrap data to the client.
-function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, locale, nonce, user }) {
+function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, experiments, locale, nonce, user }) {
   return (
     <script
       nonce={nonce}
@@ -80,6 +82,7 @@ function ConfigurationScript({ appTime, appVersion, csrfToken, defaultLocale, lo
             auth0_domain: '${process.env.REACT_APP_AUTH0_DOMAIN}',
             csrf: '${csrfToken}',
             defaultLocale: '${defaultLocale}',
+            experiments: ${JSON.stringify(experiments)},
             locale: '${locale}',
             user: ${JSON.stringify(user)},
           };

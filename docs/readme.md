@@ -169,7 +169,6 @@ Redis will be on port 3003. To set up Redis be sure to set REACT_APP_REDIS_HOST 
 
 - provide escape hatches, modularity, be more package-y, choose 'some-of-the-things' :)
 - flesh out TypeScript template (syncing `template-typescript` with `template`)
-- experiments framework
 
 ### p1 (ideas)
 

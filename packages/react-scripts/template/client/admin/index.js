@@ -1,6 +1,7 @@
 import { AppBar, Drawer, List, ListItem, ListItemText, Toolbar, Typography } from '@material-ui/core';
 import classNames from 'classnames';
 import Exceptions from './Exceptions';
+import Experiments from './Experiments';
 import Forbidden from '../error/403';
 import gql from 'graphql-tag';
 import { Link, Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
@@ -67,6 +68,7 @@ export default function Admin() {
 const ROUTE_TITLES = {
   '/': 'Admin',
   '/exceptions': 'Exceptions',
+  '/experiments': 'Experiments',
   '/repl': 'REPL',
 };
 
@@ -101,6 +103,9 @@ function AdminApp() {
             <ListItem button component={Link} to={`${url}/exceptions`} selected={pathname === `${url}/exceptions`}>
               <ListItemText primary={'Exceptions'} />
             </ListItem>
+            <ListItem button component={Link} to={`${url}/experiments`} selected={pathname === `${url}/experiments`}>
+              <ListItemText primary={'Experiments'} />
+            </ListItem>
             <ListItem button component={Link} to={`${url}/repl`} selected={pathname === `${url}/repl`}>
               <ListItemText primary={'REPL'} />
             </ListItem>
@@ -111,6 +116,7 @@ function AdminApp() {
           <ScrollToTop>
             <Switch>
               <Route path={`${path}/exceptions`} component={Exceptions} />
+              <Route path={`${path}/experiments`} component={Experiments} />
               <Route path={`${path}/repl`} component={REPL} />
               <Route path={`${path}`} component={SystemInfo} />
               <Route component={NotFound} />

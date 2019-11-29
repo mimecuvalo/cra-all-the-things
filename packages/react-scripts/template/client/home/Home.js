@@ -1,5 +1,6 @@
 import Button from '@material-ui/core/Button';
 import { defineMessages, F, useIntl } from 'react-intl-wrapper';
+import { Experiment, Variant } from '../components/Experiment';
 import gql from 'graphql-tag';
 import logo from './logo.svg';
 import React from 'react';
@@ -57,6 +58,7 @@ export default function Home({ match: { url } }) {
           }}
         />
       </p>
+
       <Button href="https://reactjs.org" target="_blank" rel="noopener noreferrer" variant="contained" color="primary">
         <F msg="Learn React" />
       </Button>
@@ -83,6 +85,16 @@ export default function Home({ match: { url } }) {
             />
           }
         />
+      </p>
+      <p>
+        <Experiment name="my-experiment">
+          <Variant name="on">
+            <F msg="Experiment enabled." />
+          </Variant>
+          <Variant name="off">
+            <F msg="Experiment disabled" />
+          </Variant>
+        </Experiment>
       </p>
       <p>
         <F
