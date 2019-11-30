@@ -58,7 +58,7 @@ export default function Admin() {
     return <Unauthorized />;
   }
 
-  if (!user?.model?.superuser) {
+  if (!user?.model?.superuser && process.env.NODE_ENV !== 'development') {
     return <Forbidden />;
   }
 
@@ -95,7 +95,11 @@ function AdminApp() {
           }}
           anchor="left"
         >
-          <div className={classes.toolbar} />
+          <h2>
+            <a href="/" style={{ color: '#03c', paddingLeft: 15, textDecoration: 'none' }}>
+              All The Things
+            </a>
+          </h2>
           <List>
             <ListItem button component={Link} to={`${url}`} selected={pathname === url}>
               <ListItemText primary={'System Info'} />

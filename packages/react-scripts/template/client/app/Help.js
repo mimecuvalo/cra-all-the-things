@@ -62,6 +62,11 @@ export default function Help() {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleAdmin = () => {
+    handleClose();
+    window.location.href = '/admin';
+  };
+
   const handleExperiments = () => {
     handleClose();
     setIsExperimentsOpen(true);
@@ -132,6 +137,9 @@ export default function Help() {
           horizontal: 'right',
         }}
       >
+        <MenuItem key="admin" onClick={handleAdmin}>
+          <F msg="Admin" />
+        </MenuItem>
         <MenuItem key="experiments" onClick={handleExperiments}>
           <F msg="Experiments" />
         </MenuItem>
