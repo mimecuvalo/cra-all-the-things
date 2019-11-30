@@ -17,10 +17,11 @@ This package includes scripts and configuration used by [Create React App](https
 ## ⚡ Features
 
 - **accessibility (a11y) analyzer**: via [axe](https://www.google.com/search?q=axe-core&oq=axe-core&aqs=chrome..69i57.1485j0j7&sourceid=chrome&ie=UTF-8). in the bottom corner of CRA you’ll see a menu that will give you a list of items your site is violating in terms of a11y.
+- **admin panel**: exception view and extensible panel to add custom admin capabilities.
 - **authentication**: via [Auth0](https://auth0.com/). gives you the ability to login using Google/Facebook.
 - **bundle size analyzer**: à la [CRA’s docs](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size) and [source-map-explorer](https://www.npmjs.com/package/source-map-explorer). do `npm run analyze` after creating a build.
 - **component Libary (UI)**: via [Material-UI](https://material-ui.com/).
-- **CSP nonce**: adds example code in `server/app/app.js` (not enabled though).
+- **CSP nonce**: via [helmetjs](https://helmetjs.github.io/).
 - **documentation**: adds some standard and GitHub-specific Markdown files using best practices. files include:
   - [changelog](https://keepachangelog.com)
   - [code of conduct](https://www.contributor-covenant.org)
@@ -35,11 +36,12 @@ This package includes scripts and configuration used by [Create React App](https
 - **error boundary**: adds a top-level one to the app. (see [doc](https://reactjs.org/docs/error-boundaries.html)).
 - **error pages**: [401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401), [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), [500](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500).
 - **error reporting**: listens to `window.onerror` and reports JS errors to the server for debugging.
+- **experiments framework**: allows you to add experiments easily via React components and hooks.
 - [**Flow**](https://flow.org): enable by default (off by default in CRA).
 - [**hot module replacement (HMR)**](https://webpack.js.org/concepts/hot-module-replacement/): enable by default (off by default in CRA).
 - [**humans.txt**](http://humanstxt.org/) **/** [**robots.txt**](http://www.robotstxt.org/): adds stubs of these files.
 - [**Jest**](https://jestjs.io/): installs [Enzyme](https://airbnb.io/enzyme/) into the mix by default.
-- **i18n**: via [react-intl](https://github.com/yahoo/react-intl/wiki#getting-started).
+- **i18n**: via [react-intl](https://github.com/yahoo/react-intl/wiki#getting-started) and extraction tools.
 - **kill switch**: runs a client health check every 5 minutes to see if the client is still valid.
 - **libraries**: adds [lodash](https://lodash.com) by default.
 - **local state**: adds [Apollo's Local State](https://www.apollographql.com/docs/react/data/local-state/).
