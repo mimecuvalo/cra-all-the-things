@@ -1,4 +1,5 @@
 import AdminApp from '../admin';
+import './analytics';
 import './App.css';
 import classNames from 'classnames';
 import clientHealthCheck from './client_health_check';
