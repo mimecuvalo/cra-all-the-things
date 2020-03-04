@@ -33,11 +33,14 @@ function handleMouseDown(evt) {
   const name =
     tooltip ||
     target.getAttribute('data-track') ||
+    target.getAttribute('aria-label') ||
     target.title ||
     target.id ||
     target.innerText ||
-    target.className ||
+    target.getAttribute('placeholder') ||
+    target.getAttribute('name') ||
     target.getAttribute('alt') ||
+    target.className ||
     target.src ||
     target.srcset;
   const pageName = window.location.pathname.split('/')[1] || '/';
