@@ -1,11 +1,26 @@
-const DEFAULT_LOCALE = process.env.DEFAULT_LOCALE;
+const SETTINGS = {
+  defaultLocale: 'en',
+  locales: ['en'],
+};
 
-const LOCALES = process.env.LOCALES ? process.env.LOCALES.split(',') : [process.env.DEFAULT_LOCALE];
 const INTERNAL_LOCALES = ['xx-AE', 'xx-LS'];
+
+export function setLocales({ defaultLocale, locales }) {
+  SETTINGS.defaultLocale = defaultLocale;
+  SETTINGS.locales = locales;
+}
+
+export function getDefaultLocale() {
+  return SETTINGS.defaultLocale;
+}
+
+export function getLocales() {
+  return SETTINGS.locales;
+}
 
 // Based on the request object (and other metrics, if you so chose) deduce the locale
 // that the app should be rendered with.
-export function getLocale(req) {
+export function getLocaleFromRequest(req) {
   // You can add logic here to extract a locale from your user object.
   // if (user.preferences.locale) {
   //   return findRelevantLocale(user.preferences.locale);
@@ -32,7 +47,7 @@ export function getLocale(req) {
   }
 
   // Final fallback
-  return DEFAULT_LOCALE;
+  return SETTINGS.defaultLocale;
 }
 
 // Find the exact match locale, if supported, or the next best locale if possible.
@@ -50,7 +65,7 @@ function findRelevantLocale(locale) {
 
 // Whether the locale is found in our supported locale list. Must be exact.
 export function isValidLocale(locale) {
-  return LOCALES.indexOf(locale) !== -1 || isInternalLocale(locale);
+  return SETTINGS.locales.indexOf(locale) !== -1 || isInternalLocale(locale);
 }
 
 export function isInternalLocale(locale) {
@@ -58,10 +73,9 @@ export function isInternalLocale(locale) {
 }
 
 export default {
-  DEFAULT_LOCALE,
-  LOCALES,
-  INTERNAL_LOCALES,
-  getLocale,
+  getDefaultLocale,
+  getLocaleFromRequest,
+  getLocales,
   isValidLocale,
   isInternalLocale,
 };

@@ -1,12 +1,12 @@
 import { defineMessages as originalDefineMessages, FormattedMessage, useIntl as originalUseIntl } from 'react-intl';
 import extraction from './extraction';
-import localeToolsInternal from './locale';
+import localeTools from './locale';
 import React from 'react';
 
 // Re-export everything and override below what we want to override.
 export * from 'react-intl';
 
-export const localeTools = localeToolsInternal;
+export * from './locale';
 
 // For the Babel transform plugin.
 export default extraction;
@@ -44,7 +44,7 @@ export function F({ id, description, fallback, msg, values }) {
   const intl = originalUseIntl();
 
   const generatedId = generateId(id, msg, description);
-  if (intl.locale !== localeToolsInternal.DEFAULT_LOCALE && fallback && !intl.messages[generatedId]) {
+  if (intl.locale !== localeTools.getDefaultLocale() && fallback && !intl.messages[generatedId]) {
     return fallback;
   }
 
@@ -141,7 +141,7 @@ export function useIntl() {
     }
 
     const generatedId = generateId(descriptor.id, descriptor.defaultMessage, descriptor.description);
-    if (intl.locale !== localeToolsInternal.DEFAULT_LOCALE && fallbackDescriptor && !intl.messages[generatedId]) {
+    if (intl.locale !== localeTools.getDefaultLocale() && fallbackDescriptor && !intl.messages[generatedId]) {
       return originalFormatMessage(fallbackDescriptor, values);
     }
 
