@@ -118,7 +118,7 @@
     "postcss-safe-parser": "4.0.1",
     "react-app-polyfill": "1.0.4",
     "react-dev-utils": "9.1.0",
-    "react-intl-wrapper": "1.0.1",
+    "react-intl-wrapper": "1.1.0",
     "react-jss": "10.0.0",
     "react-router-dom": "5.1.2",
     "react-spring": "8.0.27",

@@ -44,7 +44,7 @@ export function F({ id, description, fallback, msg, values }) {
   const intl = originalUseIntl();
 
   const generatedId = generateId(id, msg, description);
-  if (intl.locale !== locale.DEFAULT_LOCALE && fallback && !intl.messages[generatedId]) {
+  if (intl.locale !== localeToolsInternal.DEFAULT_LOCALE && fallback && !intl.messages[generatedId]) {
     return fallback;
   }
 
@@ -141,7 +141,7 @@ export function useIntl() {
     }
 
     const generatedId = generateId(descriptor.id, descriptor.defaultMessage, descriptor.description);
-    if (intl.locale !== locale.DEFAULT_LOCALE && fallbackDescriptor && !intl.messages[generatedId]) {
+    if (intl.locale !== localeToolsInternal.DEFAULT_LOCALE && fallbackDescriptor && !intl.messages[generatedId]) {
       return originalFormatMessage(fallbackDescriptor, values);
     }
 
