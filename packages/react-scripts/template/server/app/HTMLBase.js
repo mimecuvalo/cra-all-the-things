@@ -34,7 +34,7 @@ export default function HTMLBase({
           defaultLocale={defaultLocale}
           experiments={experiments}
           locale={locale}
-          locales={getLocales}
+          locales={locales}
           nonce={nonce}
           user={user}
         />
