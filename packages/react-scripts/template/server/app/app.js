@@ -1,14 +1,14 @@
 import { ApolloProvider } from '@apollo/react-common';
 import App from '../../client/app/App';
 import createApolloClient from '../data/apollo_client';
-import { DEFAULT_LOCALE, getLocale } from '../../shared/i18n/locale';
 import { getDataFromTree } from '@apollo/react-ssr';
 import getExperiments from './experiments';
 import HTMLBase from './HTMLBase';
 import { initializeLocalState } from '../../shared/data/local_state';
 import { IntlProvider } from 'react-intl-wrapper';
 import { JssProvider, SheetsRegistry, createGenerateId } from 'react-jss';
-import * as languages from '../../shared/i18n/languages';
+import * as languages from '../../shared/i18n-lang-packs';
+import { localeTools } from 'react-intl-wrapper';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
@@ -22,7 +22,7 @@ export default async function render({ req, res, next, assetPathsByType, appName
   const apolloClient = createApolloClient(req);
   const context = {};
 
-  const locale = getLocale(req);
+  const locale = localeTools.getLocale(req);
   const translations = languages[locale];
 
   // For Material UI setup.
@@ -42,7 +42,7 @@ export default async function render({ req, res, next, assetPathsByType, appName
         appVersion={gitInfo.gitRev}
         assetPathsByType={assetPathsByType}
         csrfToken={req.csrfToken()}
-        defaultLocale={DEFAULT_LOCALE}
+        defaultLocale={localeTools.DEFAULT_LOCALE}
         experiments={experiments}
         locale={locale}
         nonce={nonce}

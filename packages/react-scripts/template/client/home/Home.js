@@ -7,6 +7,7 @@ import React from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { useSpring, animated } from 'react-spring';
 
+// For things like "alt" text and other strings not in JSX.
 const messages = defineMessages({
   greeting: { msg: 'logo' },
   fallback: { msg: 'logo2' },

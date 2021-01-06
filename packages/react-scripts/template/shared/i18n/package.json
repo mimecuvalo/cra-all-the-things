@@ -26,7 +26,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && NODE_ENV=production babel index.js extraction.js --out-dir dist --copy-files --ignore node_modules,__tests__,spec.js,test.js,__snapshots__",
+    "build": "rm -rf dist && NODE_ENV=production babel index.js extraction.js locale.js --out-dir dist --copy-files --ignore node_modules,__tests__,spec.js,test.js,__snapshots__",
     "prepare": "npm run build"
   },
   "dependencies": {
@@ -38,6 +38,7 @@
   "devDependencies": {
     "@babel/cli": "7.6.4",
     "@babel/plugin-transform-modules-commonjs": "7.6.0",
-    "@babel/preset-react": "7.6.3"
+    "@babel/preset-react": "7.6.3",
+    "extract-react-intl-messages": "2.2.1"
   }
 }

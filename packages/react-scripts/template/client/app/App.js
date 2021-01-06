@@ -4,9 +4,11 @@ import './App.css';
 import classNames from 'classnames';
 import clientHealthCheck from './client_health_check';
 import CloseIcon from '@material-ui/icons/Close';
+import configuration from '../app/configuration';
 import { defineMessages, useIntl } from 'react-intl-wrapper';
 import ErrorBoundary from '../error/ErrorBoundary';
 import IconButton from '@material-ui/core/IconButton';
+import { IntlProvider, localeTools } from 'react-intl-wrapper';
 import MainApp from './Main';
 import { Route, Switch } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
@@ -20,6 +22,17 @@ const messages = defineMessages({
 export default function App() {
   const [devOnlyHiddenOnLoad, setDevOnlyHiddenOnLoad] = useState(process.env.NODE_ENV === 'development');
   const [loaded, setLoaded] = useState(false);
+  const [translations, setTranslations] = useState({});
+
+  // This is to dynamically load language packs as needed. We don't need them all client-side.
+  useEffect(() => {
+    async function maybeFetchTranslations() {
+      if (configuration.locale !== configuration.defaultLocale && !localeTools.isInternalLocale(configuration.locale)) {
+        setTranslations((await import(`../../shared/i18n-lang-packs/${configuration.locale}`)).default);
+      }
+    }
+    maybeFetchTranslations();
+  });
 
   useEffect(() => {
     if (loaded) {
@@ -44,22 +57,24 @@ export default function App() {
   const devOnlyHiddenOnLoadStyle = devOnlyHiddenOnLoad ? { opacity: 0 } : null;
 
   return (
-    <SnackbarProvider action={<CloseButton />}>
-      <ErrorBoundary>
-        <div
-          className={classNames('App', {
-            'App-logged-in': true,
-            'App-is-development': process.env.NODE_ENV === 'development',
-          })}
-          style={devOnlyHiddenOnLoadStyle}
-        >
-          <Switch>
-            <Route path="/admin" component={AdminApp} />
-            <Route component={MainApp} />
-          </Switch>
-        </div>
-      </ErrorBoundary>
-    </SnackbarProvider>
+    <IntlProvider defaultLocale={configuration.locale} locale={configuration.locale} messages={translations}>
+      <SnackbarProvider action={<CloseButton />}>
+        <ErrorBoundary>
+          <div
+            className={classNames('App', {
+              'App-logged-in': true,
+              'App-is-development': process.env.NODE_ENV === 'development',
+            })}
+            style={devOnlyHiddenOnLoadStyle}
+          >
+            <Switch>
+              <Route path="/admin" component={AdminApp} />
+              <Route component={MainApp} />
+            </Switch>
+          </div>
+        </ErrorBoundary>
+      </SnackbarProvider>
+    </IntlProvider>
   );
 }
 
