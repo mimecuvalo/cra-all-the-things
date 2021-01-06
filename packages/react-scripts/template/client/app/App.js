@@ -8,7 +8,7 @@ import configuration from '../app/configuration';
 import { defineMessages, useIntl } from 'react-intl-wrapper';
 import ErrorBoundary from '../error/ErrorBoundary';
 import IconButton from '@material-ui/core/IconButton';
-import { IntlProvider, localeTools } from 'react-intl-wrapper';
+import { IntlProvider, localeTools, setLocales } from 'react-intl-wrapper';
 import MainApp from './Main';
 import { Route, Switch } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
@@ -16,6 +16,11 @@ import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const messages = defineMessages({
   close: { msg: 'Close' },
+});
+
+setLocales({
+  defaultLocale: configuration.defaultLocale,
+  locales: configuration.locales,
 });
 
 // This is the main entry point on the client-side.
