@@ -39,26 +39,27 @@ This helps set up some convenient tools when using `react-intl`.
 import { IntlProvider, isInternalLocale, setLocales } from 'react-intl-wrapper';
 
 setLocales({
-  defaultLocale: 'en',
-  locales: ['en', 'fr'],
+  defaultLocale: configuration.defaultLocale,
+  locales: configuration.locales,
 });
 
-export default function App() {
+async function renderAppTree(app) {
+  let translations = {};
   // This is to dynamically load language packs as needed. We don't need them all client-side.
-  useEffect(() => {
-    async function maybeFetchTranslations() {
-      if (configuration.locale !== configuration.defaultLocale && !isInternalLocale(configuration.locale)) {
-        setTranslations((await import(`../../shared/i18n-lang-packs/${configuration.locale}`)).default);
-      }
-    }
-    maybeFetchTranslations();
-  });
+  if (configuration.locale !== configuration.defaultLocale && !isInternalLocale(configuration.locale)) {
+    translations = (await import(`../../shared/i18n-lang-packs/${configuration.locale}`)).default;
+  }
 
   return (
     <IntlProvider defaultLocale={configuration.locale} locale={configuration.locale} messages={translations}>
       ...
     </IntlProvider>
   );
+}
+
+async function render() {
+  const appTree = await renderAppTree(<App />);
+  ReactDOM.hydrate(appTree, document.getElementById('root'));
 }
 ```
 
