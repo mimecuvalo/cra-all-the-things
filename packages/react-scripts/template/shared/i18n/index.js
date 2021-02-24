@@ -1,4 +1,10 @@
-import { defineMessages as originalDefineMessages, FormattedMessage, useIntl as originalUseIntl } from 'react-intl';
+import {
+  createIntl as originalCreateIntl,
+  createIntlCache,
+  defineMessages as originalDefineMessages,
+  FormattedMessage,
+  useIntl as originalUseIntl,
+} from 'react-intl';
 import extraction from './extraction';
 import localeTools from './locale';
 import React from 'react';
@@ -149,4 +155,31 @@ export function useIntl() {
   };
 
   return intl;
+}
+
+export function createIntl(options) {
+  if (options) {
+    return originalCreateIntl(options);
+  } else {
+    if (!didSetupCreateIntl) {
+      throw new Error('Need to run setupCreateIntl to use createIntl without options.');
+    }
+    return presetIntl;
+  }
+}
+
+const cache = createIntlCache();
+let presetIntl = null;
+let didSetupCreateIntl = false;
+export function setupCreateIntl({ defaultLocale, locale, messages }) {
+  presetIntl = originalCreateIntl(
+    {
+      defaultLocale,
+      locale,
+      messages,
+    },
+    cache
+  );
+
+  didSetupCreateIntl = true;
 }
