@@ -47,7 +47,8 @@ function publishToNpm(version) {
     rl.close();
     execSync(`npm publish --otp=${code}`, execOptions);
 
-    updateExampleRepo(version);
+    // TODO(mime): FIXME - `npx create-react-app all-the-things-example` has changed
+    //updateExampleRepo(version);
     updateHelloworldRepo(version);
   });
 }
