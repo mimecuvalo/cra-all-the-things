@@ -61,7 +61,7 @@ plan.target(
 
 const DIRECTORY_NAME = 'example.com';
 
-const time = new Date().getTime();
+const time = new Date().toISOString().replace(/\W/g, '-');
 const tmpDir = `${DIRECTORY_NAME}-${time}`;
 const remoteTmpDir = `/tmp/${tmpDir}/`;
 
@@ -118,7 +118,7 @@ plan.remote(function(remote) {
   // This is done here for the sake of keeping all-the-things as zero-config as possible.
   // For a cleaner deploy take a look at this doc: http://pm2.keymetrics.io/docs/tutorials/capistrano-like-deployments
   remote.sudo(`cd ${destDir}; pm2 kill`, { user, failsafe: true });
-  remote.sudo(`cd ${destDir}; pm2 startOrReload ecosystem.config.js`, { user });
+  remote.sudo(`cd ${destDir}; pm2 startOrReload ecosystem.config.js --env production`, { user });
 });
 
 // run more commands on localhost afterwards
