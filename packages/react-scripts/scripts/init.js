@@ -185,6 +185,16 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
     }
   }
 
+  // Install useful hooks for collaboration to detect and notify when package.json changes.
+  try {
+    fs.appendFileSync('.git/hooks/post-checkout', '\nbin/post-checkout.sh $1 $2\n');
+    fs.appendFileSync('.git/hooks/post-merge', '\nbin/post-merge.sh\n');
+    fs.chmodSync('.git/hooks/post-checkout', 0o775);
+    fs.chmodSync('.git/hooks/post-merge', 0o775);
+  } catch (err) {
+    console.error('Git hooks failed to install.');
+  }
+
   let command;
   let args;
 
