@@ -120,7 +120,6 @@ module.exports = function(appPath, appName, verbose, originalDirectory, template
   appPackage['lint-staged'] = {
     '(client|server|shared)/**/*.{js,jsx,ts,tsx,json,css,scss,md}': [
       'prettier --trailing-comma es5 --single-quote --write',
-      'git add',
     ],
   };
 
