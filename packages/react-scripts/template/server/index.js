@@ -52,6 +52,7 @@ export default function constructApps({ appName, productionAssetsByType, publicU
           mediaSrc: ["'self'", 'blob:'],
           objectSrc: ["'self'"],
           reportUri: '/api/report-violation',
+          'require-trusted-types-for': ["'script'"],
           scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
           upgradeInsecureRequests: true,
 
