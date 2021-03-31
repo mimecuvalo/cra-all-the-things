@@ -12,7 +12,7 @@ import REPL from './REPL';
 import ScrollToTop from '../app/ScrollToTop';
 import SystemInfo from './SystemInfo';
 import Unauthorized from '../error/401';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 
 const drawerWidth = 240;
 

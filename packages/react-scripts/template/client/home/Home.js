@@ -4,7 +4,7 @@ import { Experiment, Variant } from '../components/Experiment';
 import gql from 'graphql-tag';
 import logo from './logo.svg';
 import React from 'react';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { useSpring, animated } from 'react-spring';
 
 // For things like "alt" text and other strings not in JSX.

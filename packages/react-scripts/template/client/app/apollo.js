@@ -1,12 +1,10 @@
-import ApolloClient from 'apollo-client';
-import { ApolloLink, split } from 'apollo-link';
-import { BatchHttpLink } from 'apollo-link-batch-http';
+import { ApolloClient, ApolloLink, HttpLink, split } from '@apollo/client';
+import { BatchHttpLink } from '@apollo/client/link/batch-http';
 import configuration from '../app/configuration';
 import { dataIdFromObject } from '../../shared/data/apollo';
-import { HttpLink } from 'apollo-link-http';
 import { initializeLocalState } from '../../shared/data/local_state';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { onError } from 'apollo-link-error';
+import { onError } from '@apollo/client/link/error';
 import { typeDefs, resolvers } from '../../shared/data/local_state';
 
 export default function createApolloClient() {
