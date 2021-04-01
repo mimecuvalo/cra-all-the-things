@@ -33,23 +33,35 @@ module.exports = (resolve, rootDir, isEjecting) => {
       '<rootDir>/(client|server)/**/__tests__/**/*.{js,jsx,ts,tsx}',
       '<rootDir>/(client|server)/**/*.{spec,test}.{js,jsx,ts,tsx}',
     ],
-    testEnvironment: 'jest-environment-jsdom-fourteen',
+    testEnvironment: 'jsdom',
+    testRunner: require.resolve('jest-circus/runner'),
     transform: {
-      '^.+\\.(js|jsx|ts|tsx)$': isEjecting
-        ? '<rootDir>/node_modules/babel-jest'
-        : resolve('config/jest/babelTransform.js'),
+      '^.+\\.(js|jsx|mjs|cjs|ts|tsx)$': resolve(
+        'config/jest/babelTransform.js'
+      ),
       '^.+\\.css$': resolve('config/jest/cssTransform.js'),
-      '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': resolve('config/jest/fileTransform.js'),
+      '^(?!.*\\.(js|jsx|mjs|cjs|ts|tsx|css|json)$)': resolve(
+        'config/jest/fileTransform.js'
+      ),
     },
-    transformIgnorePatterns: ['[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$', '^.+\\.module\\.(css|sass|scss)$'],
+    transformIgnorePatterns: [
+      '[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$',
+      '^.+\\.module\\.(css|sass|scss)$',
+    ],
     modulePaths: modules.additionalModulePaths || [],
     moduleNameMapper: {
       '^react-native$': 'react-native-web',
       '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
       ...(modules.jestAliases || {}),
     },
-    moduleFileExtensions: [...paths.moduleFileExtensions, 'node'].filter(ext => !ext.includes('mjs')),
-    watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
+    moduleFileExtensions: [...paths.moduleFileExtensions, 'node'].filter(
+      ext => !ext.includes('mjs')
+    ),
+    watchPlugins: [
+      'jest-watch-typeahead/filename',
+      'jest-watch-typeahead/testname',
+    ],
+    resetMocks: true,
   };
   if (rootDir) {
     config.rootDir = rootDir;
@@ -68,7 +80,9 @@ module.exports = (resolve, rootDir, isEjecting) => {
     'moduleNameMapper',
     'resetMocks',
     'resetModules',
+    'restoreMocks',
     'snapshotSerializers',
+    'testMatch',
     'transform',
     'transformIgnorePatterns',
     'watchPathIgnorePatterns',

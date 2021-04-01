@@ -1,0 +1,30 @@
+{
+  "name": "cra-template-all-the-things-typescript",
+  "version": "0.10.0",
+  "keywords": [
+    "react",
+    "cra",
+    "create-react-app",
+    "ssr",
+    "server-side-rendering",
+    "template",
+    "typescript"
+  ],
+  "description": "all the bells 🔔 and whistles 😙 for create-react-app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mimecuvalo/all-the-things.git",
+    "directory": "packages/cra-template"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=10"
+  },
+  "bugs": {
+    "url": "https://github.com/mimecuvalo/all-the-things/issues"
+  },
+  "files": [
+    "template",
+    "template.json"
+  ]
+}
