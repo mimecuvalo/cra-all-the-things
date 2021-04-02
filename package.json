@@ -20,7 +20,8 @@
     "alex": "alex .",
     "test": "cd packages/react-scripts && node bin/react-scripts.js test",
     "format": "prettier --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",
-    "compile:lockfile": "node tasks/compile-lockfile.js"
+    "compile:lockfile": "node tasks/compile-lockfile.js",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@apollo/client": "3.3.13",
@@ -116,11 +117,6 @@
     "workbox-routing": "^6.1.2",
     "workbox-strategies": "^6.1.2",
     "workbox-streams": "^6.1.2"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*.{js,json,yml,yaml,css,scss,ts,tsx,md}": [
