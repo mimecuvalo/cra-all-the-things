@@ -25,7 +25,10 @@ rl.question('New version: ', answer => {
 function savePackageJson(version) {
   console.log('Saving to package.json...');
   allTheThingsPackageJson.version = version;
-  fs.writeFileSync('package.json', JSON.stringify(allTheThingsPackageJson, null, 2));
+  fs.writeFileSync(
+    'package.json',
+    JSON.stringify(allTheThingsPackageJson, null, 2)
+  );
   execSync('npm install --package-lock-only', execOptions);
 }
 
@@ -47,8 +50,7 @@ function publishToNpm(version) {
     rl.close();
     execSync(`npm publish --otp=${code}`, execOptions);
 
-    // TODO(mime): FIXME - `npx create-react-app all-the-things-example` has changed
-    //updateExampleRepo(version);
+    updateExampleRepo(version);
     updateHelloworldRepo(version);
   });
 }
@@ -69,14 +71,17 @@ function updateExampleRepo(version) {
 
   console.log('Installing new repo via npx...');
   execSync(
-    `${cdCmd}; npx create-react-app all-the-things-example --use-npm --scripts-version=cra-all-the-things`,
+    `${cdCmd}; npx create-react-app all-the-things-example --use-npm --scripts-version=cra-all-the-things --template=all-the-things`,
     execOptions
   );
 
   console.log('Creating commit...');
   const cdExampleCmd = 'cd ~/Sites/all-the-things-example';
   execSync(`${cdExampleCmd}; git add -A`, execOptions);
-  execSync(`${cdExampleCmd}; git commit -am "Publish version: ${version}"`, execOptions);
+  execSync(
+    `${cdExampleCmd}; git commit -am "Publish version: ${version}"`,
+    execOptions
+  );
   execSync(`${cdExampleCmd}; git push`, execOptions);
 }
 
@@ -86,7 +91,10 @@ function updateHelloworldRepo(version) {
   const packageJsonPath = '/Users/mime/Sites/helloworld/package.json';
   const helloworldPackageJson = require(packageJsonPath);
   helloworldPackageJson['dependencies']['cra-all-the-things'] = version;
-  fs.writeFileSync(packageJsonPath, JSON.stringify(helloworldPackageJson, null, 2));
+  fs.writeFileSync(
+    packageJsonPath,
+    JSON.stringify(helloworldPackageJson, null, 2)
+  );
 
   const cdCmd = 'cd ~/Sites/helloworld';
   execSync(`${cdCmd}; npm update cra-all-the-things`, execOptions);

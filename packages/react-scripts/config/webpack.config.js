@@ -47,13 +47,6 @@ const appPackageJson = require(paths.appPackageJson);
 // Source maps are resource heavy and can cause out of memory issue for large source files.
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
-const webpackDevClientEntry = require.resolve(
-  'react-dev-utils/webpackHotDevClient'
-);
-const reactRefreshOverlayEntry = require.resolve(
-  'react-dev-utils/refreshOverlayInterop'
-);
-
 // Some apps do not need the benefits of saving a web request, so not inlining the chunk
 // makes for a smoother build process.
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
@@ -100,7 +93,8 @@ module.exports = function (webpackEnv, isSSR) {
 
   // Variable used for enabling profiling in Production
   // passed into alias object. Uses a flag if passed into the build command
-  const isEnvProductionProfile = isEnvProduction && process.argv.includes('--profile');
+  const isEnvProductionProfile =
+    isEnvProduction && process.argv.includes('--profile');
 
   // We will provide `paths.publicUrlOrPath` to our app
   // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
@@ -159,7 +153,9 @@ module.exports = function (webpackEnv, isSSR) {
         {
           loader: require.resolve('resolve-url-loader'),
           options: {
-            sourceMap: isEnvProductionButNotSSR ? shouldUseSourceMap : isEnvDevelopment,
+            sourceMap: isEnvProductionButNotSSR
+              ? shouldUseSourceMap
+              : isEnvDevelopment,
             root: paths.appSrc,
           },
         },
@@ -179,7 +175,11 @@ module.exports = function (webpackEnv, isSSR) {
     // Stop compilation early in production
     bail: isEnvProduction,
     target: isSSR ? 'node' : undefined,
-    externals: isSSR ? nodeExternals() : undefined,
+    // TODO(mime) XXX(mime): nodeExternals() should be enough but for some reason I need
+    // to add 'pg', 'sqlite3', 'tedious', 'pg-hstore' for Sequelize...
+    externals: isSSR
+      ? [nodeExternals(), 'pg', 'sqlite3', 'tedious', 'pg-hstore']
+      : undefined,
     devtool: isEnvProductionButNotSSR
       ? shouldUseSourceMap
         ? 'source-map'
@@ -189,30 +189,30 @@ module.exports = function (webpackEnv, isSSR) {
     // This means they will be the "root" imports that are included in JS bundle.
     entry: isSSR
       ? paths.serverJsEntryPoint
-      : (isEnvDevelopment && !shouldUseReactRefresh
-        ? [
-            // Include an alternative client for WebpackDevServer. A client's job is to
-            // connect to WebpackDevServer by a socket and get notified about changes.
-            // When you save a file, the client will either apply hot updates (in case
-            // of CSS changes), or refresh the page (in case of JS changes). When you
-            // make a syntax error, this client will display a syntax error overlay.
-            // Note: instead of the default WebpackDevServer client, we use a custom one
-            // to bring better experience for Create React App users. You can replace
-            // the line below with these two lines if you prefer the stock client:
-            //
-            // require.resolve('webpack-dev-server/client') + '?/',
-            // require.resolve('webpack/hot/dev-server'),
-            //
-            // When using the experimental react-refresh integration,
-            // the webpack plugin takes care of injecting the dev client for us.
-            webpackDevClientEntry,
-            // Finally, this is your app's code:
-            paths.appIndexJs,
-            // We include the app code last so that if there is a runtime error during
-            // initialization, it doesn't blow up the WebpackDevServer client, and
-            // changing JS code would still trigger a refresh.
-          ]
-        : paths.appIndexJs),
+      : isEnvDevelopment && !shouldUseReactRefresh
+      ? [
+          // Include an alternative client for WebpackDevServer. A client's job is to
+          // connect to WebpackDevServer by a socket and get notified about changes.
+          // When you save a file, the client will either apply hot updates (in case
+          // of CSS changes), or refresh the page (in case of JS changes). When you
+          // make a syntax error, this client will display a syntax error overlay.
+          // Note: instead of the default WebpackDevServer client, we use a custom one
+          // to bring better experience for Create React App users. You can replace
+          // the line below with these two lines if you prefer the stock client:
+          //
+          // require.resolve('webpack-dev-server/client') + '?/',
+          // require.resolve('webpack/hot/dev-server'),
+          //
+          // When using the experimental react-refresh integration,
+          // the webpack plugin takes care of injecting the dev client for us.
+          require.resolve('react-dev-utils/webpackHotDevClient'),
+          // Finally, this is your app's code:
+          paths.appIndexJs,
+          // We include the app code last so that if there is a runtime error during
+          // initialization, it doesn't blow up the WebpackDevServer client, and
+          // changing JS code would still trigger a refresh.
+        ]
+      : paths.appIndexJs,
     output: {
       // The build folder.
       path: isEnvProductionButNotSSR ? paths.appBuild : undefined,
@@ -317,7 +317,10 @@ module.exports = function (webpackEnv, isSSR) {
                   : false,
               },
               cssProcessorPluginOptions: {
-                preset: ['default', { minifyFontValues: { removeQuotes: false } }],
+                preset: [
+                  'default',
+                  { minifyFontValues: { removeQuotes: false } },
+                ],
               },
             }),
           ],
@@ -334,20 +337,24 @@ module.exports = function (webpackEnv, isSSR) {
           runtimeChunk: {
             name: entrypoint => `runtime-${entrypoint.name}`,
           },
-      },
+        },
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
       // We placed these paths second because we want `node_modules` to "win"
       // if there are any conflicts. This matches Node resolution mechanism.
       // https://github.com/facebook/create-react-app/issues/253
-      modules: ['node_modules', paths.appNodeModules].concat(modules.additionalModulePaths || []),
+      modules: ['node_modules', paths.appNodeModules].concat(
+        modules.additionalModulePaths || []
+      ),
       // These are the reasonable defaults supported by the Node ecosystem.
       // We also include JSX as a common component filename extension to support
       // some tools, although we do not recommend using it, see:
       // https://github.com/facebook/create-react-app/issues/290
       // `web` extension prefixes have been added for better support
       // for React Native Web.
-      extensions: paths.moduleFileExtensions.map(ext => `.${ext}`).filter(ext => useTypeScript || !ext.includes('ts')),
+      extensions: paths.moduleFileExtensions
+        .map(ext => `.${ext}`)
+        .filter(ext => useTypeScript || !ext.includes('ts')),
       alias: {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
@@ -368,10 +375,13 @@ module.exports = function (webpackEnv, isSSR) {
         // To fix this, we prevent you from importing files out of src/ -- if you'd like to,
         // please link the files into your node_modules/ and let module-resolution kick in.
         // Make sure your source files are compiled, as they will not be processed in any way.
-        new ModuleScopePlugin([paths.appSrc, paths.appServerSrc, paths.appSharedSrc], [
-          paths.appPackageJson,
-          reactRefreshOverlayEntry,
-        ]),
+        new ModuleScopePlugin(
+          [paths.appSrc, paths.appServerSrc, paths.appSharedSrc],
+          [
+            paths.appPackageJson,
+            !isSSR && require.resolve('react-dev-utils/refreshOverlayInterop'),
+          ].filter(Boolean)
+        ),
       ],
     },
     resolveLoader: {
@@ -440,8 +450,15 @@ module.exports = function (webpackEnv, isSSR) {
                 // is sane and uses Babel options. Instead of options, we use
                 // the react-scripts and babel-preset-react-app versions.
                 cacheIdentifier: getCacheIdentifier(
-                  isEnvProduction ? 'production' : isEnvDevelopment && 'development',
-                  ['babel-plugin-named-asset-import', 'babel-preset-react-app', 'react-dev-utils', 'react-scripts']
+                  isEnvProduction
+                    ? 'production'
+                    : isEnvDevelopment && 'development',
+                  [
+                    'babel-plugin-named-asset-import',
+                    'babel-preset-react-app',
+                    'react-dev-utils',
+                    'react-scripts',
+                  ]
                 ),
                 // @remove-on-eject-end
                 plugins: [
@@ -452,12 +469,14 @@ module.exports = function (webpackEnv, isSSR) {
                     {
                       loaderMap: {
                         svg: {
-                          ReactComponent: '@svgr/webpack?-svgo,+titleProp,+ref![path]',
+                          ReactComponent:
+                            '@svgr/webpack?-svgo,+titleProp,+ref![path]',
                         },
                       },
                     },
                   ],
                   isEnvDevelopment &&
+                    !isSSR &&
                     shouldUseReactRefresh &&
                     require.resolve('react-refresh/babel'),
                 ].filter(Boolean),
@@ -480,14 +499,26 @@ module.exports = function (webpackEnv, isSSR) {
                 babelrc: false,
                 configFile: false,
                 compact: false,
-                presets: [[require.resolve('babel-preset-react-app/dependencies'), { helpers: true }]],
+                presets: [
+                  [
+                    require.resolve('babel-preset-react-app/dependencies'),
+                    { helpers: true },
+                  ],
+                ],
                 cacheDirectory: true,
                 // See #6846 for context on why cacheCompression is disabled
                 cacheCompression: false, // NOTE: was isEnvProductionButNotSSR before for all-the-things
                 // @remove-on-eject-begin
                 cacheIdentifier: getCacheIdentifier(
-                  isEnvProduction ? 'production' : isEnvDevelopment && 'development',
-                  ['babel-plugin-named-asset-import', 'babel-preset-react-app', 'react-dev-utils', 'react-scripts']
+                  isEnvProduction
+                    ? 'production'
+                    : isEnvDevelopment && 'development',
+                  [
+                    'babel-plugin-named-asset-import',
+                    'babel-preset-react-app',
+                    'react-dev-utils',
+                    'react-scripts',
+                  ]
                 ),
                 // @remove-on-eject-end
                 // Babel sourcemaps are needed for debugging into node_modules
@@ -512,7 +543,6 @@ module.exports = function (webpackEnv, isSSR) {
                 sourceMap: isEnvProductionButNotSSR
                   ? shouldUseSourceMap
                   : isEnvDevelopment,
-                onlyLocals: isSSR,
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -530,9 +560,9 @@ module.exports = function (webpackEnv, isSSR) {
                   ? shouldUseSourceMap
                   : isEnvDevelopment,
                 modules: {
+                  exportOnlyLocals: isSSR,
                   getLocalIdent: getCSSModuleLocalIdent,
                 },
-                onlyLocals: isSSR,
               }),
             },
             // Opt-in support for SASS (using .scss or .sass extensions).
@@ -547,7 +577,9 @@ module.exports = function (webpackEnv, isSSR) {
                   sourceMap: isEnvProductionButNotSSR
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
-                    onlyLocals: isSSR,
+                  modules: {
+                    exportOnlyLocals: isSSR,
+                  },
                 },
                 'sass-loader'
               ),
@@ -568,6 +600,7 @@ module.exports = function (webpackEnv, isSSR) {
                     ? shouldUseSourceMap
                     : isEnvDevelopment,
                   modules: {
+                    exportOnlyLocals: isSSR,
                     getLocalIdent: getCSSModuleLocalIdent,
                   },
                 },
@@ -639,7 +672,8 @@ module.exports = function (webpackEnv, isSSR) {
       // In development, it will be an empty string unless you specify "homepage"
       // in `package.json`, in which case it will be the pathname of that URL.
       // NOTE(all-the-things): only used for service-worker.
-      isEnvProductionButNotSSR && new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+      isEnvProductionButNotSSR &&
+        new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
       // This gives some necessary context to module not found errors, such as
       // the requesting resource.
       new ModuleNotFoundPlugin(paths.appPath),
@@ -654,13 +688,14 @@ module.exports = function (webpackEnv, isSSR) {
       // Experimental hot reloading for React .
       // https://github.com/facebook/react/tree/master/packages/react-refresh
       isEnvDevelopment &&
+        !isSSR &&
         shouldUseReactRefresh &&
         new ReactRefreshWebpackPlugin({
           overlay: {
-            entry: webpackDevClientEntry,
+            entry: require.resolve('react-dev-utils/webpackHotDevClient'),
             // The expected exports are slightly different from what the overlay exports,
             // so an interop is included here to enable feedback on module-level errors.
-            module: reactRefreshOverlayEntry,
+            module: require.resolve('react-dev-utils/refreshOverlayInterop'),
             // Since we ship a custom dev client and overlay integration,
             // the bundled socket handling logic can be eliminated.
             sockIntegration: false,
@@ -674,7 +709,8 @@ module.exports = function (webpackEnv, isSSR) {
       // to restart the development server for webpack to discover it. This plugin
       // makes the discovery automatic so you don't have to restart.
       // See https://github.com/facebook/create-react-app/issues/186
-      isEnvDevelopment && new WatchMissingNodeModulesPlugin(paths.appNodeModules),
+      isEnvDevelopment &&
+        new WatchMissingNodeModulesPlugin(paths.appNodeModules),
       isEnvProductionButNotSSR &&
         new MiniCssExtractPlugin({
           // Options similar to the same options in webpackOptions.output
@@ -696,7 +732,9 @@ module.exports = function (webpackEnv, isSSR) {
             manifest[file.name] = file.path;
             return manifest;
           }, seed);
-          const entrypointFiles = entrypoints.main.filter(fileName => !fileName.endsWith('.map'));
+          const entrypointFiles = entrypoints.main.filter(
+            fileName => !fileName.endsWith('.map')
+          );
 
           return {
             files: manifestFiles,
@@ -731,8 +769,12 @@ module.exports = function (webpackEnv, isSSR) {
           }),
           async: isEnvDevelopment,
           checkSyntacticErrors: true,
-          resolveModuleNameModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
-          resolveTypeReferenceDirectiveModule: process.versions.pnp ? `${__dirname}/pnpTs.js` : undefined,
+          resolveModuleNameModule: process.versions.pnp
+            ? `${__dirname}/pnpTs.js`
+            : undefined,
+          resolveTypeReferenceDirectiveModule: process.versions.pnp
+            ? `${__dirname}/pnpTs.js`
+            : undefined,
           tsconfig: paths.appTsConfig,
           reportFiles: [
             // This one is specifically to match during CI tests,
@@ -768,7 +810,7 @@ module.exports = function (webpackEnv, isSSR) {
           allowAsyncCycles: false,
           // set the current working directory for displaying module paths
           cwd: process.cwd(),
-        )},
+        }),
       !disableESLintPlugin &&
         new ESLintPlugin({
           // Plugin options
