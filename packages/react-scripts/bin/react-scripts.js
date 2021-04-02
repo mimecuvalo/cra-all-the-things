@@ -31,8 +31,10 @@ if (['build', 'eject', 'serve-prod', 'serve-dev', 'test'].includes(script)) {
   }
 
   const result = spawn.sync(
-    'node',
-    nodeArgs.concat(require.resolve('../scripts/' + script)).concat(args.slice(scriptIndex + 1)),
+    process.execPath,
+    nodeArgs
+      .concat(require.resolve('../scripts/' + script))
+      .concat(args.slice(scriptIndex + 1)),
     { stdio: 'inherit' }
   );
   if (result.signal) {

@@ -38,12 +38,21 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const clearConsole = require('react-dev-utils/clearConsole');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
-const { choosePort, prepareProxy, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
+const {
+  choosePort,
+  prepareProxy,
+  prepareUrls,
+} = require('react-dev-utils/WebpackDevServerUtils');
+const openBrowser = require('react-dev-utils/openBrowser');
+const semver = require('semver');
 const paths = require('../config/paths');
 const configFactory = require('../config/webpack.config');
 const createDevServerConfig = require('../config/webpackDevServer.config');
 const startAppServer = require('./serve');
+const getClientEnvironment = require('../config/env');
+const react = require(require.resolve('react', { paths: [paths.appPath] }));
 
+const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
 const useYarn = fs.existsSync(paths.yarnLockFile);
 const isInteractive = process.stdout.isTTY;
 
@@ -58,10 +67,24 @@ const HOST = process.env.HOST || '0.0.0.0';
 
 if (process.env.HOST) {
   console.log(
-    chalk.cyan(`Attempting to bind to HOST environment variable: ${chalk.yellow(chalk.bold(process.env.HOST))}`)
+    chalk.cyan(
+      `Attempting to bind to HOST environment variable: ${chalk.yellow(
+        chalk.bold(process.env.HOST)
+      )}`
+    )
   );
-  console.log(`If this was unintentional, check that you haven't mistakenly set it in your shell.`);
-  console.log(`Learn more here: ${chalk.yellow('https://bit.ly/CRA-advanced-config')}`);
+  console.log(
+    `If this was unintentional, check that you haven't mistakenly set it in your shell.`
+  );
+  console.log(
+    `Learn more here: ${chalk.yellow('https://cra.link/advanced-config')}`
+  );
+  console.log(
+    `If this was unintentional, check that you haven't mistakenly set it in your shell.`
+  );
+  console.log(
+    `Learn more here: ${chalk.yellow('https://bit.ly/CRA-advanced-config')}`
+  );
   console.log();
 }
 
@@ -79,21 +102,31 @@ checkBrowsers(paths.appPath, isInteractive)
       // We have not found a port.
       return;
     }
+
     // TODO(mime): can I consolidate this / eliminate this instead of the whole proxying trick while keeping HMR?
     const config = configFactory(process.env.NODE_ENV, false /* SSR */);
     const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
+
     const useTypeScript = fs.existsSync(paths.appTsConfig);
     const tscCompileOnError = process.env.TSC_COMPILE_ON_ERROR === 'true';
-    const urls = prepareUrls(protocol, HOST, port);
+    const urls = prepareUrls(
+      protocol,
+      HOST,
+      port,
+      paths.publicUrlOrPath.slice(0, -1)
+    );
     const devSocket = {
-      warnings: warnings => devServer.sockWrite(devServer.sockets, 'warnings', warnings),
-      errors: errors => devServer.sockWrite(devServer.sockets, 'errors', errors),
+      warnings: warnings =>
+        devServer.sockWrite(devServer.sockets, 'warnings', warnings),
+      errors: errors =>
+        devServer.sockWrite(devServer.sockets, 'errors', errors),
     };
 
     // Create a webpack compiler that is configured with custom messages.
     // NOTE(all-the-things): we remove the custom messages here in lieu of the server ones (which are dupes basically).
-    const compiler = process.env.NODE_ENV == 'production' ? null : webpack(config);
+    const compiler =
+      process.env.NODE_ENV == 'production' ? null : webpack(config);
 
     if (isInteractive) {
       clearConsole();
@@ -106,16 +139,12 @@ checkBrowsers(paths.appPath, isInteractive)
       )
     );
 
-    // We used to support resolving modules according to `NODE_PATH`.
-    // This now has been deprecated in favor of jsconfig/tsconfig.json
-    // This lets you use absolute paths in imports inside large monorepos:
-    if (process.env.NODE_PATH) {
+    if (env.raw.FAST_REFRESH && semver.lt(react.version, '16.10.0')) {
       console.log(
         chalk.yellow(
-          'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.'
+          `Fast Refresh requires React 16.10 or higher. You are using React ${react.version}.`
         )
       );
-      console.log();
     }
 
     // Start our app server which does server-side rendering. We pass it our client's webpack compiler in development
@@ -128,16 +157,23 @@ checkBrowsers(paths.appPath, isInteractive)
       devSocket,
       useTypeScript,
       tscCompileOnError,
-      useYarn
+      useYarn,
     });
 
     let devServer;
     if (process.env.NODE_ENV == 'development') {
       // Load proxy config
       const proxySetting = require(paths.appPackageJson).proxy;
-      const proxyConfig = prepareProxy(proxySetting, paths.appPublic);
+      const proxyConfig = prepareProxy(
+        proxySetting,
+        paths.appPublic,
+        paths.publicUrlOrPath
+      );
       // Serve webpack assets generated by the compiler over a web server.
-      const serverConfig = createDevServerConfig(proxyConfig, urls.lanUrlForConfig);
+      const serverConfig = createDevServerConfig(
+        proxyConfig,
+        urls.lanUrlForConfig
+      );
       devServer = new WebpackDevServer(compiler, serverConfig);
       // Launch WebpackDevServer.
       devServer.listen(port, HOST, err => {
@@ -147,12 +183,20 @@ checkBrowsers(paths.appPath, isInteractive)
       });
     }
 
-    ['SIGINT', 'SIGTERM'].forEach(function(sig) {
-      process.on(sig, function() {
+    ['SIGINT', 'SIGTERM'].forEach(function (sig) {
+      process.on(sig, function () {
         devServer && devServer.close();
         process.exit();
       });
     });
+
+    if (process.env.CI !== 'true') {
+      // Gracefully exit when stdin ends
+      process.stdin.on('end', function () {
+        devServer.close();
+        process.exit();
+      });
+    }
   })
   .catch(err => {
     if (err && err.message) {
