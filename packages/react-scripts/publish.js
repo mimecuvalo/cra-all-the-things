@@ -50,7 +50,7 @@ function publishToNpm(version) {
     rl.close();
     execSync(`npm publish --otp=${code}`, execOptions);
 
-    //updateExampleRepo(version);
+    updateExampleRepo(version);
     updateHelloworldRepo(version);
   });
 }
@@ -102,7 +102,7 @@ function updateHelloworldRepo(version) {
   execSync(`${cdCmd}; npm install --package-lock-only`, execOptions);
 
   // Ugh, this is so dumb.
-  //execSync(`${cdCmd}; rm -rf node_modules`, execOptions);
+  execSync(`${cdCmd}; rm -rf node_modules`, execOptions);
   execSync(`${cdCmd}; lerna bootstrap --hoist`, execOptions);
 
   console.log('Finished!');
