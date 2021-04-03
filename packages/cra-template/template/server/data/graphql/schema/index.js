@@ -25,4 +25,5 @@ const linkSchema = gql`
   scalar Date
 `;
 
-export default [linkSchema, userSchema];
+const schema = [linkSchema, userSchema];
+export default schema;

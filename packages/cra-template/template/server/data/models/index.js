@@ -14,6 +14,7 @@ export const sequelize = new Sequelize({
 
 export const User = user(sequelize, Sequelize);
 
-export default {
+const models = {
   User,
 };
+export default models;

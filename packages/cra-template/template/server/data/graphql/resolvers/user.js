@@ -1,7 +1,7 @@
 import { combineResolvers } from 'graphql-resolvers';
 import { isAdmin } from './authorization';
 
-export default {
+const User = {
   Query: {
     allUsers: combineResolvers(isAdmin, async (parent, args, { models }) => {
       return await models.User.findAll();
@@ -19,3 +19,4 @@ export default {
     }),
   },
 };
+export default User;

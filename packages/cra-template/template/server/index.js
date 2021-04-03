@@ -13,14 +13,14 @@ import path from 'path';
 import * as Sentry from '@sentry/node';
 import session from 'express-session';
 import sessionFileStore from 'session-file-store';
-import uuid from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import winston from 'winston';
 import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
 const FileStore = sessionFileStore(session);
 
 // react-intl's requires DOMParser to be available globally so that XML message parsing is done correctly.
-global.DOMParser = new (require('jsdom')).JSDOM().window.DOMParser;
+global.DOMParser = new (require('jsdom').JSDOM)().window.DOMParser;
 
 // Called from scripts/serve.js to create the three apps we currently support: the main App, API, and Apollo servers.
 export default function constructApps({ appName, productionAssetsByType, publicUrl, gitInfo }) {
@@ -34,7 +34,7 @@ export default function constructApps({ appName, productionAssetsByType, publicU
 
   // Helmet sets security headers via HTTP headers.
   // Learn more here: https://helmetjs.github.io/docs/
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     res.locals.nonce = uuid.v4();
     next();
   });
@@ -128,9 +128,9 @@ export default function constructApps({ appName, productionAssetsByType, publicU
   if (process.env.REACT_APP_SENTRY_DSN) {
     Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DSN, debug: process.env.NODE_ENV !== 'production' });
     app.use(Sentry.Handlers.requestHandler());
-    app.use(async function(req, res, next) {
+    app.use(async function (req, res, next) {
       if (req.session.user) {
-        Sentry.configureScope(scope => {
+        Sentry.configureScope((scope) => {
           scope.setUser({ id: req.session.user.model?.id, email: req.session.user.oauth.email });
         });
       }

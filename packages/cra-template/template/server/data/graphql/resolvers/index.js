@@ -30,4 +30,5 @@ const exampleResolvers = {
   },
 };
 
-export default [exampleResolvers, userResolvers];
+const resolvers = [exampleResolvers, userResolvers];
+export default resolvers;
