@@ -81,8 +81,16 @@ function tryGitCommit(appPath) {
   }
 }
 
-module.exports = function (appPath, appName, verbose, originalDirectory, templateName) {
-  const ownPath = path.dirname(require.resolve(path.join(__dirname, '..', 'package.json')));
+module.exports = function (
+  appPath,
+  appName,
+  verbose,
+  originalDirectory,
+  templateName
+) {
+  const ownPath = path.dirname(
+    require.resolve(path.join(__dirname, '..', 'package.json'))
+  );
   const appPackage = require(path.join(appPath, 'package.json'));
   const useYarn = fs.existsSync(path.join(appPath, 'yarn.lock'));
 
@@ -225,7 +233,10 @@ module.exports = function (appPath, appName, verbose, originalDirectory, templat
 
   const readmeExists = fs.existsSync(path.join(appPath, 'docs', 'README.md'));
   if (readmeExists) {
-    fs.renameSync(path.join(appPath, 'docs', 'README.md'), path.join(appPath, 'README.old.md'));
+    fs.renameSync(
+      path.join(appPath, 'docs', 'README.md'),
+      path.join(appPath, 'README.old.md')
+    );
   }
 
   // Copy the files for the user
@@ -242,7 +253,10 @@ module.exports = function (appPath, appName, verbose, originalDirectory, templat
   // modifies README.md commands based on user used package manager.
   if (useYarn) {
     try {
-      const readme = fs.readFileSync(path.join(appPath, 'docs', 'README.md'), 'utf8');
+      const readme = fs.readFileSync(
+        path.join(appPath, 'docs', 'README.md'),
+        'utf8'
+      );
       fs.writeFileSync(
         path.join(appPath, 'README.md'),
         readme.replace(/(npm run |npm )/g, 'yarn '),
@@ -280,7 +294,10 @@ module.exports = function (appPath, appName, verbose, originalDirectory, templat
 
   // Install useful hooks for collaboration to detect and notify when package.json changes.
   try {
-    fs.appendFileSync('.git/hooks/post-checkout', '\nbin/post-checkout.sh $1 $2\n');
+    fs.appendFileSync(
+      '.git/hooks/post-checkout',
+      '\nbin/post-checkout.sh $1 $2\n'
+    );
     fs.appendFileSync('.git/hooks/post-merge', '\nbin/post-merge.sh\n');
     fs.chmodSync('.git/hooks/post-checkout', 0o775);
     fs.chmodSync('.git/hooks/post-merge', 0o775);
@@ -333,16 +350,6 @@ module.exports = function (appPath, appName, verbose, originalDirectory, templat
     }
   }
 
-  let depsCommand = useYarn ? 'yarn' : 'npm';
-  let depsArgs = ['install'];
-  console.log();
-  console.log('Installing all-the-things devDependencies.');
-  const proc = spawn.sync(depsCommand, depsArgs, { stdio: 'inherit' });
-  if (proc.status !== 0) {
-    console.error(`\`${depsCommand} ${depsArgs.join(' ')}\` failed`);
-    return;
-  }
-
   if (args.find(arg => arg.includes('typescript'))) {
     console.log();
     verifyTypeScriptSetup();
@@ -386,15 +393,23 @@ module.exports = function (appPath, appName, verbose, originalDirectory, templat
   console.log(chalk.cyan(`  ${displayedCommand} start`));
   console.log('    Starts the development server.');
   console.log();
-  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}build`));
+  console.log(
+    chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}build`)
+  );
   console.log('    Bundles the app into static files for production.');
   console.log();
   console.log(chalk.cyan(`  ${displayedCommand} test`));
   console.log('    Starts the test runner.');
   console.log();
-  console.log(chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}eject`));
-  console.log('    Removes this tool and copies build dependencies, configuration files');
-  console.log('    and scripts into the app directory. If you do this, you can’t go back!');
+  console.log(
+    chalk.cyan(`  ${displayedCommand} ${useYarn ? '' : 'run '}eject`)
+  );
+  console.log(
+    '    Removes this tool and copies build dependencies, configuration files'
+  );
+  console.log(
+    '    and scripts into the app directory. If you do this, you can’t go back!'
+  );
   console.log();
   console.log('We suggest that you begin by typing:');
   console.log();
@@ -402,7 +417,11 @@ module.exports = function (appPath, appName, verbose, originalDirectory, templat
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
   if (readmeExists) {
     console.log();
-    console.log(chalk.yellow('You had a `README.md` file, we renamed it to `README.old.md`'));
+    console.log(
+      chalk.yellow(
+        'You had a `README.md` file, we renamed it to `README.old.md`'
+      )
+    );
   }
   console.log();
   console.log('Happy hacking!');
@@ -411,5 +430,8 @@ module.exports = function (appPath, appName, verbose, originalDirectory, templat
 function isReactInstalled(appPackage) {
   const dependencies = appPackage.dependencies || {};
 
-  return typeof dependencies.react !== 'undefined' && typeof dependencies['react-dom'] !== 'undefined';
+  return (
+    typeof dependencies.react !== 'undefined' &&
+    typeof dependencies['react-dom'] !== 'undefined'
+  );
 }
