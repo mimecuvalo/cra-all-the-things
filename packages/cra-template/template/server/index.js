@@ -35,7 +35,7 @@ export default function constructApps({ appName, productionAssetsByType, publicU
   // Helmet sets security headers via HTTP headers.
   // Learn more here: https://helmetjs.github.io/docs/
   app.use(function (req, res, next) {
-    res.locals.nonce = uuid.v4();
+    res.locals.nonce = uuidv4();
     next();
   });
   app.use(
