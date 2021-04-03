@@ -51,7 +51,7 @@ function publishToNpm(version) {
     execSync(`npm publish --otp=${code}`, execOptions);
 
     updateExampleRepo(version);
-    updateHelloworldRepo(version);
+    //updateHelloworldRepo(version);
   });
 }
 
