@@ -50,7 +50,11 @@ export function F({ id, description, fallback, msg, values }) {
   const intl = originalUseIntl();
 
   const generatedId = generateId(id, msg, description);
-  if (intl.locale !== localeTools.getDefaultLocale() && fallback && !intl.messages[generatedId]) {
+  if (
+    intl.locale !== localeTools.getDefaultLocale() &&
+    fallback &&
+    !intl.messages[generatedId]
+  ) {
     return fallback;
   }
 
@@ -109,7 +113,9 @@ function transformInternalLocaleMsg(locale, msg) {
         inBracket = false;
       }
       if (!inBracket && /[a-zA-Z]/.test(msg[i])) {
-        newMsg += /[a-z]/.test(msg[i]) ? ACCENTS[msg[i]] : ACCENTS[msg[i]].toUpperCase();
+        newMsg += /[a-z]/.test(msg[i])
+          ? ACCENTS[msg[i]]
+          : ACCENTS[msg[i]].toUpperCase();
       } else {
         newMsg = msg[i];
       }
@@ -141,13 +147,27 @@ export function useIntl() {
 
   const originalFormatMessage = intl.formatMessage;
   intl.formatMessage = (descriptor, values, fallbackDescriptor) => {
-    descriptor.defaultMessage = transformInternalLocaleMsg(intl.locale, descriptor.defaultMessage);
+    descriptor.defaultMessage = transformInternalLocaleMsg(
+      intl.locale,
+      descriptor.defaultMessage
+    );
     if (fallbackDescriptor) {
-      fallbackDescriptor.defaultMessage = transformInternalLocaleMsg(intl.locale, fallbackDescriptor.defaultMessage);
+      fallbackDescriptor.defaultMessage = transformInternalLocaleMsg(
+        intl.locale,
+        fallbackDescriptor.defaultMessage
+      );
     }
 
-    const generatedId = generateId(descriptor.id, descriptor.defaultMessage, descriptor.description);
-    if (intl.locale !== localeTools.getDefaultLocale() && fallbackDescriptor && !intl.messages[generatedId]) {
+    const generatedId = generateId(
+      descriptor.id,
+      descriptor.defaultMessage,
+      descriptor.description
+    );
+    if (
+      intl.locale !== localeTools.getDefaultLocale() &&
+      fallbackDescriptor &&
+      !intl.messages[generatedId]
+    ) {
       return originalFormatMessage(fallbackDescriptor, values);
     }
 
@@ -162,7 +182,9 @@ export function createIntl(options) {
     return originalCreateIntl(options);
   } else {
     if (!didSetupCreateIntl) {
-      throw new Error('Need to run setupCreateIntl to use createIntl without options.');
+      throw new Error(
+        'Need to run setupCreateIntl to use createIntl without options.'
+      );
     }
     return presetIntl;
   }

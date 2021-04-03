@@ -4,31 +4,54 @@
  */
 import * as t from '@babel/types';
 
-export default function() {
+export default function () {
   return {
     name: 'react-intl-wrapper',
     visitor: {
       JSXElement: (path, state) => {
         const jsxOpeningElement = path.get('openingElement');
 
-        if (t.isJSXIdentifier(jsxOpeningElement.node.name) && jsxOpeningElement.node.name.name === 'F') {
+        if (
+          t.isJSXIdentifier(jsxOpeningElement.node.name) &&
+          jsxOpeningElement.node.name.name === 'F'
+        ) {
           const attributesPath = jsxOpeningElement.get('attributes');
-          const id = attributesPath.find(attrPath => attrPath.node.name && attrPath.node.name.name === 'id');
-          const msg = attributesPath.find(attrPath => attrPath.node.name && attrPath.node.name.name === 'msg');
-          const desc = attributesPath.find(attrPath => attrPath.node.name && attrPath.node.name.name === 'description');
+          const id = attributesPath.find(
+            attrPath => attrPath.node.name && attrPath.node.name.name === 'id'
+          );
+          const msg = attributesPath.find(
+            attrPath => attrPath.node.name && attrPath.node.name.name === 'msg'
+          );
+          const desc = attributesPath.find(
+            attrPath =>
+              attrPath.node.name && attrPath.node.name.name === 'description'
+          );
 
           if (!id && msg) {
-            const idValue = getId(msg.get('value').node.value, desc && desc.get('value').node.value);
-            msg.insertBefore(t.jsxAttribute(t.jsxIdentifier('id'), t.stringLiteral(idValue)));
+            const idValue = getId(
+              msg.get('value').node.value,
+              desc && desc.get('value').node.value
+            );
+            msg.insertBefore(
+              t.jsxAttribute(t.jsxIdentifier('id'), t.stringLiteral(idValue))
+            );
           }
           const msgValue = msg.get('value').node.value;
-          msg.insertBefore(t.jsxAttribute(t.jsxIdentifier('defaultMessage'), t.stringLiteral(msgValue)));
+          msg.insertBefore(
+            t.jsxAttribute(
+              t.jsxIdentifier('defaultMessage'),
+              t.stringLiteral(msgValue)
+            )
+          );
         }
       },
 
       CallExpression(path, state) {
         const callee = path.get('callee');
-        if (!(callee.isIdentifier() && callee.node.name === 'defineMessages') || !path.get('arguments.0')) {
+        if (
+          !(callee.isIdentifier() && callee.node.name === 'defineMessages') ||
+          !path.get('arguments.0')
+        ) {
           return;
         }
 
@@ -56,15 +79,25 @@ export default function() {
           });
 
           if (!literalObject['id']) {
-            const id = getId(literalObject['msg'], literalObject['description']);
-            messageDescriptorProperties.push(t.objectProperty(t.stringLiteral('id'), t.stringLiteral(id)));
+            const id = getId(
+              literalObject['msg'],
+              literalObject['description']
+            );
+            messageDescriptorProperties.push(
+              t.objectProperty(t.stringLiteral('id'), t.stringLiteral(id))
+            );
           }
           messageDescriptorProperties.push(
-            t.objectProperty(t.stringLiteral('defaultMessage'), t.stringLiteral(literalObject['msg']))
+            t.objectProperty(
+              t.stringLiteral('defaultMessage'),
+              t.stringLiteral(literalObject['msg'])
+            )
           );
 
           messageDescriptorProperties.push(...objProps.map(v => v.node));
-          objectValuePath.replaceWith(t.objectExpression(messageDescriptorProperties));
+          objectValuePath.replaceWith(
+            t.objectExpression(messageDescriptorProperties)
+          );
         }
       },
     },

@@ -37,7 +37,9 @@ export function getLocaleFromRequest(req) {
   // If not in user's preferences, we try to extract from the browser 'Accept-Language' header.
   if (req.headers['accept-language']) {
     const rawHeader = req.headers['accept-language'];
-    const possibleLanguages = rawHeader.split(',').map(lang => lang.replace(/;q=.*/, ''));
+    const possibleLanguages = rawHeader
+      .split(',')
+      .map(lang => lang.replace(/;q=.*/, ''));
     for (const language of possibleLanguages) {
       const locale = findRelevantLocale(language);
       if (locale) {
@@ -69,7 +71,10 @@ export function isValidLocale(locale) {
 }
 
 export function isInternalLocale(locale) {
-  return process.env.NODE_ENV === 'development' && INTERNAL_LOCALES.indexOf(locale) !== -1;
+  return (
+    process.env.NODE_ENV === 'development' &&
+    INTERNAL_LOCALES.indexOf(locale) !== -1
+  );
 }
 
 export default {

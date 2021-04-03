@@ -21,7 +21,10 @@ This helps set up some convenient tools when using `react-intl`.
 ```json
 {
   "presets": ["react-app"],
-  "plugins": ["@babel/plugin-proposal-optional-chaining", "module:react-intl-wrapper"]
+  "plugins": [
+    "@babel/plugin-proposal-optional-chaining",
+    "module:react-intl-wrapper"
+  ]
 }
 ```
 
@@ -46,12 +49,21 @@ setLocales({
 async function renderAppTree(app) {
   let translations = {};
   // This is to dynamically load language packs as needed. We don't need them all client-side.
-  if (configuration.locale !== configuration.defaultLocale && !isInternalLocale(configuration.locale)) {
-    translations = (await import(`../../shared/i18n-lang-packs/${configuration.locale}`)).default;
+  if (
+    configuration.locale !== configuration.defaultLocale &&
+    !isInternalLocale(configuration.locale)
+  ) {
+    translations = (
+      await import(`../../shared/i18n-lang-packs/${configuration.locale}`)
+    ).default;
   }
 
   return (
-    <IntlProvider defaultLocale={configuration.locale} locale={configuration.locale} messages={translations}>
+    <IntlProvider
+      defaultLocale={configuration.locale}
+      locale={configuration.locale}
+      messages={translations}
+    >
       ...
     </IntlProvider>
   );
@@ -68,7 +80,8 @@ async function render() {
 ```js
 const translations = {
   test: 'le test',
-  Edit__code__and_save_to_reload_: 'Modifier {code} et enregistrer pour recharger.',
+  Edit__code__and_save_to_reload_:
+    'Modifier {code} et enregistrer pour recharger.',
 };
 
 export default translations;
