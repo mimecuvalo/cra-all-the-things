@@ -50,7 +50,7 @@ export const resolvers = {
   },
   Mutation: {
     updateExperiments: (_, { experiments }) => {
-      LOCAL_STATE.experiments = experiments.map(name => ({
+      LOCAL_STATE.experiments = experiments.map((name) => ({
         __typename: 'Experiment',
         name,
       }));
@@ -70,7 +70,7 @@ export function initializeLocalState(user, experiments) {
     oauth: Object.assign({ __typename: 'UserOAuth' }, user.oauth),
   };
 
-  LOCAL_STATE.experiments = experiments.map(name => ({
+  LOCAL_STATE.experiments = experiments.map((name) => ({
     __typename: 'Experiment',
     name,
   }));

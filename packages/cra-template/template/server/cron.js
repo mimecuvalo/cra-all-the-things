@@ -7,7 +7,7 @@ function reportingErrors(handler) {
       await handler();
     } catch (error) {
       console.error(error);
-      Sentry.withScope(scope => {
+      Sentry.withScope((scope) => {
         Sentry.captureException(`CronError: ${error.message}`);
       });
     }
@@ -21,12 +21,12 @@ const cronConfig = [
 let scheduledJobs = [];
 
 export function startup() {
-  cronConfig.forEach(config => {
+  cronConfig.forEach((config) => {
     scheduledJobs.push(schedule.scheduleJob(config[0], config[1], reportingErrors(config[2])));
   });
 }
 
 export function shutdown() {
-  scheduledJobs.forEach(job => job.cancel());
+  scheduledJobs.forEach((job) => job.cancel());
   scheduledJobs = [];
 }

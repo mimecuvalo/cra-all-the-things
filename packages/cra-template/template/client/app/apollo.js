@@ -29,7 +29,7 @@ export default function createApolloClient() {
     }
   });
   const splitLink = split(
-    op => op.getContext().important === true,
+    (op) => op.getContext().important === true,
     httpLink, // if test is true, debatch
     batchHttpLink // otherwise, batch
   );
@@ -37,7 +37,7 @@ export default function createApolloClient() {
 
   initializeLocalState(configuration.user, configuration.experiments);
   const client = new ApolloClient({
-    request: async op => {
+    request: async (op) => {
       op.setContext({
         headers: {
           'x-xsrf-token': configuration.csrf || '',

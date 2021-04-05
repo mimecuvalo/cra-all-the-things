@@ -15,62 +15,62 @@ export const Color = {
 const theme = createMuiTheme({
   typography: {
     useNextVariants: true,
-  //   body1: {
-  //     FONT_FAMILY,
-  //     fontWeight: 700,
-  //     letterSpacing: '-0.5px',
-  //   },
-  //   body2: {
-  //     FONT_FAMILY,
-  //     fontWeight: 400,
-  //   },
-  //   button: {
-  //     textTransform: 'none',
-  //   },
-  //   h1: {
-  //     FONT_FAMILY,
-  //     fontSize: '50px',
-  //     fontWeight: 700,
-  //     lineHeight: '64px',
-  //     letterSpacing: '-0.01em',
-  //     padding: '10px 0',
-  //   },
-  //   subtitle1: {
-  //     MONOSPACE_FONT_FAMILY,
-  //     fontSize: '14px',
-  //     fontWeight: 700,
-  //   },
-  //   subtitle2: {
-  //     MONOSPACE_FONT_FAMILY,
-  //     fontSize: '12px',
-  //     fontWeight: 700,
-  //     letterSpacing: 0,
-  //   },
-  //   button: {
-  //     FONT_FAMILY,
-  //     fontSize: '12px',
-  //     fontWeight: '700',
-  //     textTransform: 'none',
-  //   },
-  // },
-  // palette: {
-  //   primary: {
-  //     main: Color.BLACK,
-  //   },
-  //   secondary: {
-  //     main: Color.BLACK,
-  //   },
-  //   text: {
-  //     primary: Color.BLACK,
-  //     secondary: Color.GRAY,
-  //     white: Color.WHITE,
-  //   },
-  //   background: {
-  //     paper: Color.WHITE,
-  //     default: Color.WHITE,
-  //     purple: Color.PURPLE,
-  //     green: Color.GREEN,
-  //   },
+    //   body1: {
+    //     FONT_FAMILY,
+    //     fontWeight: 700,
+    //     letterSpacing: '-0.5px',
+    //   },
+    //   body2: {
+    //     FONT_FAMILY,
+    //     fontWeight: 400,
+    //   },
+    //   button: {
+    //     textTransform: 'none',
+    //   },
+    //   h1: {
+    //     FONT_FAMILY,
+    //     fontSize: '50px',
+    //     fontWeight: 700,
+    //     lineHeight: '64px',
+    //     letterSpacing: '-0.01em',
+    //     padding: '10px 0',
+    //   },
+    //   subtitle1: {
+    //     MONOSPACE_FONT_FAMILY,
+    //     fontSize: '14px',
+    //     fontWeight: 700,
+    //   },
+    //   subtitle2: {
+    //     MONOSPACE_FONT_FAMILY,
+    //     fontSize: '12px',
+    //     fontWeight: 700,
+    //     letterSpacing: 0,
+    //   },
+    //   button: {
+    //     FONT_FAMILY,
+    //     fontSize: '12px',
+    //     fontWeight: '700',
+    //     textTransform: 'none',
+    //   },
+    // },
+    // palette: {
+    //   primary: {
+    //     main: Color.BLACK,
+    //   },
+    //   secondary: {
+    //     main: Color.BLACK,
+    //   },
+    //   text: {
+    //     primary: Color.BLACK,
+    //     secondary: Color.GRAY,
+    //     white: Color.WHITE,
+    //   },
+    //   background: {
+    //     paper: Color.WHITE,
+    //     default: Color.WHITE,
+    //     purple: Color.PURPLE,
+    //     green: Color.GREEN,
+    //   },
   },
   // overrides: {
   //   MuiButton: {

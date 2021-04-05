@@ -1,6 +1,6 @@
-@import "sanitize";
-@import "sanitize/forms";
-@import "sanitize/typography";
+@import 'sanitize';
+@import 'sanitize/forms';
+@import 'sanitize/typography';
 
 body::backdrop {
   background-color: #fafafa;

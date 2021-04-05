@@ -5,6 +5,6 @@ export default function useDocumentTitle(title) {
     const originalTitle = document.title;
     document.title = title;
 
-    return () => document.title = originalTitle;
+    return () => (document.title = originalTitle);
   }, [title]);
 }

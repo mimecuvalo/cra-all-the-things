@@ -66,7 +66,7 @@ const tmpDir = `${DIRECTORY_NAME}-${time}`;
 const remoteTmpDir = `/tmp/${tmpDir}/`;
 
 // run commands on localhost
-plan.local(async function(local) {
+plan.local(async function (local) {
   local.log('Copying files to remote hosts...');
 
   const gitInfoFile = '../.cra-all-the-things-prod-git-info.json';
@@ -90,7 +90,7 @@ plan.local(async function(local) {
 });
 
 // run commands on the target's remote hosts
-plan.remote(function(remote) {
+plan.remote(function (remote) {
   const user = plan.runtime.options.user;
   const varTmpDir = `/var/www/${tmpDir}`;
   const destDir = `/var/www/${DIRECTORY_NAME}`;
@@ -122,10 +122,10 @@ plan.remote(function(remote) {
 });
 
 // run more commands on localhost afterwards
-plan.local(function(local) {
+plan.local(function (local) {
   /* ... */
 });
 // ...or on remote hosts
-plan.remote(function(remote) {
+plan.remote(function (remote) {
   /* ... */
 });
