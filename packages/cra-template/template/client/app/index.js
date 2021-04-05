@@ -5,7 +5,7 @@ import configuration from './configuration';
 import createApolloClient from './apollo';
 import './index.css';
 import { IntlProvider, isInternalLocale, setLocales } from 'react-intl-wrapper';
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -27,7 +27,7 @@ async function renderAppTree(app) {
   }
 
   return (
-    <React.StrictMode>
+    <StrictMode>
       <IntlProvider defaultLocale={configuration.locale} locale={configuration.locale} messages={translations}>
         <ApolloProvider client={client}>
           <Router>
@@ -35,7 +35,7 @@ async function renderAppTree(app) {
           </Router>
         </ApolloProvider>
       </IntlProvider>
-    </React.StrictMode>
+    </StrictMode>
   );
 }
 

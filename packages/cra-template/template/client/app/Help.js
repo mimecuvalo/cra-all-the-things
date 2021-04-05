@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import { useQuery } from '@apollo/client';
 import { useSnackbar } from 'notistack';
@@ -44,7 +44,7 @@ export default function Help() {
   const snackbar = useSnackbar();
   const styles = useStyles();
   const { data } = useQuery(EXPERIMENTS_QUERY);
-  const enabledExperiments = data?.experiments?.map(exp => exp.name);
+  const enabledExperiments = data?.experiments?.map((exp) => exp.name);
 
   useEffect(() => {
     async function fetchData() {
@@ -55,10 +55,10 @@ export default function Help() {
     fetchData();
   }, [setExperiments]);
 
-  const allExperiments = Object.keys(experiments).map(name => ({ name, ...experiments[name] }));
+  const allExperiments = Object.keys(experiments).map((name) => ({ name, ...experiments[name] }));
   const cookieExperimentOverrides = Cookies.get('experiments') || {};
 
-  const handleMenuOpenerClick = event => {
+  const handleMenuOpenerClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -91,7 +91,7 @@ export default function Help() {
     setAnchorEl(null);
   };
 
-  const handleExperimentChange = name => {
+  const handleExperimentChange = (name) => {
     cookieExperimentOverrides[name] = !enabledExperiments[name];
     Cookies.set('experiments', cookieExperimentOverrides);
     window.location.reload();
@@ -160,7 +160,7 @@ export default function Help() {
       >
         <h1 style={{ padding: '0 10px' }}>Experiments</h1>
         <List>
-          {allExperiments.map(exp => (
+          {allExperiments.map((exp) => (
             <ListItem button key={exp.name}>
               <Checkbox
                 checked={enabledExperiments.includes(exp.name)}

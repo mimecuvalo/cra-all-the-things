@@ -1,7 +1,6 @@
 import { createUseStyles } from 'react-jss';
 //import { F } from 'react-intl-wrapper';
 import Help from './Help';
-import React from 'react'; //lazy //Suspense,
 
 let Debug = () => null;
 if (process.env.NODE_ENV === 'development') {

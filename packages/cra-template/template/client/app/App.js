@@ -9,7 +9,7 @@ import ErrorBoundary from '../error/ErrorBoundary';
 import IconButton from '@material-ui/core/IconButton';
 import MainApp from './Main';
 import { Route, Switch } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SnackbarProvider, useSnackbar } from 'notistack';
 
 const messages = defineMessages({
@@ -18,9 +18,7 @@ const messages = defineMessages({
 
 // This is the main entry point on the client-side.
 export default function App() {
-  const [devOnlyHiddenOnLoad, setDevOnlyHiddenOnLoad] = useState(
-    process.env.NODE_ENV === 'development'
-  );
+  const [devOnlyHiddenOnLoad, setDevOnlyHiddenOnLoad] = useState(process.env.NODE_ENV === 'development');
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {

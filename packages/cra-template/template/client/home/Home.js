@@ -3,7 +3,6 @@ import { defineMessages, F, useIntl } from 'react-intl-wrapper';
 import { Experiment, Variant } from '../components/Experiment';
 import gql from 'graphql-tag';
 import logo from './logo.svg';
-import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useSpring, animated } from 'react-spring';
 
@@ -109,12 +108,12 @@ export default function Home({ match: { url } }) {
         <F
           msg="i18n html test: <a>visit our website</a> and <cta>see the world</cta>"
           values={{
-            a: msg => (
+            a: (msg) => (
               <a className="external-link" target="_blank" rel="noopener noreferrer" href="https://www.example.com/">
                 {msg}
               </a>
             ),
-            cta: msg => <strong>{msg}</strong>,
+            cta: (msg) => <strong>{msg}</strong>,
           }}
         />
       </p>

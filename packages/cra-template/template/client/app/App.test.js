@@ -3,7 +3,6 @@ import { ApolloClient, ApolloProvider, HttpLink } from '@apollo/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { IntlProvider } from 'react-intl-wrapper';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { render, screen } from '@testing-library/react';
 import theme from '../../shared/theme';

@@ -1,6 +1,3 @@
-import React from 'react';
-
-// NOTE: Keep in sync with index.html for service workers!
 export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, title }) {
   return (
     <head>
@@ -8,7 +5,7 @@ export default function HTMLHead({ assetPathsByType, nonce, publicUrl, req, titl
       <link rel="author" href={`${publicUrl}humans.txt`} />
       <link rel="icon" href={`${publicUrl}favicon.ico`} />
       <link rel="apple-touch-icon" href={`${publicUrl}favicon.ico`} />
-      {assetPathsByType['css'].map(path => (
+      {assetPathsByType['css'].map((path) => (
         <link nonce={nonce} rel="stylesheet" key={path} href={path} />
       ))}
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
