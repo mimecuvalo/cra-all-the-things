@@ -96,11 +96,15 @@
       "dev": "npm install && docker-compose up -d && npx sequelize db:migrate && npx sequelize db:seed:all",
       "prepare": "husky install"
     },
+    "engines": {
+      "node": ">=14.16.0",
+      "npm": ">=6.14.11"
+    },
     "eslintConfig": {
       "extends": ["react-app", "react-app/jest"]
     },
     "lint-staged": {
-      "**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "(client|server|shared)/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
         "prettier --trailing-comma es5 --single-quote --write"
       ]
     }
