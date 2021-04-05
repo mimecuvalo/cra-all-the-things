@@ -15,8 +15,11 @@ const modules = require('../../config/modules');
 module.exports = (resolve, rootDir, isEjecting) => {
   // Use this instead of `paths.testsSetup` to avoid putting
   // an absolute filename into configuration after ejecting.
-  const setupTestsMatches = paths.testsSetup.match(/client[/\\]setupTests\.(.+)/);
-  const setupTestsFileExtension = (setupTestsMatches && setupTestsMatches[1]) || 'js';
+  const setupTestsMatches = paths.testsSetup.match(
+    /client[/\\]setupTests\.(.+)/
+  );
+  const setupTestsFileExtension =
+    (setupTestsMatches && setupTestsMatches[1]) || 'js';
   const setupTestsFile = fs.existsSync(paths.testsSetup)
     ? `<rootDir>/client/setupTests.${setupTestsFileExtension}`
     : undefined;
@@ -24,9 +27,16 @@ module.exports = (resolve, rootDir, isEjecting) => {
   const config = {
     roots: ['<rootDir>/client'],
 
-    collectCoverageFrom: ['(client|server)/**/*.{js,jsx,ts,tsx}', '!(client|server)/**/*.d.ts'],
+    collectCoverageFrom: [
+      '(client|server)/**/*.{js,jsx,ts,tsx}',
+      '!(client|server)/**/*.d.ts',
+    ],
 
-    setupFiles: [isEjecting ? 'react-app-polyfill/jsdom' : require.resolve('react-app-polyfill/jsdom')],
+    setupFiles: [
+      isEjecting
+        ? 'react-app-polyfill/jsdom'
+        : require.resolve('react-app-polyfill/jsdom'),
+    ],
 
     setupFilesAfterEnv: setupTestsFile ? [setupTestsFile] : [],
     testMatch: [
@@ -103,7 +113,8 @@ module.exports = (resolve, rootDir, isEjecting) => {
     });
     const unsupportedKeys = Object.keys(overrides);
     if (unsupportedKeys.length) {
-      const isOverridingSetupFile = unsupportedKeys.indexOf('setupFilesAfterEnv') > -1;
+      const isOverridingSetupFile =
+        unsupportedKeys.indexOf('setupFilesAfterEnv') > -1;
 
       if (isOverridingSetupFile) {
         console.error(
@@ -121,11 +132,15 @@ module.exports = (resolve, rootDir, isEjecting) => {
           chalk.red(
             '\nOut of the box, Create React App only supports overriding ' +
               'these Jest options:\n\n' +
-              supportedKeys.map(key => chalk.bold('  \u2022 ' + key)).join('\n') +
+              supportedKeys
+                .map(key => chalk.bold('  \u2022 ' + key))
+                .join('\n') +
               '.\n\n' +
               'These options in your package.json Jest configuration ' +
               'are not currently supported by Create React App:\n\n' +
-              unsupportedKeys.map(key => chalk.bold('  \u2022 ' + key)).join('\n') +
+              unsupportedKeys
+                .map(key => chalk.bold('  \u2022 ' + key))
+                .join('\n') +
               '\n\nIf you wish to override other Jest options, you need to ' +
               'eject from the default setup. You can do so by running ' +
               chalk.bold('npm run eject') +

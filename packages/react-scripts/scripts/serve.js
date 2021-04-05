@@ -1,7 +1,10 @@
 'use strict';
 
 const configFactory = require('../config/webpack.config');
-const { createCompiler, prepareUrls } = require('react-dev-utils/WebpackDevServerUtils');
+const {
+  createCompiler,
+  prepareUrls,
+} = require('react-dev-utils/WebpackDevServerUtils');
 const { exec } = require('child_process');
 const express = require('express');
 const MemoryFS = require('memory-fs');
@@ -14,7 +17,15 @@ const requireFromString = require('require-from-string');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 
-function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTypeScript, tscCompileOnError, useYarn }) {
+function startAppServer({
+  clientCompiler,
+  clientPort,
+  appName,
+  devSocket,
+  useTypeScript,
+  tscCompileOnError,
+  useYarn,
+}) {
   // Create a server build with an entry point at /server/App.js
   // Note the SSR boolean flag passed to configFactory.
   const serverConfig = configFactory(process.env.NODE_ENV, true /* SSR */);
@@ -25,10 +36,17 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
   // In development, create a proxy bridge to the regular client build to get hot updates (HMR).
   const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
   if (process.env.NODE_ENV === 'development') {
-    console.log('Setting up proxy from SSR server → WebpackDevServer for HMR support...');
+    console.log(
+      'Setting up proxy from SSR server → WebpackDevServer for HMR support...'
+    );
     const HOST = process.env.HOST || '0.0.0.0';
     topLevelApp.use(
-      ['/sockjs-node', '/__get-internal-source*', '/__open-stack-frame-in-editor', '/service-worker.js'],
+      [
+        '/sockjs-node',
+        '/__get-internal-source*',
+        '/__open-stack-frame-in-editor',
+        '/service-worker.js',
+      ],
       proxy({
         target: `${protocol}://${HOST}:${clientPort}`,
         changeOrigin: true,
@@ -60,7 +78,7 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
   // This neat trick lets us create routes dynamically at runtime.
   // Useful since Apollo does `schema.applyMiddleware({ app });`
   // Otherwise, we wouldn't need to do this dance.
-  topLevelApp.use(function(req, res, next) {
+  topLevelApp.use(function (req, res, next) {
     app(req, res, next);
   });
 
@@ -84,7 +102,10 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
   const fs = new MemoryFS();
   serverCompiler.outputFileSystem = fs;
   const getConstructApps = () => {
-    const contents = fs.readFileSync(path.resolve(process.cwd(), 'dist', serverConfig.output.filename), 'utf8');
+    const contents = fs.readFileSync(
+      path.resolve(process.cwd(), 'dist', serverConfig.output.filename),
+      'utf8'
+    );
     return requireFromString(contents, serverConfig.output.filename).default;
   };
 
@@ -97,7 +118,12 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
         const gitInfo = await getGitInfo();
 
         // eslint-disable-next-line require-atomic-updates
-        [app, dispose] = constructApps({ appName, productionAssetsByType, publicUrl, gitInfo });
+        [app, dispose] = constructApps({
+          appName,
+          productionAssetsByType,
+          publicUrl,
+          gitInfo,
+        });
       } catch (ex) {
         console.log(ex);
       }
@@ -133,8 +159,8 @@ function startAppServer({ clientCompiler, clientPort, appName, devSocket, useTyp
   });
 }
 
-const unless = function(middleware, ...paths) {
-  return function(req, res, next) {
+const unless = function (middleware, ...paths) {
+  return function (req, res, next) {
     const pathCheck = paths.some(path => path === req.path);
     pathCheck ? next() : middleware(req, res, next);
   };
@@ -145,7 +171,9 @@ function getProductionAssetsByType() {
   try {
     assetManifest = require(`${paths.appBuild}/asset-manifest.json`)['files'];
   } catch (ex) {
-    console.log(`Your asset-manifest.json file could not be found. Run ``npm run build`` to generate it.`);
+    console.log(
+      `Your asset-manifest.json file could not be found. Run ``npm run build`` to generate it.`
+    );
     throw new Error('need to run build first');
   }
 
@@ -154,7 +182,11 @@ function getProductionAssetsByType() {
   const runtimeIndex = assetKeys.indexOf('runtime-main.js.map');
   const bundleKey = assetKeys[runtimeIndex + 1];
 
-  const js = [assetManifest['runtime-main.js'], assetManifest[bundleKey], assetManifest['main.js']];
+  const js = [
+    assetManifest['runtime-main.js'],
+    assetManifest[bundleKey],
+    assetManifest['main.js'],
+  ];
   const css = [assetManifest['main.css']];
 
   return { css, js };
@@ -170,7 +202,9 @@ async function getGitInfo() {
   let gitRev, gitTime;
   try {
     gitRev = (await execPromise('git rev-parse HEAD')).stdout.trim();
-    gitTime = (await execPromise('git log -1 --format=%cd --date=unix')).stdout.trim();
+    gitTime = (
+      await execPromise('git log -1 --format=%cd --date=unix')
+    ).stdout.trim();
   } catch (ex) {
     try {
       const gitInfo = require(`${paths.appPath}/.cra-all-the-things-prod-git-info.json`);

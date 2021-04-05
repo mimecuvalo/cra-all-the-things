@@ -47,7 +47,9 @@ const moduleFileExtensions = [
 
 // Resolve file paths in the same order as webpack
 const resolveModule = (resolveFn, filePath) => {
-  const extension = moduleFileExtensions.find(extension => fs.existsSync(resolveFn(`${filePath}.${extension}`)));
+  const extension = moduleFileExtensions.find(extension =>
+    fs.existsSync(resolveFn(`${filePath}.${extension}`))
+  );
 
   if (extension) {
     return resolveFn(`${filePath}.${extension}`);
@@ -112,7 +114,9 @@ module.exports = {
 
 const ownPackageJson = require('../package.json');
 const reactScriptsPath = resolveApp(`node_modules/${ownPackageJson.name}`);
-const reactScriptsLinked = fs.existsSync(reactScriptsPath) && fs.lstatSync(reactScriptsPath).isSymbolicLink();
+const reactScriptsLinked =
+  fs.existsSync(reactScriptsPath) &&
+  fs.lstatSync(reactScriptsPath).isSymbolicLink();
 
 // config before publish: we're in ./packages/react-scripts/config/
 if (
@@ -127,7 +131,10 @@ if (
     appPublic: resolveOwn(`${templatePath}/public`),
     appHtml: resolveOwn(`${templatePath}/public/index.html`),
     appIndexJs: resolveModule(resolveOwn, `${templatePath}/client/app/index`),
-    serverJsEntryPoint: resolveModule(resolveOwn, `${templatePath}/server/index`),
+    serverJsEntryPoint: resolveModule(
+      resolveOwn,
+      `${templatePath}/server/index`
+    ),
     appPackageJson: resolveOwn('package.json'),
     appSrc: resolveOwn(`${templatePath}/client`),
     appServerSrc: resolveOwn(`${templatePath}/server`),
@@ -143,7 +150,9 @@ if (
     // These properties only exist before ejecting:
     ownPath: resolveOwn('.'),
     ownNodeModules: resolveOwn('node_modules'),
-    appTypeDeclarations: resolveOwn(`${templatePath}/client/react-app-env.d.ts`),
+    appTypeDeclarations: resolveOwn(
+      `${templatePath}/client/react-app-env.d.ts`
+    ),
     ownTypeDeclarations: resolveOwn('lib/react-app.d.ts'),
   };
 }
