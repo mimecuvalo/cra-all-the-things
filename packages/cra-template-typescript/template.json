@@ -83,6 +83,9 @@
     },
     "scripts": {
       "start": "npm-run-all --parallel serve:dev styleguide",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject",
       "serve:dev": "react-scripts serve-dev",
       "serve:prod": "react-scripts serve-prod",
       "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
