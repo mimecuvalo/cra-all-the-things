@@ -4,6 +4,8 @@ const execSync = require('child_process').execSync;
 const fs = require('fs');
 const readline = require('readline');
 const allTheThingsPackageJson = require('./package.json');
+const craTemplatePackageJson = require('../cra-template/package.json');
+const craTemplateTypescriptPackageJson = require('./cra-template-typescript/package.json');
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -25,11 +27,29 @@ rl.question('New version: ', answer => {
 function savePackageJson(version) {
   console.log('Saving to package.json...');
   allTheThingsPackageJson.version = version;
+  craTemplatePackageJson.version = version;
+  craTemplateTypescriptPackageJson.version = version;
   fs.writeFileSync(
     'package.json',
     JSON.stringify(allTheThingsPackageJson, null, 2)
   );
+  fs.writeFileSync(
+    '../cra-template/package.json',
+    JSON.stringify(craTemplatePackageJson, null, 2)
+  );
+  fs.writeFileSync(
+    '../cra-template-typescript/package.json',
+    JSON.stringify(craTemplateTypescriptPackageJson, null, 2)
+  );
   execSync('npm install --package-lock-only', execOptions);
+  execSync(
+    'cd ../cra-template && npm install --package-lock-only',
+    execOptions
+  );
+  execSync(
+    'cd ../cra-template-typescript && npm install --package-lock-only',
+    execOptions
+  );
 }
 
 function pushToGitRepo(version) {
@@ -48,6 +68,11 @@ function publishToNpm(version) {
 
   rl.question('OTP: ', code => {
     rl.close();
+    execSync(`cd ../cra-template && npm publish --otp=${code}`, execOptions);
+    execSync(
+      `cd ../cra-template-typescript && npm publish --otp=${code}`,
+      execOptions
+    );
     execSync(`npm publish --otp=${code}`, execOptions);
 
     updateExampleRepo(version);
