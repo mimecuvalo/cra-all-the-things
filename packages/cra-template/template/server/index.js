@@ -52,7 +52,12 @@ export default function constructApps({ appName, productionAssetsByType, publicU
           mediaSrc: ["'self'", 'blob:'],
           objectSrc: ["'self'"],
           reportUri: '/api/report-violation',
-          scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
+          scriptSrc: [
+            "'self'",
+            'https://cdn.auth0.com',
+            'https://storage.googleapis.com',
+            (req, res) => `'nonce-${res.locals.nonce}'`,
+          ],
           upgradeInsecureRequests: [],
 
           // XXX(mime): we have inline styles around - can we pass nonce around the app properly?
