@@ -28,7 +28,7 @@ export default function App() {
 
     // Remove MaterialUI's SSR generated CSS.
     const jssStyles = document.getElementById('jss-ssr');
-    if (jssStyles && jssStyles.parentNode) {
+    if (jssStyles?.parentNode) {
       // TODO(mime) XXX(mime): remove this ASAP - disabling for now til i figure out what's going on
       //jssStyles.parentNode.removeChild(jssStyles);
     }
