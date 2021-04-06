@@ -1,6 +1,6 @@
 import { F } from 'react-intl-wrapper';
 import { Route, Link } from 'react-router-dom';
-import useDocumentTitle from '../app/title';
+import useDocumentTitle from 'client/app/title';
 
 /**
  * Provides a simple React component as an example React component to manipulate out-of-the-box.

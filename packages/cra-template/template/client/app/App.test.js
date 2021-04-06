@@ -5,7 +5,7 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { IntlProvider } from 'react-intl-wrapper';
 import ReactDOM from 'react-dom';
 import { render, screen } from '@testing-library/react';
-import theme from '../../shared/theme';
+import theme from 'shared/theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 it('renders without crashing', () => {

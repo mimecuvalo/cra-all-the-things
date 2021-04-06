@@ -1,6 +1,6 @@
 import Button from '@material-ui/core/Button';
 import { defineMessages, F, useIntl } from 'react-intl-wrapper';
-import { Experiment, Variant } from '../components/Experiment';
+import { Experiment, Variant } from 'client/components/Experiment';
 import gql from 'graphql-tag';
 import logo from './logo.svg';
 import { useQuery } from '@apollo/client';

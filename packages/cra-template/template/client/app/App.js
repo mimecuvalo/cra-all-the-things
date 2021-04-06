@@ -1,11 +1,11 @@
-import AdminApp from '../admin';
+import AdminApp from 'client/admin';
 import './analytics';
 import './App.css';
 import classNames from 'classnames';
 import clientHealthCheck from './client_health_check';
 import CloseIcon from '@material-ui/icons/Close';
 import { defineMessages, useIntl } from 'react-intl-wrapper';
-import ErrorBoundary from '../error/ErrorBoundary';
+import ErrorBoundary from 'client/error/ErrorBoundary';
 import IconButton from '@material-ui/core/IconButton';
 import MainApp from './Main';
 import { Route, Switch } from 'react-router-dom';

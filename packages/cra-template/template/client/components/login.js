@@ -1,5 +1,5 @@
 import Button from '@material-ui/core/Button';
-import { createLock, setUser } from '../app/auth';
+import { createLock, setUser } from 'client/app/auth';
 import { F } from 'react-intl-wrapper';
 import gql from 'graphql-tag';
 import { useQuery } from '@apollo/client';

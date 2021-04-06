@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss';
 import { F } from 'react-intl-wrapper';
 import { Link } from 'react-router-dom';
-import LoginLogoutButton from '../components/login';
+import LoginLogoutButton from 'client/components/login';
 
 const useStyles = createUseStyles({
   menu: {

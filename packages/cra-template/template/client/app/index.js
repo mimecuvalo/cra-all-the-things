@@ -9,7 +9,7 @@ import { StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-import theme from '../../shared/theme';
+import theme from 'shared/theme';
 import { ThemeProvider } from '@material-ui/core/styles';
 
 setLocales({
@@ -23,7 +23,7 @@ async function renderAppTree(app) {
   let translations = {};
   // This is to dynamically load language packs as needed. We don't need them all client-side.
   if (configuration.locale !== configuration.defaultLocale && !isInternalLocale(configuration.locale)) {
-    translations = (await import(`../../shared/i18n-lang-packs/${configuration.locale}`)).default;
+    translations = (await import(`shared/i18n-lang-packs/${configuration.locale}`)).default;
   }
 
   return (

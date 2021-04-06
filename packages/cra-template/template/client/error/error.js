@@ -1,4 +1,4 @@
-import configuration from '../app/configuration';
+import configuration from 'client/app/configuration';
 
 export function logError(data) {
   fetch('/api/report-error', {

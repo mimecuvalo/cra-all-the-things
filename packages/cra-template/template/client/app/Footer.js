@@ -4,7 +4,7 @@ import Help from './Help';
 
 let Debug = () => null;
 if (process.env.NODE_ENV === 'development') {
-  Debug = require('../internal/Debug').default;
+  Debug = require('client/internal/Debug').default;
 }
 
 const useStyles = createUseStyles({
@@ -37,7 +37,7 @@ export default function Footer() {
       // );
       // let SuspenseWithTemporaryWorkaround;
       // if (IS_CLIENT) {
-      //   const Debug = lazy(() => import('../internal/Debug'));
+      //   const Debug = lazy(() => import('client/internal/Debug'));
       //   SuspenseWithTemporaryWorkaround = (
       //     <Suspense fallback={Fallback}>
       //       <Debug />

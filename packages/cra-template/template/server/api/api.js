@@ -1,6 +1,6 @@
 import adminRouter from './admin';
 import analyticsRouter from './analytics';
-import authorization from '../authorization';
+import authorization from 'server/authorization';
 import authRouter from './auth';
 import clientHealthCheckRouter from './client_health_check';
 import errorRouter from './error';

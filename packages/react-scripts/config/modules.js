@@ -44,8 +44,9 @@ function getAdditionalModulePaths(options = {}) {
   // not transpiled outside of `src`. We do allow importing them with the
   // absolute path (e.g. `src/Components/Button.js`) but we set that up with
   // an alias.
+  // NB: cra-att change from appSrc->appTemplate
   if (path.relative(paths.appPath, baseUrlResolved) === '') {
-    return null;
+    return [paths.appTemplate];
   }
 
   // Otherwise, throw an error.

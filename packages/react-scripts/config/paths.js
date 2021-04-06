@@ -68,6 +68,7 @@ module.exports = {
   appIndexJs: resolveModule(resolveApp, 'client/app/index'),
   serverJsEntryPoint: resolveModule(resolveApp, 'server/index'),
   appPackageJson: resolveApp('package.json'),
+  appTemplate: resolveApp('.'),
   appSrc: resolveApp('client'),
   appServerSrc: resolveApp('server'),
   appSharedSrc: resolveApp('shared'),
@@ -94,6 +95,7 @@ module.exports = {
   appIndexJs: resolveModule(resolveApp, 'client/app/index'),
   serverJsEntryPoint: resolveModule(resolveApp, 'server/index'),
   appPackageJson: resolveApp('package.json'),
+  appTemplate: resolveApp('.'),
   appSrc: resolveApp('client'),
   appServerSrc: resolveApp('server'),
   appSharedSrc: resolveApp('shared'),
@@ -136,6 +138,7 @@ if (
       `${templatePath}/server/index`
     ),
     appPackageJson: resolveOwn('package.json'),
+    appTemplate: resolveOwn(`${templatePath}`),
     appSrc: resolveOwn(`${templatePath}/client`),
     appServerSrc: resolveOwn(`${templatePath}/server`),
     appSharedSrc: resolveOwn(`${templatePath}/shared`),
