@@ -1,5 +1,5 @@
-import mysql2 from 'mysql2'; // Needed to fix sequelize issues with WebPack
 import Sequelize from 'sequelize';
+import mysql2 from 'mysql2'; // Needed to fix sequelize issues with WebPack
 import user from './user';
 
 export const sequelize = new Sequelize({

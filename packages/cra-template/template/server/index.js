@@ -1,3 +1,7 @@
+import * as Sentry from '@sentry/node';
+import * as cron from './cron';
+
+import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 import apiServer from './api/api';
 import apolloServer from './data/apollo';
 import appServer from './app/app';
@@ -5,17 +9,14 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import connectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
-import * as cron from './cron';
 import csurf from 'csurf';
 import express from 'express';
 import helmet from 'helmet';
 import path from 'path';
-import * as Sentry from '@sentry/node';
 import session from 'express-session';
 import sessionFileStore from 'session-file-store';
 import { v4 as uuidv4 } from 'uuid';
 import winston from 'winston';
-import WinstonDailyRotateFile from 'winston-daily-rotate-file';
 
 const FileStore = sessionFileStore(session);
 
@@ -128,12 +129,18 @@ export default function constructApps({ appName, productionAssetsByType, publicU
   }; // Use this function in case you need to cleanup state before an HMR refresh.
 
   if (process.env.REACT_APP_SENTRY_DSN) {
-    Sentry.init({ dsn: process.env.REACT_APP_SENTRY_DSN, debug: process.env.NODE_ENV !== 'production' });
+    Sentry.init({
+      dsn: process.env.REACT_APP_SENTRY_DSN,
+      debug: process.env.NODE_ENV !== 'production',
+    });
     app.use(Sentry.Handlers.requestHandler());
     app.use(async function (req, res, next) {
       if (req.session.user) {
         Sentry.configureScope((scope) => {
-          scope.setUser({ id: req.session.user.model?.id, email: req.session.user.oauth.email });
+          scope.setUser({
+            id: req.session.user.model?.id,
+            email: req.session.user.oauth.email,
+          });
         });
       }
       next();
@@ -148,7 +155,16 @@ export default function constructApps({ appName, productionAssetsByType, publicU
     const assetPathsByType =
       process.env.NODE_ENV === 'development' ? processAssetsFromWebpackStats(res) : productionAssetsByType;
     const nonce = res.locals.nonce;
-    appServer({ req, res, next, assetPathsByType, appName, nonce, publicUrl, gitInfo });
+    appServer({
+      req,
+      res,
+      next,
+      assetPathsByType,
+      appName,
+      nonce,
+      publicUrl,
+      gitInfo,
+    });
   });
 
   return [app, dispose];

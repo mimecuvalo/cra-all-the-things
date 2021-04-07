@@ -2,7 +2,9 @@ import DataLoader from 'dataloader';
 import { User } from 'server/data/models';
 
 export default function createLoaders(loaderOptions) {
-  const options = { cache: loaderOptions && loaderOptions.disableCache ? false : true };
+  const options = {
+    cache: loaderOptions && loaderOptions.disableCache ? false : true,
+  };
 
   return {
     users: new DataLoader(loadUsers, options),

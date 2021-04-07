@@ -103,10 +103,15 @@ plan.remote(function (remote) {
   remote.sudo(`cp ${destDir}/.env ${varTmpDir}/`, { user, failsafe: true });
 
   remote.log('Installing dependencies...');
-  remote.sudo(`npm --production --prefix ${varTmpDir} install ${varTmpDir}`, { user });
+  remote.sudo(`npm --production --prefix ${varTmpDir} install ${varTmpDir}`, {
+    user,
+  });
 
   // Copy over sessions.
-  remote.sudo(`cp -R ${destDir}/sessions ${varTmpDir}`, { user, failsafe: true });
+  remote.sudo(`cp -R ${destDir}/sessions ${varTmpDir}`, {
+    user,
+    failsafe: true,
+  });
 
   remote.log('Building production files...');
   remote.sudo(`cd ${varTmpDir}; npm run build`, { user });

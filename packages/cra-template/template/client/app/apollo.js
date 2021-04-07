@@ -1,11 +1,12 @@
 import { ApolloClient, ApolloLink, HttpLink, split } from '@apollo/client';
+import { resolvers, typeDefs } from 'shared/data/local_state';
+
 import { BatchHttpLink } from '@apollo/client/link/batch-http';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import configuration from 'client/app/configuration';
 import { dataIdFromObject } from 'shared/data/apollo';
 import { initializeLocalState } from 'shared/data/local_state';
-import { InMemoryCache } from 'apollo-cache-inmemory';
 import { onError } from '@apollo/client/link/error';
-import { typeDefs, resolvers } from 'shared/data/local_state';
 
 export default function createApolloClient() {
   const apolloUrl = '/graphql';
@@ -16,7 +17,10 @@ export default function createApolloClient() {
   const httpLink = new HttpLink({ uri: apolloUrl });
 
   // We add the Apollo/GraphQL capabilities here (also notice ApolloProvider below).
-  const cache = new InMemoryCache({ dataIdFromObject, freezeResults: true }).restore(window['__APOLLO_STATE__']);
+  const cache = new InMemoryCache({
+    dataIdFromObject,
+    freezeResults: true,
+  }).restore(window['__APOLLO_STATE__']);
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors) {

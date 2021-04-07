@@ -1,5 +1,6 @@
+import { Link, Route } from 'react-router-dom';
+
 import { F } from 'react-intl-wrapper';
-import { Route, Link } from 'react-router-dom';
 import useDocumentTitle from 'client/app/title';
 
 /**

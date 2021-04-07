@@ -1,10 +1,11 @@
-import Button from '@material-ui/core/Button';
-import { defineMessages, F, useIntl } from 'react-intl-wrapper';
 import { Experiment, Variant } from 'client/components/Experiment';
+import { F, defineMessages, useIntl } from 'react-intl-wrapper';
+import { animated, useSpring } from 'react-spring';
+
+import Button from '@material-ui/core/Button';
 import gql from 'graphql-tag';
 import logo from './logo.svg';
 import { useQuery } from '@apollo/client';
-import { useSpring, animated } from 'react-spring';
 
 // For things like "alt" text and other strings not in JSX.
 const messages = defineMessages({
@@ -29,7 +30,11 @@ export default function Home({ match: { url } }) {
 
   // This uses React Spring: https://www.react-spring.io/
   // Gives you some great animation easily for your app.
-  const springProps = useSpring({ opacity: 1, top: 0, from: { opacity: 0, top: 50 } });
+  const springProps = useSpring({
+    opacity: 1,
+    top: 0,
+    from: { opacity: 0, top: 50 },
+  });
 
   const { loading, data } = useQuery(HELLO_AND_ECHO_QUERY, {
     variables: { str: url },

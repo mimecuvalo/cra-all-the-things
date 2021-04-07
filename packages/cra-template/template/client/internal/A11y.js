@@ -1,9 +1,10 @@
-import axe from 'axe-core';
+import { useEffect, useState } from 'react';
+
 import Button from '@material-ui/core/Button';
+import Popover from '@material-ui/core/Popover';
+import axe from 'axe-core';
 import classNames from 'classnames';
 import { createUseStyles } from 'react-jss';
-import Popover from '@material-ui/core/Popover';
-import { useEffect, useState } from 'react';
 
 const useStyles = createUseStyles({
   a11yPopover: {
@@ -69,7 +70,9 @@ export default function A11y() {
         rules: {
           // This is a very annoying property of color-contrast that causes the page to scroll on page load.
           // We disable it here. This 'options' structure is insane btw. wtf.
-          'color-contrast': { checks: { 'color-contrast': { options: { noScroll: true } } } },
+          'color-contrast': {
+            checks: { 'color-contrast': { options: { noScroll: true } } },
+          },
         },
       },
       (err, results) => {

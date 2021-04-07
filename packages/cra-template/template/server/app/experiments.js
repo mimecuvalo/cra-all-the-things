@@ -22,7 +22,10 @@ export default function getExperiments(req) {
   const session = req.session;
   const user = req.session.user;
   const cookieExperimentOverrides = authorization.isAdmin(user) ? JSON.parse(req.cookies.experiments || '{}') : [];
-  const allExperiments = Object.keys(REGISTERED_EXPERIMENTS).map((name) => ({ name, ...REGISTERED_EXPERIMENTS[name] }));
+  const allExperiments = Object.keys(REGISTERED_EXPERIMENTS).map((name) => ({
+    name,
+    ...REGISTERED_EXPERIMENTS[name],
+  }));
   const enabledExperiments = allExperiments.filter((exp) => {
     if (cookieExperimentOverrides[exp.name] !== undefined) {
       return cookieExperimentOverrides[exp.name];

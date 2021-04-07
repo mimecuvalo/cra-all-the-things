@@ -1,12 +1,13 @@
-import App from './App';
 import { ApolloClient, ApolloProvider, HttpLink } from '@apollo/client';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { render, screen } from '@testing-library/react';
+
+import App from './App';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { IntlProvider } from 'react-intl-wrapper';
 import ReactDOM from 'react-dom';
-import { render, screen } from '@testing-library/react';
-import theme from 'shared/theme';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
+import theme from 'shared/theme';
 
 it('renders without crashing', () => {
   window.scrollTo = () => {}; // Used in app/App.js
