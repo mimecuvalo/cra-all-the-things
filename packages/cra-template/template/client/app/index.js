@@ -41,7 +41,8 @@ async function renderAppTree(app) {
 
 // We use `hydrate` here so that we attach to our server-side rendered React components.
 async function render() {
-  const appTree = await renderAppTree(<App />);
+  // TODO(mime): migrate window.configuration.user to LOCAL_STATE
+  const appTree = await renderAppTree(<App user={window.configuration.user} />);
   ReactDOM.hydrate(appTree, document.getElementById('root'));
 }
 render();
@@ -50,7 +51,8 @@ render();
 if (module.hot) {
   async function hotModuleRender() {
     const NextApp = require('./App').default;
-    const appTree = await renderAppTree(<NextApp />);
+    // TODO(mime): migrate window.configuration.user to LOCAL_STATE
+    const appTree = await renderAppTree(<NextApp user={window.configuration.user} />);
     ReactDOM.render(appTree, document.getElementById('root'));
   }
   module.hot.accept('./App', hotModuleRender);

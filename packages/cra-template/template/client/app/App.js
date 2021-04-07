@@ -11,13 +11,15 @@ import MainApp from './Main';
 import { Route, Switch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { SnackbarProvider, useSnackbar } from 'notistack';
+import UserContext from './User_Context';
 
 const messages = defineMessages({
   close: { msg: 'Close' },
 });
 
 // This is the main entry point on the client-side.
-export default function App() {
+export default function App({ user }) {
+  const [userContext] = useState({ user });
   const [devOnlyHiddenOnLoad, setDevOnlyHiddenOnLoad] = useState(process.env.NODE_ENV === 'development');
   const [loaded, setLoaded] = useState(false);
 
@@ -45,22 +47,24 @@ export default function App() {
   const devOnlyHiddenOnLoadStyle = devOnlyHiddenOnLoad ? { opacity: 0 } : null;
 
   return (
-    <SnackbarProvider action={<CloseButton />}>
-      <ErrorBoundary>
-        <div
-          className={classNames('App', {
-            'App-logged-in': true,
-            'App-is-development': process.env.NODE_ENV === 'development',
-          })}
-          style={devOnlyHiddenOnLoadStyle}
-        >
-          <Switch>
-            <Route path="/admin" component={AdminApp} />
-            <Route component={MainApp} />
-          </Switch>
-        </div>
-      </ErrorBoundary>
-    </SnackbarProvider>
+    <UserContext.Provider value={userContext}>
+      <SnackbarProvider action={<CloseButton />}>
+        <ErrorBoundary>
+          <div
+            className={classNames('App', {
+              'App-logged-in': true,
+              'App-is-development': process.env.NODE_ENV === 'development',
+            })}
+            style={devOnlyHiddenOnLoadStyle}
+          >
+            <Switch>
+              <Route path="/admin" component={AdminApp} />
+              <Route component={MainApp} />
+            </Switch>
+          </div>
+        </ErrorBoundary>
+      </SnackbarProvider>
+    </UserContext.Provider>
   );
 }
 

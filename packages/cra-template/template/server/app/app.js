@@ -19,8 +19,22 @@ setLocales({
 });
 
 export default async function render({ req, res, next, assetPathsByType, appName, nonce, publicUrl, gitInfo }) {
+  const FILTERED_KEYS = ['id'];
+  const filteredUser = req.session.user
+    ? {
+        oauth: req.session.user.oauth,
+        model:
+          req.session.user.model &&
+          Object.keys(req.session.user.model)
+            .filter((key) => !FILTERED_KEYS.includes(key))
+            .reduce((obj, key) => {
+              obj[key] = req.session.user.model[key];
+              return obj;
+            }, {}),
+      }
+    : null;
   const experiments = getExperiments(req);
-  initializeLocalState(req.session.user, experiments);
+  initializeLocalState(filteredUser, experiments);
 
   const apolloClient = createApolloClient(req);
   const context = {};
@@ -33,7 +47,7 @@ export default async function render({ req, res, next, assetPathsByType, appName
   const sheetsNonMaterialUI = new SheetsRegistry();
   const generateId = createGenerateId();
 
-  const coreApp = <App />;
+  const coreApp = <App user={filteredUser} />;
   // We need to set leave out Material-UI classname generation when traversing the React tree for
   // Apollo data. a) it speeds things up, but b) if we didn't do this, on prod, it can cause
   // classname hydration mismatches.
@@ -53,7 +67,7 @@ export default async function render({ req, res, next, assetPathsByType, appName
         publicUrl={publicUrl}
         req={req}
         title={appName}
-        user={req.session.user}
+        user={filteredUser}
       >
         <ApolloProvider client={apolloClient}>
           <StaticRouter location={req.url} context={context}>

@@ -1,22 +1,11 @@
 import Button from '@material-ui/core/Button';
 import { createLock, setUser } from 'client/app/auth';
 import { F } from 'react-intl-wrapper';
-import gql from 'graphql-tag';
-import { useQuery } from '@apollo/client';
-
-const USER_QUERY = gql`
-  {
-    user @client {
-      oauth {
-        email
-      }
-    }
-  }
-`;
+import { useContext } from 'react';
+import UserContext from 'client/app/User_Context';
 
 export default function LoginLogoutButton({ className }) {
-  const { data } = useQuery(USER_QUERY);
-  const user = data?.user;
+  const user = useContext(UserContext).user;
 
   const handleClick = () => {
     if (user) {
