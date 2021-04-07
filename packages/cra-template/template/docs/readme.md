@@ -55,7 +55,7 @@ To run tests:
 npm run test
 ```
 
-To change port, in an `.env` change the values to what you desire:
+To change port, in an `.env` change the values to what you would like:
 
 ```sh
 PORT=3000

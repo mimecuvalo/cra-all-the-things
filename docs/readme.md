@@ -37,13 +37,13 @@ This package includes scripts and configuration used by [Create React App](https
 - **error boundary**: adds a top-level one to the app. (see [doc](https://reactjs.org/docs/error-boundaries.html)).
 - **error pages**: [401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401), [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), [500](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500).
 - **error reporting**: listens to `window.onerror` and reports JS errors to the server for debugging.
-- **experiments framework**: allows you to add experiments easily via React components and hooks.
+- **experiments framework**: allows you to add experiments quickly via a React component and hook.
 - [**Flow**](https://flow.org): enable by default (off by default in CRA).
 - [**hot module replacement (HMR)**](https://webpack.js.org/concepts/hot-module-replacement/): enable by default (off by default in CRA).
 - [**humans.txt**](http://humanstxt.org/) **/** [**robots.txt**](http://www.robotstxt.org/): adds stubs of these files.
 - [**Jest**](https://jestjs.io/): installs [Enzyme](https://airbnb.io/enzyme/) into the mix by default.
+- **health checks**: runs a client health check every 5 minutes to see if the client is still valid.
 - **i18n**: via [react-intl](https://github.com/yahoo/react-intl/wiki#getting-started) and extraction tools.
-- **kill switch**: runs a client health check every 5 minutes to see if the client is still valid.
 - **libraries**: adds [lodash](https://lodash.com) by default.
 - **local state**: adds [Apollo's Local State](https://www.apollographql.com/docs/react/data/local-state/).
 - **logger**: via [winston](https://github.com/winstonjs/winston).
@@ -54,7 +54,7 @@ This package includes scripts and configuration used by [Create React App](https
 - **perf indicator**: in the bottom corner of the app, it will display render times.
 - [**Prettier**](https://prettier.io): adds linting upon commit.
 - [**React Router**](https://reacttraining.com/react-router/): adds AJAX-navigation, and code splitting via React.lazy and Suspense.
-- [**React Spring**](https://www.react-spring.io/): for great animation using React hooks.
+- [**React Spring**](https://www.react-spring.io/): for great animation using a React hook.
 - [**Sentry**](https://sentry.io/): exception collection and analysis.
 - **server**: i know, heresy!
   - adds [Express](https://expressjs.com/).
@@ -129,7 +129,7 @@ To run tests:
 yarn:test
 ```
 
-To change port, in an `.env` change the values to what you desire:
+To change port, in an `.env` change the values to what you would like:
 
 ```sh
 PORT=3000
@@ -183,7 +183,7 @@ Redis will be on port 3003. To set up Redis be sure to set REACT_APP_REDIS_HOST 
 - possible to remove unsafe-inline for CSS? (and then devOnlyHiddenOnLoad)
 - update `npm eject`
 - Apollo Client 3.0 will have freezeResults and assumeImmutableResults true by default, check post 3.0.
-- serve.js currently uses a bundle.js SSR which gives crap stack traces. can we require constructApps function directly?
+- serve.js currently uses a bundle.js SSR which gives terrible stack traces. can we require constructApps function directly?
   - also, REPL would be much more useful after that.
 - React Concurrent mode in the future, still experimental
 - development of this repo: shouldn’t need to do yarn and then npm install in react-scripts

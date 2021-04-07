@@ -20,7 +20,8 @@ This package includes scripts and configuration used by [Create React App](https
 - **admin panel**: exception view and extensible panel to add custom admin capabilities.
 - **authentication**: via [Auth0](https://auth0.com/). gives you the ability to login using Google/Facebook.
 - **bundle size analyzer**: à la [CRA’s docs](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size) and [source-map-explorer](https://www.npmjs.com/package/source-map-explorer). do `npm run analyze` after creating a build.
-- **component Libary (UI)**: via [Material-UI](https://material-ui.com/).
+- **component Libary (UI)**: via [Material-UI](https://material-ui.com/). ([Semantic UI](https://react.semantic-ui.com/) is a good alternative, too.)
+- **cron**: via [node-schedule](https://github.com/node-schedule/node-schedule).
 - **CSP nonce**: via [helmetjs](https://helmetjs.github.io/).
 - **documentation**: adds some standard and GitHub-specific Markdown files using best practices. files include:
   - [changelog](https://keepachangelog.com)
@@ -36,13 +37,13 @@ This package includes scripts and configuration used by [Create React App](https
 - **error boundary**: adds a top-level one to the app. (see [doc](https://reactjs.org/docs/error-boundaries.html)).
 - **error pages**: [401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401), [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), [500](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500).
 - **error reporting**: listens to `window.onerror` and reports JS errors to the server for debugging.
-- **experiments framework**: allows you to add experiments easily via React components and hooks.
+- **experiments framework**: allows you to add experiments quickly via a React component and hook.
 - [**Flow**](https://flow.org): enable by default (off by default in CRA).
 - [**hot module replacement (HMR)**](https://webpack.js.org/concepts/hot-module-replacement/): enable by default (off by default in CRA).
 - [**humans.txt**](http://humanstxt.org/) **/** [**robots.txt**](http://www.robotstxt.org/): adds stubs of these files.
 - [**Jest**](https://jestjs.io/): installs [Enzyme](https://airbnb.io/enzyme/) into the mix by default.
+- **health checks**: runs a client health check every 5 minutes to see if the client is still valid.
 - **i18n**: via [react-intl](https://github.com/yahoo/react-intl/wiki#getting-started) and extraction tools.
-- **kill switch**: runs a client health check every 5 minutes to see if the client is still valid.
 - **libraries**: adds [lodash](https://lodash.com) by default.
 - **local state**: adds [Apollo's Local State](https://www.apollographql.com/docs/react/data/local-state/).
 - **logger**: via [winston](https://github.com/winstonjs/winston).
@@ -53,6 +54,8 @@ This package includes scripts and configuration used by [Create React App](https
 - **perf indicator**: in the bottom corner of the app, it will display render times.
 - [**Prettier**](https://prettier.io): adds linting upon commit.
 - [**React Router**](https://reacttraining.com/react-router/): adds AJAX-navigation, and code splitting via React.lazy and Suspense.
+- [**React Spring**](https://www.react-spring.io/): for great animation using a React hook.
+- [**Sentry**](https://sentry.io/): exception collection and analysis.
 - **server**: i know, heresy!
   - adds [Express](https://expressjs.com/).
   - adds Server-side rendering (SSR).
@@ -65,7 +68,7 @@ This package includes scripts and configuration used by [Create React App](https
 ## 💾 Install
 
 ```sh
-npx create-react-app react-all-the-things --use-npm --scripts-version=cra-all-the-things --template=all-the-things-typescript
+npx create-react-app react-all-the-things --use-npm --scripts-version=cra-all-the-things --template=all-the-things
 ```
 
 Then, to run your newly created server locally, **with** the Storybook styleguide server:
@@ -126,7 +129,7 @@ To run tests:
 yarn:test
 ```
 
-To change port, in an `.env` change the values to what you desire:
+To change port, in an `.env` change the values to what you would like:
 
 ```sh
 PORT=3000
