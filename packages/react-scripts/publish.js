@@ -5,7 +5,7 @@ const fs = require('fs');
 const readline = require('readline');
 const allTheThingsPackageJson = require('./package.json');
 const craTemplatePackageJson = require('../cra-template/package.json');
-const craTemplateTypescriptPackageJson = require('./cra-template-typescript/package.json');
+const craTemplateTypescriptPackageJson = require('../cra-template-typescript/package.json');
 
 const rl = readline.createInterface({
   input: process.stdin,
