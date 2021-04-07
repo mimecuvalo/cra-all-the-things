@@ -34,7 +34,8 @@
     "serve:prod": "node bin/react-scripts.js serve-prod",
     "start": "npm-run-all --parallel serve:dev styleguide",
     "styleguide": "start-storybook -p 9001 -c ../cra-template/template/.storybook --ci --quiet",
-    "dev": "npm install && pushd template && docker-compose up -d && npx sequelize db:migrate && npx sequelize db:seed:all && popd"
+    "dev": "npm install && pushd template && docker-compose up -d && npx sequelize db:migrate && npx sequelize db:seed:all && popd",
+    "generate-types": "cd ../cra-template/template && graphql-codegen --config graphql-codegen.yml"
   },
   "bin": {
     "react-scripts": "./bin/react-scripts.js"
