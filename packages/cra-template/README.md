@@ -34,6 +34,7 @@ This package includes scripts and configuration used by [Create React App](https
   - [pull request template](https://help.github.com/articles/about-issue-and-pull-request-templates/) (GitHub-specific)
   - [readme](https://www.makeareadme.com/)
   - [support](https://help.github.com/articles/adding-support-resources-to-your-project/) (GitHub-specific)
+  - [alex](https://alexjs.com/) for more inclusive, equitable docs.
 - **error boundary**: adds a top-level one to the app. (see [doc](https://reactjs.org/docs/error-boundaries.html)).
 - **error pages**: [401](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/401), [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404), [500](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500).
 - **error reporting**: listens to `window.onerror` and reports JS errors to the server for debugging.
@@ -44,6 +45,7 @@ This package includes scripts and configuration used by [Create React App](https
 - [**Jest**](https://jestjs.io/): installs [Enzyme](https://airbnb.io/enzyme/) into the mix by default.
 - **health checks**: runs a client health check every 5 minutes to see if the client is still valid.
 - **i18n**: via [react-intl](https://github.com/yahoo/react-intl/wiki#getting-started) and extraction tools.
+- **imports**: [absolute imports](https://create-react-app.dev/docs/importing-a-component/#absolute-imports) are turned on.
 - **libraries**: adds [lodash](https://lodash.com) by default.
 - **local state**: adds [Apollo's Local State](https://www.apollographql.com/docs/react/data/local-state/).
 - **logger**: via [winston](https://github.com/winstonjs/winston).
@@ -51,8 +53,8 @@ This package includes scripts and configuration used by [Create React App](https
 - [**Open Graph**](http://ogp.me/): adds stub for social media embedding.
 - [**OpenSearch**](http://www.opensearch.org/Home): adds stub file so that you can add search queries to your site later.
 - **ORM**: via [sequelize](http://docs.sequelizejs.com/).
-- **perf indicator**: in the bottom corner of the app, it will display render times.
-- [**Prettier**](https://prettier.io): adds linting upon commit.
+- **perf indicator**: in the bottom corner of the app, it will display render times. (also has [web vitals](https://web.dev/vitals/) built in.)
+- [**Prettier**](https://prettier.io): adds linting upon commit. also sorts imports via [prettier-plugin-import-sort](https://www.npmjs.com/package/prettier-plugin-import-sort).
 - [**React Router**](https://reacttraining.com/react-router/): adds AJAX-navigation, and code splitting via React.lazy and Suspense.
 - [**React Spring**](https://www.react-spring.io/): for great animation using a React hook.
 - [**Sentry**](https://sentry.io/): exception collection and analysis.
@@ -60,6 +62,7 @@ This package includes scripts and configuration used by [Create React App](https
   - adds [Express](https://expressjs.com/).
   - adds Server-side rendering (SSR).
   - adds [GraphQL](https://graphql.org) and [Apollo](https://apollographql.com).
+  - for GraphQL adds [GraphQL code gen](https://www.graphql-code-generator.com/).
   - stubs out an API server.
 - **structured data**: via [JSON-LD](https://developers.google.com/search/docs/guides/intro-structured-data).
 - **styleguide**: via [Storybook](https://storybook.js.org).
