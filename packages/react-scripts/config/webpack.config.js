@@ -175,11 +175,7 @@ module.exports = function (webpackEnv, isSSR) {
     // Stop compilation early in production
     bail: isEnvProduction,
     target: isSSR ? 'node' : undefined,
-    // TODO(mime) XXX(mime): nodeExternals() should be enough but for some reason I need
-    // to add 'pg', 'sqlite3', 'tedious', 'pg-hstore' for Sequelize...
-    externals: isSSR
-      ? [nodeExternals(), 'pg', 'sqlite3', 'tedious', 'pg-hstore']
-      : undefined,
+    externals: isSSR ? nodeExternals() : undefined,
     devtool: isEnvProductionButNotSSR
       ? shouldUseSourceMap
         ? 'source-map'
