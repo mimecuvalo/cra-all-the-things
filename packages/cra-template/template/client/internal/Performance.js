@@ -49,6 +49,7 @@ export default function Performance() {
   const [duration, setDuration] = useState(0);
   const [navigationEntry, setNavigationEntry] = useState(null);
   const [paintEntries, setPaintEntries] = useState(null);
+  const [webVitalEntries, setWebVitalEntries] = useState({});
 
   const styles = useStyles();
 

@@ -1,4 +1,6 @@
-//import { F } from 'react-intl-wrapper';
+import { Suspense, lazy } from 'react';
+
+import { F } from 'react-intl-wrapper';
 import Help from './Help';
 import { createUseStyles } from 'react-jss';
 
