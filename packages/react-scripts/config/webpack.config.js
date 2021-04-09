@@ -175,7 +175,9 @@ module.exports = function (webpackEnv, isSSR) {
     // Stop compilation early in production
     bail: isEnvProduction,
     target: isSSR ? 'node' : undefined,
-    externals: isSSR ? nodeExternals() : undefined,
+    externals: isSSR
+      ? nodeExternals({ additionalModuleDirs: [paths.topLevelNodeModules] })
+      : undefined,
     devtool: isEnvProductionButNotSSR
       ? shouldUseSourceMap
         ? 'source-map'
