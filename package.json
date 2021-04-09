@@ -125,8 +125,5 @@
     "*.{js,json,yml,yaml,css,scss,ts,tsx,md}": [
       "prettier --write"
     ]
-  },
-  "resolutions": {
-    "babel-loader": "8.1.0"
   }
 }
