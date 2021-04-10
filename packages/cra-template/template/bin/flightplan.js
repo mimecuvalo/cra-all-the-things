@@ -102,10 +102,19 @@ plan.remote(function (remote) {
   remote.log('Moving .env file over...');
   remote.sudo(`cp ${destDir}/.env ${varTmpDir}/`, { user, failsafe: true });
 
-  remote.log('Installing dependencies...');
-  remote.sudo(`npm --production --prefix ${varTmpDir} install ${varTmpDir}`, {
-    user,
-  });
+  remote.log('Seeing if we can just reuse the previous node_modules folder...');
+  const isNPMUnchanged = remote.sudo(`cmp ${destDir}/package.json ${varTmpDir}/package.json`, { user, failsafe: true });
+
+  if (
+    isNPMUnchanged.code === 0 ||
+    (isNPMUnchanged.stderr && isNPMUnchanged.stderr.indexOf('cmp: EOF') === 0) /* ignore NOEOL false positive */
+  ) {
+    remote.log('package.json is unchanged. Reusing previous node_modules folder...');
+    remote.sudo(`mv ${destDir}/node_modules ${varTmpDir}`, { user });
+  } else {
+    remote.log('package.json has changed. Installing dependencies...');
+    remote.sudo(`cd ${varTmpDir}; npm install --production`, { user });
+  }
 
   // Copy over sessions.
   remote.sudo(`cp -R ${destDir}/sessions ${varTmpDir}`, {
