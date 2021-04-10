@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, memo, useEffect, useState } from 'react';
 
 import { F } from 'react-intl-wrapper';
 import Help from './Help';
@@ -15,7 +15,8 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function Footer() {
+// NB: we memoize here because it has the a11y script included on dev which is expensive.
+const Footer = memo(function Footer() {
   const [isLoading, setIsLoading] = useState(true);
   const styles = useStyles();
 
@@ -63,4 +64,5 @@ export default function Footer() {
       <Help />
     </footer>
   );
-}
+});
+export default Footer;
