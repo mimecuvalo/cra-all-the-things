@@ -1,13 +1,14 @@
 import {
-  createIntl as originalCreateIntl,
-  createIntlCache,
-  defineMessages as originalDefineMessages,
   FormattedMessage,
+  createIntlCache,
+  createIntl as originalCreateIntl,
+  defineMessages as originalDefineMessages,
   useIntl as originalUseIntl,
 } from 'react-intl';
+
+import React from 'react';
 import extraction from './extraction';
 import localeTools from './locale';
-import React from 'react';
 
 // Re-export everything and override below what we want to override.
 export * from 'react-intl';
@@ -142,10 +143,13 @@ export function defineMessages(values) {
 }
 
 // We wrap the originalUseIntl so that we can add fallback capability.
+let originalFormatMessage = null;
 export function useIntl() {
   const intl = originalUseIntl();
 
-  const originalFormatMessage = intl.formatMessage;
+  if (!originalFormatMessage) {
+    originalFormatMessage = intl.formatMessage;
+  }
   intl.formatMessage = (descriptor, values, fallbackDescriptor) => {
     descriptor.defaultMessage = transformInternalLocaleMsg(
       intl.locale,
