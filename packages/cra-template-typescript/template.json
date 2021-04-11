@@ -106,7 +106,7 @@
       "flow": "flow",
       "generate-types": "graphql-codegen --config graphql-codegen.yml",
       "postinstall": "if test \"$NODE_ENV\" = \"development\" ; then flow-typed install; fi",
-      "prepare": "husky install",
+      "prepare": "if test \"$NODE_ENV\" = \"development\" ; then husky install; fi",
       "styleguide": "start-storybook -p 9001 -c .storybook --ci --quiet"
     },
     "engines": {
