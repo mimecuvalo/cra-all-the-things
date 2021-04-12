@@ -115,12 +115,8 @@ function updateHelloworldRepo(version) {
 
   const cdCmd = 'cd ~/Sites/helloworld';
   execSync(`${cdCmd}; npm update cra-all-the-things`, execOptions);
-  execSync(`${cdCmd}; npm install --package-lock-only`, execOptions);
+  execSync(`${cdCmd}; npm install`, execOptions);
   execSync(`${cdCmd}; git add -A`, execOptions);
-
-  // Ugh, this is so dumb.
-  execSync(`${cdCmd}; rm -rf node_modules`, execOptions);
-  execSync(`${cdCmd}; lerna bootstrap --hoist`, execOptions);
 
   console.log('Finished!');
 }
