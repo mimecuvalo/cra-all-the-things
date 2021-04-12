@@ -436,6 +436,7 @@ module.exports = function (webpackEnv, isSSR) {
                     require.resolve('babel-preset-react-app'),
                     {
                       runtime: hasJsxRuntime ? 'automatic' : 'classic',
+                      useESModules: !isSSR,
                     },
                   ],
                 ],
@@ -460,8 +461,6 @@ module.exports = function (webpackEnv, isSSR) {
                 ),
                 // @remove-on-eject-end
                 plugins: [
-                  // Turn on optional chaining, because it's great.
-                  [require('@babel/plugin-proposal-optional-chaining').default],
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
