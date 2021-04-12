@@ -83,7 +83,7 @@ export default async function render({ req, res, next, assetPathsByType, appName
           <StaticRouter location={req.url} context={context}>
             {!isApolloTraversal
               ? sheets.collect(
-                  <JssProvider registry={sheetsNonMaterialUI} generateId={generateId}>
+                  <JssProvider registry={sheetsNonMaterialUI} generateId={generateClassName}>
                     <ThemeProvider theme={theme}>{coreApp}</ThemeProvider>
                   </JssProvider>
                 )
