@@ -145,7 +145,7 @@ export function defineMessages(values) {
 // We wrap the originalUseIntl so that we can add fallback capability.
 let originalFormatMessage = null;
 export function useIntl() {
-  const intl = originalUseIntl();
+  const intl = { ...originalUseIntl() };
 
   if (!originalFormatMessage) {
     originalFormatMessage = intl.formatMessage;
