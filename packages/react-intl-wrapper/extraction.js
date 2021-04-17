@@ -2,9 +2,10 @@
  * Forked and heavily modified from https://github.com/akameco/babel-plugin-react-intl-auto
  * License: https://github.com/akameco/babel-plugin-react-intl-auto/blob/master/license
  */
-import * as t from '@babel/types';
 
-export default function () {
+export default async function () {
+  const { default: t } = await import('@babel/types');
+
   return {
     name: 'react-intl-wrapper',
     visitor: {

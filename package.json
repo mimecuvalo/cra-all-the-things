@@ -18,6 +18,8 @@
     "screencast": "node ./tasks/screencast.js",
     "screencast:error": "svg-term --cast jyu19xGl88FQ3poMY8Hbmfw8y --out screencast-error.svg --window --at 12000 --no-cursor",
     "alex": "alex .",
+    "analyze": "cd packages/react-scripts && npm run analyze",
+    "extract-messages": "cd packages/react-scripts && npm run extract-messages",
     "generate-types": "cd packages/react-scripts && npm run generate-types",
     "test": "cd packages/react-scripts && node bin/react-scripts.js test",
     "format": "prettier --write 'packages/*/*.js' 'packages/*/!(node_modules)/**/*.js'",

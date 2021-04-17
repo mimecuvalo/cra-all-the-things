@@ -97,7 +97,7 @@
       "build-storybook": "build-storybook -s public",
       "config": "node bin/config.js",
       "dev": "npm install && docker-compose up -d && npx sequelize db:migrate && npx sequelize db:seed:all",
-      "extract-messages": "NODE_ENV=development extract-messages -l=en -o build/messages --flat --moduleSourceName react-intl-wrapper --additionalComponentNames F 'template/**/!(*.test).js'",
+      "extract-messages": "NODE_ENV=development extract-messages -l=en -o build/messages --flat 'client/**/!(*.test).js' 'server/**/!(*.test).js' 'shared/**/!(*.test).js'",
       "flow": "flow",
       "generate-types": "graphql-codegen --config graphql-codegen.yml",
       "postinstall": "if test \"$NODE_ENV\" = \"development\" ; then flow-typed install; fi",

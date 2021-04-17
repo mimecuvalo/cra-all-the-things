@@ -18,7 +18,7 @@ import theme from 'shared/theme';
 
 setLocales({
   defaultLocale: process.env.DEFAULT_LOCALE || 'en',
-  locales: process.env.LOCALES ? process.env.LOCALES.split(',') : ['en'],
+  locales: process.env.LOCALES ? process.env.LOCALES.split(',') : ['en', 'fr'],
 });
 
 export default async function render({ req, res, next, assetPathsByType, appName, nonce, publicUrl, gitInfo }) {
