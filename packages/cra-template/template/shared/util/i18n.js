@@ -49,6 +49,11 @@ export function defineMessages(values) {
   return originalDefineMessages(values);
 }
 
+export function setLocales({ defaultLocale, locales }) {
+  SETTINGS.defaultLocale = defaultLocale;
+  SETTINGS.locales = locales;
+}
+
 export function getDefaultLocale() {
   return SETTINGS.defaultLocale;
 }
@@ -139,12 +144,3 @@ export function createIntl(options) {
     return presetIntl;
   }
 }
-
-const i18n = {
-  getDefaultLocale,
-  getLocaleFromRequest,
-  getLocales,
-  isValidLocale,
-  isInternalLocale,
-};
-export default i18n;

@@ -2,7 +2,7 @@ import './index.css';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-import { IntlProvider, isInternalLocale, setupCreateIntl } from 'shared/util/i18n';
+import { IntlProvider, isInternalLocale, setLocales, setupCreateIntl } from 'shared/util/i18n';
 
 import { ApolloProvider } from '@apollo/client';
 import App from './App';
@@ -16,6 +16,11 @@ import createApolloClient from './apollo';
 import murmurhash from 'murmurhash';
 import reportWebVitals from './reportWebVitals';
 import theme from 'shared/theme';
+
+setLocales({
+  defaultLocale: configuration.defaultLocale,
+  locales: configuration.locales,
+});
 
 // XXX(mime): if we don't manually set generateClassName we get SSR/client mismatch upon
 // hydration. See example: https://github.com/cssinjs/jss/issues/926
