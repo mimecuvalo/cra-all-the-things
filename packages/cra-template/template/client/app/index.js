@@ -2,7 +2,7 @@ import './index.css';
 
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-import { IntlProvider, isInternalLocale, setLocales } from 'react-intl-wrapper';
+import { IntlProvider, isInternalLocale, setupCreateIntl } from 'shared/util/i18n';
 
 import { ApolloProvider } from '@apollo/client';
 import App from './App';
@@ -17,11 +17,6 @@ import murmurhash from 'murmurhash';
 import reportWebVitals from './reportWebVitals';
 import theme from 'shared/theme';
 
-setLocales({
-  defaultLocale: configuration.defaultLocale,
-  locales: configuration.locales,
-});
-
 // XXX(mime): if we don't manually set generateClassName we get SSR/client mismatch upon
 // hydration. See example: https://github.com/cssinjs/jss/issues/926
 // I don't know wtf and have messed around with this for hours and hours.
@@ -33,15 +28,19 @@ const generateClassName = createGenerateClassName();
 async function renderAppTree(app) {
   const client = createApolloClient();
 
-  let translations = {};
+  let messages = {};
   // This is to dynamically load language packs as needed. We don't need them all client-side.
-  if (configuration.locale !== configuration.defaultLocale && !isInternalLocale(configuration.locale)) {
-    translations = (await import(`shared/i18n-lang-packs/${configuration.locale}`)).default;
+  const { locale, defaultLocale } = configuration;
+  if (locale !== defaultLocale && !isInternalLocale(locale)) {
+    messages = (await import(`shared/i18n-lang-packs/${locale}.json`)).default;
   }
+
+  // createIntl is used in non-React locations.
+  setupCreateIntl({ defaultLocale, locale, messages });
 
   return (
     <StrictMode>
-      <IntlProvider defaultLocale={configuration.locale} locale={configuration.locale} messages={translations}>
+      <IntlProvider defaultLocale={locale} locale={locale} messages={messages}>
         <ApolloProvider client={client}>
           <Router>
             <JssProvider generateId={generateClassName}>

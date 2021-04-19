@@ -1,6 +1,6 @@
 import { Link, Route } from 'react-router-dom';
 
-import { F } from 'react-intl-wrapper';
+import { F } from 'shared/util/i18n';
 import useDocumentTitle from 'client/app/title';
 
 /**
@@ -11,22 +11,22 @@ export default function YourFeature({ match }) {
   return (
     <div>
       <h2>
-        <F msg="Your Feature" />
+        <F defaultMessage="Your Feature" />
       </h2>
       <ul>
         <li>
           <Link to={`${match.url}/rendering`}>
-            <F msg="Rendering with React" />
+            <F defaultMessage="Rendering with React" />
           </Link>
         </li>
         <li>
           <Link to={`${match.url}/components`}>
-            <F msg="Components" />
+            <F defaultMessage="Components" />
           </Link>
         </li>
         <li>
           <Link to={`${match.url}/props-v-state`}>
-            <F msg="Props vs. State" />
+            <F defaultMessage="Props vs. State" />
           </Link>
         </li>
       </ul>
@@ -37,7 +37,7 @@ export default function YourFeature({ match }) {
         path={match.path}
         render={() => (
           <h3>
-            <F msg="Please select a topic." />
+            <F defaultMessage="Please select a topic." />
           </h3>
         )}
       />

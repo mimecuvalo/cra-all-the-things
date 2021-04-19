@@ -1,6 +1,6 @@
 import * as languages from 'shared/i18n-lang-packs';
 
-import { IntlProvider, getDefaultLocale, getLocaleFromRequest, getLocales, setLocales } from 'react-intl-wrapper';
+import { IntlProvider, getDefaultLocale, getLocaleFromRequest, getLocales } from 'shared/util/i18n';
 import { JssProvider, SheetsRegistry } from 'react-jss';
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
 
@@ -15,11 +15,6 @@ import { initializeLocalState } from 'shared/data/local_state';
 import murmurhash from 'murmurhash';
 import { renderToString } from 'react-dom/server';
 import theme from 'shared/theme';
-
-setLocales({
-  defaultLocale: process.env.DEFAULT_LOCALE || 'en',
-  locales: process.env.LOCALES ? process.env.LOCALES.split(',') : ['en', 'fr'],
-});
 
 export default async function render({ req, res, next, assetPathsByType, appName, nonce, publicUrl, gitInfo }) {
   const FILTERED_KEYS = ['id'];

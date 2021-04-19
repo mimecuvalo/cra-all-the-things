@@ -1,4 +1,4 @@
-import { F } from 'react-intl-wrapper';
+import { F } from 'shared/util/i18n';
 import { Link } from 'react-router-dom';
 import LoginLogoutButton from 'client/components/login';
 import { createUseStyles } from 'react-jss';
@@ -26,12 +26,12 @@ export default function Header() {
         <ul className={styles.menu}>
           <li>
             <Link to="/">
-              <F msg="Home" />
+              <F defaultMessage="Home" />
             </Link>
           </li>
           <li>
             <Link to="/your-feature">
-              <F msg="Your Feature" />
+              <F defaultMessage="Your Feature" />
             </Link>
           </li>
         </ul>

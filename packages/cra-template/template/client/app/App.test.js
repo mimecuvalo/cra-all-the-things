@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 
 import App from './App';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import { IntlProvider } from 'react-intl-wrapper';
+import { IntlProvider } from 'shared/util/i18n';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
