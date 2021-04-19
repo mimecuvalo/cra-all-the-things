@@ -1,4 +1,5 @@
 .DS_Store
+.husky/
 template/.env
 template/.env.production.local
 template/.env.development.local

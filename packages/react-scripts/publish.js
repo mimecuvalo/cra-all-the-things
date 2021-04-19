@@ -78,6 +78,7 @@ function updateExampleRepo(version) {
 
   console.log('Moving .git directory to a safe place...');
   execSync(`${cdCmd}; mv all-the-things-example/.git .`, execOptions);
+  execSync(`${cdCmd}; mv all-the-things-example/.husky .`, execOptions);
 
   console.log('Removing old repo...');
   execSync(`${cdCmd}; rm -rf all-the-things-example`, execOptions);
@@ -85,6 +86,7 @@ function updateExampleRepo(version) {
 
   console.log('Moving .git directory back into place...');
   execSync(`${cdCmd}; mv .git all-the-things-example`, execOptions);
+  execSync(`${cdCmd}; mv .husky all-the-things-example`, execOptions);
 
   console.log('Installing new repo via npx...');
   execSync(

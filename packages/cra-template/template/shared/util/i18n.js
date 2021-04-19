@@ -140,10 +140,11 @@ export function createIntl(options) {
   }
 }
 
-export default {
+const i18n = {
   getDefaultLocale,
   getLocaleFromRequest,
   getLocales,
   isValidLocale,
   isInternalLocale,
 };
+export default i18n;
