@@ -169,7 +169,7 @@ const unless = function (middleware, ...paths) {
 function getProductionAssetsByType() {
   let assetManifest;
   try {
-    assetManifest = require(`${paths.appBuild}/asset-manifest.json`)['files'];
+    assetManifest = require(`${paths.appBuild}/asset-manifest.json`);
   } catch (ex) {
     console.log(
       `Your asset-manifest.json file could not be found. Run ``npm run build`` to generate it.`
@@ -177,17 +177,14 @@ function getProductionAssetsByType() {
     throw new Error('need to run build first');
   }
 
-  // XXX(mime): this can't be the correct of doing this... errr.
-  const assetKeys = Object.keys(assetManifest);
-  const runtimeIndex = assetKeys.indexOf('runtime-main.js.map');
-  const bundleKey = assetKeys[runtimeIndex + 1];
-
-  const js = [
-    assetManifest['runtime-main.js'],
-    assetManifest[bundleKey],
-    assetManifest['main.js'],
-  ];
-  const css = [assetManifest['main.css']];
+  const files = assetManifest['files'];
+  const entrypoints = assetManifest['entrypoints'];
+  const jsFiles = entrypoints.filter(file => file.endsWith('.js'));
+  const cssFiles = entrypoints.filter(file => file.endsWith('.css'));
+  const fileMapper = key =>
+    files[key] || Object.values(files).find(file => file.endsWith(key));
+  const js = jsFiles.map(fileMapper);
+  const css = cssFiles.map(fileMapper);
 
   return { css, js };
 }
