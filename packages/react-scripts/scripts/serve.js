@@ -67,7 +67,6 @@ function startAppServer({
     // This is so we can get the assets list (CSS + JS) and insert them for the purpose of server-side rendering.
     topLevelApp.use(
       webpackDevMiddleware(clientCompiler, {
-        logLevel: 'warn',
         serverSideRender: true,
         publicPath: serverConfig.output.publicPath,
       })
