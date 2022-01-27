@@ -63,7 +63,7 @@ function OpenGraphMetadata({ title, req }) {
       <meta property="og:type" content="website" />
       <meta property="og:url" content={url} />
       <meta property="og:site_name" content={title} />
-      <meta property="og:image" content={`${url}favicon.ico`} />
+      <meta property="og:image" content={`${url}/favicon.ico`} />
     </>
   );
 }

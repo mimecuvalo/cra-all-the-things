@@ -3,10 +3,12 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
+ *
+ * @jest-environment jsdom
  */
 
-import { getSourceMap } from '../utils/getSourceMap';
 import fs from 'fs';
+import { getSourceMap } from '../utils/getSourceMap';
 import { resolve } from 'path';
 
 test('finds an external source map', async () => {
