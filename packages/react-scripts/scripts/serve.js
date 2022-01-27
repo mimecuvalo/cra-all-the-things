@@ -12,7 +12,7 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const path = require('path');
 const paths = require('../config/paths');
 const { promisify } = require('util');
-const proxy = require('http-proxy-middleware');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 const requireFromString = require('require-from-string');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -21,9 +21,7 @@ function startAppServer({
   clientCompiler,
   clientPort,
   appName,
-  devSocket,
   useTypeScript,
-  tscCompileOnError,
   useYarn,
 }) {
   // Create a server build with an entry point at /server/App.js
@@ -42,12 +40,15 @@ function startAppServer({
     const HOST = process.env.HOST || '0.0.0.0';
     topLevelApp.use(
       [
-        '/sockjs-node',
+        '/static/',
+        process.env.WDS_SOCKET_PATH || '/ws',
         '/__get-internal-source*',
         '/__open-stack-frame-in-editor',
         '/service-worker.js',
+        '/*.hot-update.json',
+        '/*.hot-update.js',
       ],
-      proxy({
+      createProxyMiddleware({
         target: `${protocol}://${HOST}:${clientPort}`,
         changeOrigin: true,
         ws: true,
@@ -92,28 +93,31 @@ function startAppServer({
     config: serverConfig,
     appName: `${appName}-server`,
     urls,
-    devSocket,
     useTypeScript,
-    tscCompileOnError,
     useYarn,
   });
 
   // Set the file system for the server compiler to be in-memory, we don't need the files actually outputted.
   const fs = new MemoryFS();
   serverCompiler.outputFileSystem = fs;
-  const getConstructApps = () => {
+  const getConstructApps = async () => {
+    // Note: replaces /packages/react-scripts if we're in meta repo.
     const contents = fs.readFileSync(
-      path.resolve(process.cwd(), 'dist', serverConfig.output.filename),
+      path.resolve(
+        process.cwd().replace('/packages/react-scripts', ''),
+        'build',
+        serverConfig.output.filename
+      ),
       'utf8'
     );
-    return requireFromString(contents, serverConfig.output.filename).default;
+    return requireFromString(contents).app.default;
   };
 
   const publicUrl = serverConfig.output.publicPath;
   if (process.env.NODE_ENV === 'production') {
     serverCompiler.run(async () => {
       try {
-        const constructApps = getConstructApps();
+        const constructApps = await getConstructApps();
         const productionAssetsByType = getProductionAssetsByType();
         const gitInfo = await getGitInfo();
 
@@ -133,7 +137,7 @@ function startAppServer({
     serverCompiler.watch(serverConfig.watchOptions, async () => {
       try {
         dispose && dispose(); // Cleanup previous instance.
-        const constructApps = getConstructApps();
+        const constructApps = await getConstructApps();
         const gitInfo = await getGitInfo();
 
         // eslint-disable-next-line require-atomic-updates

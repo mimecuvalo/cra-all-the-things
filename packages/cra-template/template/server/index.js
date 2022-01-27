@@ -209,7 +209,8 @@ function processAssetsFromWebpackStats(res) {
     js: [],
   };
   for (const entrypoint of entrypoints) {
-    for (const assetPath of webpackStats.entrypoints[entrypoint].assets) {
+    for (const assetFileInfo of webpackStats.entrypoints[entrypoint].assets) {
+      const { name: assetPath } = assetFileInfo;
       const extMatch = extensionRegexp.exec(assetPath);
       if (!extMatch) {
         continue;
